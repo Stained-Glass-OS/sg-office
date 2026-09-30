@@ -1,0 +1,26 @@
+From: Stained Glass OS contributors
+Subject: local: keep a document folder address on the sgoffice:// origin
+
+In local (desktop) mode the editors read an open document's Editor.bin and
+pictures from its folder, and DesktopOfflineAppDocumentEndLoad turns any
+address not starting with file: into a file:// path. SG Office serves the
+folder from its own origin (sgoffice://app/doc/<id>), so the editors, the
+folder and the program are one origin; that address is kept as given.
+
+---
+diff --git a/common/Local/common.js b/common/Local/common.js
+index 92d4720..21a5bcd 100644
+--- a/common/Local/common.js
++++ b/common/Local/common.js
+@@ -164,7 +164,10 @@ window["DesktopOfflineAppDocumentEndLoad"] = function(_url, _data, _len)
+ {
+ 	var editor = Asc.editor || window.editor;
+ 	AscCommon.g_oDocumentUrls.documentUrl = _url;
+-	if (AscCommon.g_oDocumentUrls.documentUrl.indexOf("file:") != 0)
++	// a local path becomes a file:// address; SG Office serves an open
++	// document's folder from its own sgoffice:// origin, which stays as it is
++	if (AscCommon.g_oDocumentUrls.documentUrl.indexOf("file:") != 0 &&
++		AscCommon.g_oDocumentUrls.documentUrl.indexOf("sgoffice:") != 0)
+ 	{
+ 		if (AscCommon.g_oDocumentUrls.documentUrl.indexOf("/") != 0)
+ 			AscCommon.g_oDocumentUrls.documentUrl = "/" + AscCommon.g_oDocumentUrls.documentUrl;

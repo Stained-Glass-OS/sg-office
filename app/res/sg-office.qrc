@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/shell">
+    <file alias="bridge.js">bridge.js</file>
+    <file alias="editor.html">editor.html</file>
+  </qresource>
+</RCC>

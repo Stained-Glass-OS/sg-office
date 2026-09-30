@@ -19,6 +19,10 @@ LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
 | `build/core.sh` | native host: gcc + qmake against Debian's V8 (libnode), ICU, OpenSSL, zlib, Boost |
 | `build/assemble.sh` | a runnable engine = host + our sdkjs (no upstream snapshot carried over) |
 | `build/mkroot.sh`, `build/inroot.sh` | the rootless trixie build root the builds run in |
+| `app/` | the program: a window per document (Qt 6, QtWebEngine from Debian), SG-drawn title bar, `bridge.js` answering the editors' calls, x2t for open/save |
+| `build/webapps.sh` | the editors' interface (web-apps) with node and grunt; no downloaded binaries (`patches/web-apps`) |
+| `build/assemble-app.sh` | lays the program out as it installs (`bin/`, `lib/sg-office/engine`, `share/sg-office`) |
+| `test/app/` | the program's gate: headless (own Xvfb, scratch HOME), clicks, types, saves, Saves As OpenDocument, checks the SG look |
 | `test/roundtrip/` | a .docx/.xlsx/.pptx our own code writes from scratch (`ooxmlw.py`), opened in the engine and saved back; their features must survive |
 | `test/parity/` | the Excel formula corpus (775 cases, 530 functions; vendored from sg-shell `office/parity`) run through our engine |
 | `tools/trademark-check.py` | the project's trademark gate, over our patches and scripts |
@@ -26,9 +30,10 @@ LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
 ## Building and testing
 
     build/mkroot.sh                 # once: the build root
-    make sdkjs core engine          # build everything, assemble $(OUT)/engine
-    make test                       # lint + round-trip gate + Excel corpus gate
-    make test-mutation              # the corpus gate must fail without our patches
+    make sdkjs core engine          # the engine, assembled in $(OUT)/engine
+    make webapps sdkjs-desktop app  # the editors and the program, in $(OUT)/app-root
+    make test                       # lint + round-trip, Excel corpus and program gates
+    make test-mutation              # every gate must fail when what it guards breaks
 
 Builds keep their trees under `/var/tmp/sgoffice` and run niced with `-j3`.
 

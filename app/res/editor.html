@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+  SG Office -- the page an editor runs in: ONLYOFFICE's DocsAPI hosting the
+  Documents, Spreadsheets or Presentations editor for one local document.
+  Copyright (C) 2026 Stained Glass OS contributors
+  SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<title>SG Office</title>
+<style>
+  html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #fff; }
+  #wrap { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div id="wrap"><div id="placeholder"></div></div>
+<script src="sgoffice://app/web-apps/apps/api/documents/api.js"></script>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search);
+  // who is editing: the program's answer (its account's name)
+  var state = {};
+  try {
+    var x = new XMLHttpRequest();
+    x.open("GET", "sgoffice://app/native/state?doc=" + encodeURIComponent(p.get("doc")), false);
+    x.send(null);
+    state = JSON.parse(x.responseText);
+  } catch (e) {}
+  var doctype = p.get("doctype") || "word";
+  window.sgEditor = new DocsAPI.DocEditor("placeholder", {
+    type: "desktop",
+    width: "100%",
+    height: "100%",
+    documentType: doctype,
+    document: {
+      key: p.get("doc"),
+      url: "_offline_",
+      title: p.get("title") || "",
+      fileType: p.get("filetype") || { word: "docx", cell: "xlsx", slide: "pptx" }[doctype],
+      permissions: { edit: true, download: true, print: true }
+    },
+    editorConfig: {
+      mode: "edit",
+      lang: p.get("lang") || "en",
+      user: { id: "sg-user", name: state.user || "User" },
+      customization: {
+        uiTheme: "theme-sg-light",
+        goback: false,
+        feedback: false,
+        help: false,
+        plugins: false,
+        macros: false,
+        compactHeader: false,
+        hideRightMenu: false
+      }
+    },
+    events: {
+      onRequestClose: function () { return 0; }
+    }
+  });
+})();
+</script>
+</body>
+</html>

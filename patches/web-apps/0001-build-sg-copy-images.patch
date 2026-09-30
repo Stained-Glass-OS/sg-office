@@ -1,0 +1,36 @@
+From: Stained Glass OS contributors
+Subject: build: --sg-copy-images copies images instead of optimising them
+
+grunt-contrib-imagemin's plugins download prebuilt compressor binaries
+(gifsicle, jpegtran, optipng, pngquant) when npm installs them; SG Office's
+build installs with --ignore-scripts and runs no downloaded binary. With
+--sg-copy-images the imagemin task copies the same files unoptimised --
+without it, the task fails and the editors' images are missing entirely.
+
+---
+diff --git a/build/Gruntfile.js b/build/Gruntfile.js
+index 706b9ae8..dedcb7f5 100644
+--- a/build/Gruntfile.js
++++ b/build/Gruntfile.js
+@@ -139,7 +139,20 @@ module.exports = function(grunt) {
+     grunt.loadNpmTasks('grunt-contrib-less');
+     grunt.loadNpmTasks('grunt-contrib-requirejs');
+     grunt.loadNpmTasks('grunt-contrib-concat');
+-    grunt.loadNpmTasks('grunt-contrib-imagemin');
++    if (grunt.option('sg-copy-images')) {
++        // Stained Glass OS: no image optimiser -- grunt-contrib-imagemin's
++        // compressors are prebuilt binaries downloaded at install time, which
++        // we do not run. The same files are copied as they are.
++        grunt.registerMultiTask('imagemin', 'Copy images (not optimised)', function() {
++            this.files.forEach(function(f) {
++                f.src.forEach(function(src) {
++                    if (grunt.file.isFile(src))
++                        grunt.file.copy(src, f.dest);
++                });
++            });
++        });
++    } else
++        grunt.loadNpmTasks('grunt-contrib-imagemin');
+     grunt.loadNpmTasks('grunt-contrib-cssmin');
+     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+     grunt.loadNpmTasks('grunt-json-minify');

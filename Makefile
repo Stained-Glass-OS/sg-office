@@ -8,8 +8,11 @@
 #   make sdkjs          build the JS engine (+ patches)       -> $(OUT)/sdkjs
 #   make core           build the native host (+ patches)     -> $(OUT)/host
 #   make engine         assemble a runnable engine            -> $(OUT)/engine
-#   make test           lint + round-trip gate + Excel corpus gate on $(OUT)/engine
-#   make test-mutation  prove the corpus gate fails on unpatched upstream
+#   make webapps        build the editors' interface          -> $(OUT)/web-apps
+#   make sdkjs-desktop  the JS engine for the editors         -> $(OUT)/sdkjs-desktop
+#   make app            build the program, lay it out         -> $(OUT)/app-root
+#   make test           lint + round-trip, Excel corpus and program gates
+#   make test-mutation  prove each gate fails when what it guards breaks
 #
 # HOST: the native host to assemble with. Ours ($(OUT)/host) once `make core`
 # has run; SG_DEV_HOST may name a dev/QA host meanwhile (never shipped).
@@ -20,13 +23,14 @@ PY   ?= python3
 # the builds run in the trixie build root (build/mkroot.sh); INROOT= to run on the host
 INROOT ?= $(if $(wildcard /var/tmp/sgoffice/root-build/usr/bin/qmake),SG_CWD=$(CURDIR) sh build/inroot.sh,)
 
-.PHONY: all lint sdkjs core engine test test-roundtrip test-parity test-mutation
-all: sdkjs core engine
+.PHONY: all lint sdkjs core engine webapps sdkjs-desktop app test test-roundtrip test-parity test-app test-mutation
+all: sdkjs core engine webapps sdkjs-desktop app
 
 lint:
 	@for f in build/*.sh; do sh -n $$f || exit 1; done
-	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py
-	@for d in patches/*/; do $(PY) tools/trademark-check.py --allow tools/trademark-allow.txt --patches $$d build test/parity/engine_corpus.py || exit 1; done
+	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py test/app/app_check.py test/app/mutate_bridge.py
+	@node --check app/res/bridge.js
+	@for d in patches/*/; do $(PY) tools/trademark-check.py --allow tools/trademark-allow.txt --patches $$d build app test/parity/engine_corpus.py || exit 1; done
 	@for d in patches/*/; do while read -r p; do case "$$p" in ''|'#'*) ;; *) [ -f "$$d$$p" ] || { echo "series names missing $$d$$p"; exit 1; };; esac; done < $$d/series; done
 	@echo "lint: OK"
 
@@ -40,7 +44,18 @@ engine:
 	@[ -n "$(HOST)" ] || { echo "no native host: run make core (or set SG_DEV_HOST)"; exit 1; }
 	@sh build/assemble.sh $(HOST) $(OUT)/sdkjs $(WORK)/web-apps $(OUT)/engine
 
-test: lint test-roundtrip test-parity
+webapps:
+	@$(INROOT) sh build/webapps.sh $(WORK) $(OUT)
+
+sdkjs-desktop:
+	@SG_SDKJS_DESKTOP=1 $(INROOT) sh build/sdkjs.sh $(WORK) $(OUT)
+
+# the program (Qt 6 / QtWebEngine), laid out as it installs
+app:
+	@$(INROOT) sh -c 'cmake -S app -B $(OUT)/app-build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo >/dev/null && nice -n 10 ninja -C $(OUT)/app-build -j3 >/dev/null'
+	@sh build/assemble-app.sh $(OUT)/app-build/sg-office $(OUT)/engine $(OUT)/web-apps $(OUT)/sdkjs-desktop $(OUT)/app-root
+
+test: lint test-roundtrip test-parity test-app
 
 # the round-trip corpus is written by our own code (ooxmlw.py), not stored
 $(OUT)/rt-corpus/src.docx: test/roundtrip/ooxmlw.py
@@ -49,6 +64,9 @@ $(OUT)/rt-corpus/src.docx: test/roundtrip/ooxmlw.py
 test-roundtrip: $(OUT)/rt-corpus/src.docx
 	@$(PY) test/roundtrip/roundtrip.py --engine $(OUT)/engine --corpus $(OUT)/rt-corpus --baseline test/roundtrip/baseline.json
 
+test-app:
+	@$(PY) test/app/app_check.py --root $(OUT)/app-root --work $(OUT)/app-check
+
 test-parity:
 	@$(PY) test/parity/engine_corpus.py --engine $(OUT)/engine --baseline test/parity/baseline.json --json $(OUT)/parity.json
 
@@ -56,6 +74,8 @@ test-parity:
 # patches (they make the baseline's PERCENTOF cases match): unpatched sdkjs
 # into $(OUT)/mutant, assembled, must fail test-parity. The round-trip gate on
 # a corpus whose .xlsx lost its merged range and SUM formula must fail too.
+# The program gate with a bridge that drops the editor's changes, fakes a save,
+# or leaves out SG Office's theme must fail too.
 test-mutation:
 	@SG_SDKJS_NOPATCH=1 $(INROOT) sh build/sdkjs.sh $(WORK) $(OUT)/mutant
 	@sh build/assemble.sh $(HOST) $(OUT)/mutant/sdkjs $(WORK)/web-apps $(OUT)/mutant/engine
@@ -67,3 +87,9 @@ test-mutation:
 	@if $(PY) test/roundtrip/roundtrip.py --engine $(OUT)/engine --corpus $(OUT)/mutant/corpus --baseline test/roundtrip/baseline.json; then \
 	    echo "test-mutation: FAIL -- the round-trip gate passed a damaged document"; exit 1; \
 	else echo "test-mutation: OK -- the round-trip gate catches lost features"; fi
+	@for m in nochanges fakesave notheme; do \
+	    $(PY) test/app/mutate_bridge.py $$m $(OUT)/mutant/bridge-$$m.js >/dev/null || exit 1; \
+	    if $(PY) test/app/app_check.py --root $(OUT)/app-root --work $(OUT)/mutant/app-$$m \
+	         --bridge $(OUT)/mutant/bridge-$$m.js --only docx --no-odf >/dev/null; then \
+	        echo "test-mutation: FAIL -- the program gate passed bridge mutant $$m"; exit 1; \
+	    else echo "test-mutation: OK -- the program gate catches bridge mutant $$m"; fi; done
