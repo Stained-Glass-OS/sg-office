@@ -25,7 +25,7 @@ all: sdkjs core engine
 
 lint:
 	@for f in build/*.sh; do sh -n $$f || exit 1; done
-	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/gen_corpus.py test/roundtrip/mutate.py
+	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py
 	@for d in patches/*/; do $(PY) tools/trademark-check.py --allow tools/trademark-allow.txt --patches $$d build test/parity/engine_corpus.py || exit 1; done
 	@for d in patches/*/; do while read -r p; do case "$$p" in ''|'#'*) ;; *) [ -f "$$d$$p" ] || { echo "series names missing $$d$$p"; exit 1; };; esac; done < $$d/series; done
 	@echo "lint: OK"
@@ -42,8 +42,12 @@ engine:
 
 test: lint test-roundtrip test-parity
 
-test-roundtrip:
-	@$(PY) test/roundtrip/roundtrip.py --engine $(OUT)/engine --corpus test/roundtrip/corpus --baseline test/roundtrip/baseline.json
+# the round-trip corpus is written by our own code (ooxmlw.py), not stored
+$(OUT)/rt-corpus/src.docx: test/roundtrip/ooxmlw.py
+	@$(PY) test/roundtrip/ooxmlw.py $(OUT)/rt-corpus >/dev/null
+
+test-roundtrip: $(OUT)/rt-corpus/src.docx
+	@$(PY) test/roundtrip/roundtrip.py --engine $(OUT)/engine --corpus $(OUT)/rt-corpus --baseline test/roundtrip/baseline.json
 
 test-parity:
 	@$(PY) test/parity/engine_corpus.py --engine $(OUT)/engine --baseline test/parity/baseline.json --json $(OUT)/parity.json
@@ -58,7 +62,8 @@ test-mutation:
 	@if $(PY) test/parity/engine_corpus.py --engine $(OUT)/mutant/engine --baseline test/parity/baseline.json; then \
 	    echo "test-mutation: FAIL -- the gate passed without our patches"; exit 1; \
 	else echo "test-mutation: OK -- the corpus gate catches unpatched upstream"; fi
-	@$(PY) test/roundtrip/mutate.py test/roundtrip/corpus $(OUT)/mutant/corpus
+	@$(PY) test/roundtrip/ooxmlw.py $(OUT)/rt-corpus >/dev/null
+	@$(PY) test/roundtrip/mutate.py $(OUT)/rt-corpus $(OUT)/mutant/corpus
 	@if $(PY) test/roundtrip/roundtrip.py --engine $(OUT)/engine --corpus $(OUT)/mutant/corpus --baseline test/roundtrip/baseline.json; then \
 	    echo "test-mutation: FAIL -- the round-trip gate passed a damaged document"; exit 1; \
 	else echo "test-mutation: OK -- the round-trip gate catches lost features"; fi

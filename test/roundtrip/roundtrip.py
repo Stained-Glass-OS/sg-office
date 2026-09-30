@@ -122,11 +122,11 @@ def check_docx(path):
                    "SG Office round-trip: Documents" in text))
     checks.append(("docx: paragraph text kept",
                    "over the lazy dog" in text.replace("\n", " ")))
-    # bold run around "jumps"
-    bold = re.search(r'<w:r>(?:(?!</w:r>).)*?<w:b/>(?:(?!</w:r>).)*?jumps',
-                     xml, re.S) or re.search(
-        r'jumps(?:(?!</w:r>).)*?<w:b/>', xml, re.S)
-    checks.append(("docx: bold run 'jumps' kept", bool(bold) or "<w:b/>" in xml))
+    # the run holding "jumps" is itself bold (<w:b/> or <w:b w:val="1"/>)
+    runs = re.findall(r"<w:r>(.*?)</w:r>", xml, re.S)
+    jumps = [r for r in runs if "jumps" in r]
+    bold = bool(jumps) and all(re.search(r'<w:b(?: w:val="(?:1|true|on)")?/>', r) for r in jumps)
+    checks.append(("docx: bold run 'jumps' kept", bold))
     for item in ("alpha", "beta", "gamma"):
         checks.append(("docx: bullet '%s' kept" % item, item in text))
     checks.append(("docx: table cell 'answer' kept", "answer" in text))

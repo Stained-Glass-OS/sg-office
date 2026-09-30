@@ -19,7 +19,7 @@ LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
 | `build/core.sh` | native host: gcc + qmake against Debian's V8 (libnode), ICU, OpenSSL, zlib, Boost |
 | `build/assemble.sh` | a runnable engine = host + our sdkjs (no upstream snapshot carried over) |
 | `build/mkroot.sh`, `build/inroot.sh` | the rootless trixie build root the builds run in |
-| `test/roundtrip/` | .docx/.xlsx/.pptx made by other tools, opened and saved back; features must survive |
+| `test/roundtrip/` | a .docx/.xlsx/.pptx our own code writes from scratch (`ooxmlw.py`), opened in the engine and saved back; their features must survive |
 | `test/parity/` | the Excel formula corpus (775 cases, 530 functions; vendored from sg-shell `office/parity`) run through our engine |
 | `tools/trademark-check.py` | the project's trademark gate, over our patches and scripts |
 

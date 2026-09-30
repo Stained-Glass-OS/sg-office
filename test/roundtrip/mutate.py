@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write a damaged copy of the round-trip corpus, for the gate's mutation test:
+"""Write a damaged copy of the round-trip corpus (ooxmlw.py's), for the gate's mutation test:
 src.xlsx loses its merged range and its SUM formula -- what an engine that
 dropped them would save. The round-trip gate must fail on it.
 
