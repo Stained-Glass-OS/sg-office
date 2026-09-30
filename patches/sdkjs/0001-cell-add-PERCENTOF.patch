@@ -1,0 +1,66 @@
+From: Stained Glass OS contributors
+Subject: cell: add PERCENTOF (Excel: SUM(data_subset)/SUM(data_all))
+
+ONLYOFFICE 8.2 has no PERCENTOF; Excel has it (its _xlfn. name). Summed as
+SUM sums, a zero total is #DIV/0!. Matches SG Office Functions (sg-shell
+office/functions) and the parity corpus cases PERCENTOF(25,100)=0.25 and
+PERCENTOF({10,30},{10,30,60})=0.4.
+
+---
+diff --git a/cell/model/FormulaObjects/mathematicFunctions.js b/cell/model/FormulaObjects/mathematicFunctions.js
+index 9b7e268..ae4aee0 100644
+--- a/cell/model/FormulaObjects/mathematicFunctions.js
++++ b/cell/model/FormulaObjects/mathematicFunctions.js
+@@ -83,7 +83,7 @@ function (window, undefined) {
+ 		cFLOOR_MATH, cGCD, cINT, cISO_CEILING, cLCM, cLN, cLOG, cLOG10, cMDETERM, cMINVERSE, cMMULT, cMOD, cMROUND,
+ 		cMULTINOMIAL, cMUNIT, cODD, cPI, cPOWER, cPRODUCT, cQUOTIENT, cRADIANS, cRAND, cRANDARRAY, cRANDBETWEEN, cROMAN, cROUND, cROUNDDOWN,
+ 		cROUNDUP, cSEC, cSECH, cSERIESSUM, cSIGN, cSIN, cSINGLE, cSINH, cSQRT, cSQRTPI, cSUBTOTAL, cSUM, cSUMIF, cSUMIFS,
+-		cSUMPRODUCT, cSUMSQ, cSUMX2MY2, cSUMX2PY2, cSUMXMY2, cTAN, cTANH, cTRUNC, cSEQUENCE);
++		cSUMPRODUCT, cSUMSQ, cSUMX2MY2, cSUMX2PY2, cSUMXMY2, cTAN, cTANH, cTRUNC, cSEQUENCE, cPERCENTOF);
+ 
+ 	var cSubTotalFunctionType = {
+ 		includes: {
+@@ -4978,6 +4978,43 @@ function (window, undefined) {
+ 		return arg0;
+ 	};
+ 
++	/**
++	 * PERCENTOF(data_subset, data_all): the share data_subset makes up of
++	 * data_all, i.e. SUM(data_subset)/SUM(data_all). Values are summed exactly
++	 * as SUM sums them (text and logicals in ranges ignored); a zero total is
++	 * #DIV/0!. Added by Stained Glass OS (SG Office).
++	 * @constructor
++	 * @extends {AscCommonExcel.cBaseFunction}
++	 */
++	function cPERCENTOF() {
++	}
++
++	//***array-formula***
++	cPERCENTOF.prototype = Object.create(cBaseFunction.prototype);
++	cPERCENTOF.prototype.constructor = cPERCENTOF;
++	cPERCENTOF.prototype.name = 'PERCENTOF';
++	cPERCENTOF.prototype.argumentsMin = 2;
++	cPERCENTOF.prototype.argumentsMax = 2;
++	cPERCENTOF.prototype.isXLFN = true;
++	cPERCENTOF.prototype.arrayIndexes = {0: 1, 1: 1};
++	cPERCENTOF.prototype.argumentsType = [argType.reference, argType.reference];
++	cPERCENTOF.prototype.Calculate = function (arg) {
++		let part = cSUM.prototype.Calculate.call(this, [arg[0]]);
++		if (cElementType.error === part.type) {
++			return part;
++		}
++		let whole = cSUM.prototype.Calculate.call(this, [arg[1]]);
++		if (cElementType.error === whole.type) {
++			return whole;
++		}
++		part = part.tocNumber();
++		whole = whole.tocNumber();
++		if (0 === whole.getValue()) {
++			return new cError(cErrorType.division_by_zero);
++		}
++		return new cNumber(part.getValue() / whole.getValue());
++	};
++
+ 	/**
+ 	 * @constructor
+ 	 * @extends {AscCommonExcel.cBaseFunction}

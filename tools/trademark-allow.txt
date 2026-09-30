@@ -1,0 +1,1 @@
+# trademark-check allowlist: PATH-GLOB<TAB>PHRASE-REGEX<TAB>reason (one line each)

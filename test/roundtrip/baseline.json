@@ -1,0 +1,34 @@
+{
+  "results": {
+    "docx": {
+      "docx: bold run 'jumps' kept": true,
+      "docx: bullet 'alpha' kept": true,
+      "docx: bullet 'beta' kept": true,
+      "docx: bullet 'gamma' kept": true,
+      "docx: engine opened+saved file": true,
+      "docx: heading text kept": true,
+      "docx: paragraph text kept": true,
+      "docx: table cell '42' kept": true,
+      "docx: table cell 'answer' kept": true
+    },
+    "pptx": {
+      "pptx: bullet 'first' kept": true,
+      "pptx: bullet 'second' kept": true,
+      "pptx: bullet 'third' kept": true,
+      "pptx: engine opened+saved file": true,
+      "pptx: title text kept": true,
+      "pptx: two slides kept": true
+    },
+    "xlsx": {
+      "xlsx: A1 text 'Item'": true,
+      "xlsx: B2 value 3": true,
+      "xlsx: C2 value 1234.5": true,
+      "xlsx: SUM(B2:B3) computed to 7": true,
+      "xlsx: TEXTJOIN computed to '3-4'": true,
+      "xlsx: engine opened+saved file": true,
+      "xlsx: merged range A6:B6 kept": true,
+      "xlsx: number format #,##0.00 kept": true
+    }
+  },
+  "score": 100.0
+}

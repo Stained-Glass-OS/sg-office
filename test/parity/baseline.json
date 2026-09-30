@@ -1,0 +1,6977 @@
+{
+ "(arithmetic)#1": {
+  "category": "How Excel calculates",
+  "expected": "TRUE",
+  "file": "0.1+0.2=0.3",
+  "got": "TRUE",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "match"
+ },
+ "(arithmetic)#2": {
+  "category": "How Excel calculates",
+  "expected": "64",
+  "file": "2^3^2",
+  "got": "64",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "match"
+ },
+ "(arithmetic)#3": {
+  "category": "How Excel calculates",
+  "expected": "4",
+  "file": "-2^2",
+  "got": "4",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "match"
+ },
+ "(arithmetic)#4": {
+  "category": "How Excel calculates",
+  "expected": "#NUM!",
+  "file": "1E+308*10",
+  "got": "#NUM!",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "match"
+ },
+ "(arithmetic)#5": {
+  "category": "How Excel calculates",
+  "expected": "#DIV/0!",
+  "file": "1/0",
+  "got": "#DIV/0!",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "match"
+ },
+ "(arithmetic)#6": {
+  "category": "How Excel calculates",
+  "expected": "0",
+  "file": "(0.5-0.4-0.1)",
+  "got": "-2.77555756156289e-17",
+  "name": "(arithmetic)",
+  "note": "",
+  "status": "differs"
+ },
+ "(array evaluation)#1": {
+  "category": "How Excel calculates",
+  "expected": "380",
+  "file": "SUM(Data!C2:C7*Data!D2:D7)",
+  "got": "380",
+  "name": "(array evaluation)",
+  "note": "",
+  "status": "match"
+ },
+ "(array evaluation)#2": {
+  "category": "How Excel calculates",
+  "expected": "30",
+  "file": "SUM(IF(Data!B2:B7=\"East\",Data!C2:C7))",
+  "got": "30",
+  "name": "(array evaluation)",
+  "note": "",
+  "status": "match"
+ },
+ "(array evaluation)#3": {
+  "category": "How Excel calculates",
+  "expected": "3",
+  "file": "MAX(LEN(Data!A2:A7))",
+  "got": "3",
+  "name": "(array evaluation)",
+  "note": "",
+  "status": "match"
+ },
+ "(array formula CSE)#1": {
+  "category": "How Excel calculates",
+  "expected": "380",
+  "file": "SUM(Data!C2:C7*Data!D2:D7)",
+  "got": "380",
+  "name": "(array formula CSE)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#1": {
+  "category": "How Excel calculates",
+  "expected": "2",
+  "file": "\"1\"+1",
+  "got": "2",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#10": {
+  "category": "How Excel calculates",
+  "expected": "\"\"",
+  "file": "Data!L1&\"\"",
+  "got": "\"\"",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#11": {
+  "category": "How Excel calculates",
+  "expected": "TRUE",
+  "file": "Data!L1=\"\"",
+  "got": "TRUE",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#2": {
+  "category": "How Excel calculates",
+  "expected": "45356",
+  "file": "\"2024-03-05\"+0",
+  "got": "45356",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#3": {
+  "category": "How Excel calculates",
+  "expected": "45356",
+  "file": "\"3/5/2024\"+0",
+  "got": "45356",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#4": {
+  "category": "How Excel calculates",
+  "expected": "#VALUE!",
+  "file": "\"abc\"+1",
+  "got": "#VALUE!",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#5": {
+  "category": "How Excel calculates",
+  "expected": "2",
+  "file": "TRUE+TRUE",
+  "got": "2",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#6": {
+  "category": "How Excel calculates",
+  "expected": "\"1.1\"",
+  "file": "\"\"&1.1",
+  "got": "\"1.1\"",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#7": {
+  "category": "How Excel calculates",
+  "expected": "0.2",
+  "file": "\"10%\"*2",
+  "got": "0.2",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#8": {
+  "category": "How Excel calculates",
+  "expected": "1000",
+  "file": "\"$1,000\"+0",
+  "got": "1000",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(coercion)#9": {
+  "category": "How Excel calculates",
+  "expected": "1",
+  "file": "Data!L1+1",
+  "got": "1",
+  "name": "(coercion)",
+  "note": "",
+  "status": "match"
+ },
+ "(comparison)#1": {
+  "category": "How Excel calculates",
+  "expected": "TRUE",
+  "file": "\"a\"=\"A\"",
+  "got": "TRUE",
+  "name": "(comparison)",
+  "note": "",
+  "status": "match"
+ },
+ "(comparison)#2": {
+  "category": "How Excel calculates",
+  "expected": "TRUE",
+  "file": "\"a\"<\"B\"",
+  "got": "FALSE",
+  "name": "(comparison)",
+  "note": "",
+  "status": "differs"
+ },
+ "(comparison)#3": {
+  "category": "How Excel calculates",
+  "expected": "FALSE",
+  "file": "\"10\"<9",
+  "got": "FALSE",
+  "name": "(comparison)",
+  "note": "",
+  "status": "match"
+ },
+ "(comparison)#4": {
+  "category": "How Excel calculates",
+  "expected": "TRUE",
+  "file": "TRUE>100",
+  "got": "TRUE",
+  "name": "(comparison)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#1": {
+  "category": "How Excel calculates",
+  "expected": "{5;10;15;20;25;30}",
+  "file": "_xlfn._xlws.SORT(Data!C2:C7)",
+  "got": "{5;10;15;20;25;30}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#2": {
+  "category": "How Excel calculates",
+  "expected": "{\"East\";\"West\";\"North\"}",
+  "file": "_xlfn.UNIQUE(Data!B2:B7)",
+  "got": "{\"East\";\"West\";\"North\"}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#3": {
+  "category": "How Excel calculates",
+  "expected": "{\"Dee\",\"North\";\"Eve\",\"West\"}",
+  "file": "_xlfn._xlws.FILTER(Data!A2:B7,Data!C2:C7>=25)",
+  "got": "{\"Dee\",\"North\";\"Eve\",\"West\"}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#4": {
+  "category": "How Excel calculates",
+  "expected": "{1,2,3;4,5,6}",
+  "file": "_xlfn.SEQUENCE(2,3)",
+  "got": "{1,2,3;4,5,6}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#5": {
+  "category": "How Excel calculates",
+  "expected": "{100;200;150}",
+  "file": "Data!C2:C4*10",
+  "got": "{100;200;150}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#6": {
+  "category": "How Excel calculates",
+  "expected": "{\"a\",\"b\",\"c\"}",
+  "file": "_xlfn.TEXTSPLIT(\"a,b,c\",\",\")",
+  "got": "{\"a\",\"b\",\"c\"}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#7": {
+  "category": "How Excel calculates",
+  "expected": "{1,2;3,4}",
+  "file": "_xlfn.VSTACK({1,2},{3,4})",
+  "got": "{1,2;3,4}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(dynamic array spill)#8": {
+  "category": "How Excel calculates",
+  "expected": "{\"West\",20,3}",
+  "file": "_xlfn.XLOOKUP(\"Bob\",Data!A2:A7,Data!B2:D7)",
+  "got": "{\"West\",20,3}",
+  "name": "(dynamic array spill)",
+  "note": "",
+  "status": "match"
+ },
+ "(implicit intersection @)#1": {
+  "category": "How Excel calculates",
+  "expected": "7",
+  "file": "_xlfn.SINGLE({7,8,9})",
+  "got": "7",
+  "name": "(implicit intersection @)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#1": {
+  "category": "How Excel calculates",
+  "expected": "105",
+  "file": "SUM(Data!C:C)",
+  "got": "105",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#2": {
+  "category": "How Excel calculates",
+  "expected": "55",
+  "file": "SUM(Data!K:K)",
+  "got": "55",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#3": {
+  "category": "How Excel calculates",
+  "expected": "30",
+  "file": "SUM(Data!A1:C3 Data!B2:D4)",
+  "got": "30",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#4": {
+  "category": "How Excel calculates",
+  "expected": "30",
+  "file": "SUM((Data!C2,Data!C3))",
+  "got": "#NAME?",
+  "name": "(references)",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "(references)#5": {
+  "category": "How Excel calculates",
+  "expected": "45",
+  "file": "SUM(Data!C2:INDEX(Data!C2:C7,3))",
+  "got": "45",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#6": {
+  "category": "How Excel calculates",
+  "expected": "75",
+  "file": "SUM(Data!C2:C3:Data!C5)",
+  "got": "75",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#7": {
+  "category": "How Excel calculates",
+  "expected": "10",
+  "file": "SUM(Data:Data!C2)",
+  "got": "10",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#8": {
+  "category": "How Excel calculates",
+  "expected": "210",
+  "file": "SUM(SalesUnits*2)",
+  "got": "210",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(references)#9": {
+  "category": "How Excel calculates",
+  "expected": "105",
+  "file": "SUM(SalesUnits)",
+  "got": "105",
+  "name": "(references)",
+  "note": "",
+  "status": "match"
+ },
+ "(spill reference #)#1": {
+  "category": "How Excel calculates",
+  "expected": "6",
+  "file": "SUM(_xlfn.ANCHORARRAY(Data!N1))",
+  "got": "#NAME?",
+  "name": "(spill reference #)",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "(spill reference #)#2": {
+  "category": "How Excel calculates",
+  "expected": "3",
+  "file": "ROWS(_xlfn.ANCHORARRAY(Data!N1))",
+  "got": "#VALUE!",
+  "name": "(spill reference #)",
+  "note": "",
+  "status": "differs"
+ },
+ "ABS#1": {
+  "category": "Math and trigonometry",
+  "expected": "4.5",
+  "file": "ABS(-4.5)",
+  "got": "4.5",
+  "name": "ABS",
+  "note": "",
+  "status": "match"
+ },
+ "ACCRINT#1": {
+  "category": "Financial",
+  "expected": "16.6666666666667",
+  "file": "ACCRINT(DATE(2008,3,1),DATE(2008,8,31),DATE(2008,5,1),0.1,1000,2,0)",
+  "got": "16.6666666666667",
+  "name": "ACCRINT",
+  "note": "",
+  "status": "match"
+ },
+ "ACCRINTM#1": {
+  "category": "Financial",
+  "expected": "20.5479452054795",
+  "file": "ACCRINTM(DATE(2008,4,1),DATE(2008,6,15),0.1,1000,3)",
+  "got": "20.5479452054795",
+  "name": "ACCRINTM",
+  "note": "",
+  "status": "match"
+ },
+ "ACOS#1": {
+  "category": "Math and trigonometry",
+  "expected": "2.0943951023932",
+  "file": "ACOS(-0.5)",
+  "got": "2.0943951023932",
+  "name": "ACOS",
+  "note": "",
+  "status": "match"
+ },
+ "ACOSH#1": {
+  "category": "Math and trigonometry",
+  "expected": "2.99322284612638",
+  "file": "ACOSH(10)",
+  "got": "2.99322284612638",
+  "name": "ACOSH",
+  "note": "",
+  "status": "match"
+ },
+ "ACOT#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.463647609000806",
+  "file": "_xlfn.ACOT(2)",
+  "got": "0.463647609000806",
+  "name": "ACOT",
+  "note": "",
+  "status": "match"
+ },
+ "ACOTH#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.168236118310606",
+  "file": "_xlfn.ACOTH(6)",
+  "got": "0.168236118310607",
+  "name": "ACOTH",
+  "note": "",
+  "status": "match"
+ },
+ "ADDRESS#1": {
+  "category": "Lookup and reference",
+  "expected": "\"$C$2\"",
+  "file": "ADDRESS(2,3)",
+  "got": "\"$C$2\"",
+  "name": "ADDRESS",
+  "note": "",
+  "status": "match"
+ },
+ "ADDRESS#2": {
+  "category": "Lookup and reference",
+  "expected": "\"R2C[3]\"",
+  "file": "ADDRESS(2,3,2,FALSE)",
+  "got": "\"R2C[3]\"",
+  "name": "ADDRESS",
+  "note": "",
+  "status": "match"
+ },
+ "ADDRESS#3": {
+  "category": "Lookup and reference",
+  "expected": "\"'[Book1]Sheet1'!R2C3\"",
+  "file": "ADDRESS(2,3,1,FALSE,\"[Book1]Sheet1\")",
+  "got": "\"'[Book1]Sheet1'!R2C3\"",
+  "name": "ADDRESS",
+  "note": "",
+  "status": "match"
+ },
+ "ADDRESS#4": {
+  "category": "Lookup and reference",
+  "expected": "\"Data!C2\"",
+  "file": "ADDRESS(2,3,4,TRUE,\"Data\")",
+  "got": "\"Data!C2\"",
+  "name": "ADDRESS",
+  "note": "",
+  "status": "match"
+ },
+ "AGGREGATE#1": {
+  "category": "Math and trigonometry",
+  "expected": "105",
+  "file": "_xlfn.AGGREGATE(9,6,Data!C2:C7)",
+  "got": "105",
+  "name": "AGGREGATE",
+  "note": "",
+  "status": "match"
+ },
+ "AGGREGATE#2": {
+  "category": "Math and trigonometry",
+  "expected": "3",
+  "file": "_xlfn.AGGREGATE(14,6,{1,#DIV/0!,7,3},2)",
+  "got": "#DIV/0!",
+  "name": "AGGREGATE",
+  "note": "",
+  "status": "differs"
+ },
+ "AMORDEGRC#1": {
+  "category": "Financial",
+  "expected": "776",
+  "file": "AMORDEGRC(2400,DATE(2008,8,19),DATE(2008,12,31),300,1,0.15,1)",
+  "got": "776",
+  "name": "AMORDEGRC",
+  "note": "",
+  "status": "match"
+ },
+ "AMORLINC#1": {
+  "category": "Financial",
+  "expected": "360",
+  "file": "AMORLINC(2400,DATE(2008,8,19),DATE(2008,12,31),300,1,0.15,1)",
+  "got": "360",
+  "name": "AMORLINC",
+  "note": "",
+  "status": "match"
+ },
+ "AND#1": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "AND(TRUE,1,2>1)",
+  "got": "TRUE",
+  "name": "AND",
+  "note": "",
+  "status": "match"
+ },
+ "AND#2": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "AND(Data!C2:C7>1)",
+  "got": "TRUE",
+  "name": "AND",
+  "note": "",
+  "status": "match"
+ },
+ "ARABIC#1": {
+  "category": "Math and trigonometry",
+  "expected": "1999",
+  "file": "_xlfn.ARABIC(\"MCMXCIX\")",
+  "got": "1999",
+  "name": "ARABIC",
+  "note": "",
+  "status": "match"
+ },
+ "AREAS#1": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "AREAS((Data!A1:B2,Data!C3))",
+  "got": "#NAME?",
+  "name": "AREAS",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "ARRAYTOTEXT#1": {
+  "category": "Text",
+  "expected": "\"1, a, TRUE, 2\"",
+  "file": "_xlfn.ARRAYTOTEXT({1,\"a\";TRUE,2})",
+  "got": "\"1, a, TRUE, 2\"",
+  "name": "ARRAYTOTEXT",
+  "note": "",
+  "status": "match"
+ },
+ "ARRAYTOTEXT#2": {
+  "category": "Text",
+  "expected": "\"{1,\"a\";TRUE,2}\"",
+  "file": "_xlfn.ARRAYTOTEXT({1,\"a\";TRUE,2},1)",
+  "got": "\"{1,\"a\";TRUE,2}\"",
+  "name": "ARRAYTOTEXT",
+  "note": "",
+  "status": "match"
+ },
+ "ASC#1": {
+  "category": "Text",
+  "expected": "\"ABC\"",
+  "file": "ASC(\"ＡＢＣ\")",
+  "got": "\"ABC\"",
+  "name": "ASC",
+  "note": "",
+  "status": "match"
+ },
+ "ASIN#1": {
+  "category": "Math and trigonometry",
+  "expected": "-0.523598775598299",
+  "file": "ASIN(-0.5)",
+  "got": "-0.523598775598299",
+  "name": "ASIN",
+  "note": "",
+  "status": "match"
+ },
+ "ASINH#1": {
+  "category": "Math and trigonometry",
+  "expected": "2.99822295029797",
+  "file": "ASINH(10)",
+  "got": "2.99822295029797",
+  "name": "ASINH",
+  "note": "",
+  "status": "match"
+ },
+ "ATAN#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.785398163397448",
+  "file": "ATAN(1)",
+  "got": "0.785398163397448",
+  "name": "ATAN",
+  "note": "",
+  "status": "match"
+ },
+ "ATAN2#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.785398163397448",
+  "file": "ATAN2(1,1)",
+  "got": "0.785398163397448",
+  "name": "ATAN2",
+  "note": "",
+  "status": "match"
+ },
+ "ATAN2#2": {
+  "category": "Math and trigonometry",
+  "expected": "3.14159265358979",
+  "file": "ATAN2(-1,0)",
+  "got": "3.14159265358979",
+  "name": "ATAN2",
+  "note": "",
+  "status": "match"
+ },
+ "ATANH#1": {
+  "category": "Math and trigonometry",
+  "expected": "1.00000000962972",
+  "file": "ATANH(0.76159416)",
+  "got": "1.00000000962972",
+  "name": "ATANH",
+  "note": "",
+  "status": "match"
+ },
+ "AVEDEV#1": {
+  "category": "Statistical",
+  "expected": "1.02040816326531",
+  "file": "AVEDEV(4,5,6,7,5,4,3)",
+  "got": "1.02040816326531",
+  "name": "AVEDEV",
+  "note": "",
+  "status": "match"
+ },
+ "AVERAGE#1": {
+  "category": "Statistical",
+  "expected": "17.5",
+  "file": "AVERAGE(Data!C2:C7)",
+  "got": "17.5",
+  "name": "AVERAGE",
+  "note": "",
+  "status": "match"
+ },
+ "AVERAGEA#1": {
+  "category": "Statistical",
+  "expected": "15",
+  "file": "AVERAGEA(Data!C1:C7)",
+  "got": "15",
+  "name": "AVERAGEA",
+  "note": "",
+  "status": "match"
+ },
+ "AVERAGEIF#1": {
+  "category": "Statistical",
+  "expected": "22.5",
+  "file": "AVERAGEIF(Data!C2:C7,\">10\")",
+  "got": "22.5",
+  "name": "AVERAGEIF",
+  "note": "",
+  "status": "match"
+ },
+ "AVERAGEIFS#1": {
+  "category": "Statistical",
+  "expected": "22.5",
+  "file": "AVERAGEIFS(Data!C2:C7,Data!B2:B7,\"West\")",
+  "got": "22.5",
+  "name": "AVERAGEIFS",
+  "note": "",
+  "status": "match"
+ },
+ "BAHTTEXT#1": {
+  "category": "Text",
+  "expected": "\"หนึ่งพันสองร้อยสามสิบสี่บาทถ้วน\"",
+  "file": "_xlfn.BAHTTEXT(1234)",
+  "got": "#NAME?",
+  "name": "BAHTTEXT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "BASE#1": {
+  "category": "Math and trigonometry",
+  "expected": "\"111\"",
+  "file": "_xlfn.BASE(7,2)",
+  "got": "\"111\"",
+  "name": "BASE",
+  "note": "",
+  "status": "match"
+ },
+ "BASE#2": {
+  "category": "Math and trigonometry",
+  "expected": "\"0064\"",
+  "file": "_xlfn.BASE(100,16,4)",
+  "got": "\"0064\"",
+  "name": "BASE",
+  "note": "",
+  "status": "match"
+ },
+ "BESSELI#1": {
+  "category": "Engineering",
+  "expected": "0.981666428577908",
+  "file": "BESSELI(1.5,1)",
+  "got": "0.981666428577908",
+  "name": "BESSELI",
+  "note": "",
+  "status": "match"
+ },
+ "BESSELJ#1": {
+  "category": "Engineering",
+  "expected": "0.329925727692387",
+  "file": "BESSELJ(1.9,2)",
+  "got": "0.329925727692387",
+  "name": "BESSELJ",
+  "note": "",
+  "status": "match"
+ },
+ "BESSELK#1": {
+  "category": "Engineering",
+  "expected": "0.277387800456844",
+  "file": "BESSELK(1.5,1)",
+  "got": "0.277387803602702",
+  "name": "BESSELK",
+  "note": "",
+  "status": "match"
+ },
+ "BESSELY#1": {
+  "category": "Engineering",
+  "expected": "0.145918137966786",
+  "file": "BESSELY(2.5,1)",
+  "got": "0.145918137484893",
+  "name": "BESSELY",
+  "note": "",
+  "status": "match"
+ },
+ "BETA.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.685470581054688",
+  "file": "_xlfn.BETA.DIST(2,8,10,TRUE,1,3)",
+  "got": "0.685470581054688",
+  "name": "BETA.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "BETA.DIST#2": {
+  "category": "Statistical",
+  "expected": "1.4837646484375",
+  "file": "_xlfn.BETA.DIST(2,8,10,FALSE,1,3)",
+  "got": "1.4837646484375",
+  "name": "BETA.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "BETA.INV#1": {
+  "category": "Statistical",
+  "expected": "1.99999999996314",
+  "file": "_xlfn.BETA.INV(0.685470581,8,10,1,3)",
+  "got": "1.99999999996314",
+  "name": "BETA.INV",
+  "note": "",
+  "status": "match"
+ },
+ "BETADIST#1": {
+  "category": "Compatibility",
+  "expected": "0.685470581054688",
+  "file": "BETADIST(2,8,10,1,3)",
+  "got": "0.685470581054688",
+  "name": "BETADIST",
+  "note": "",
+  "status": "match"
+ },
+ "BETAINV#1": {
+  "category": "Compatibility",
+  "expected": "1.99999999996314",
+  "file": "BETAINV(0.685470581,8,10,1,3)",
+  "got": "1.99999999996314",
+  "name": "BETAINV",
+  "note": "",
+  "status": "match"
+ },
+ "BIN2DEC#1": {
+  "category": "Engineering",
+  "expected": "-1",
+  "file": "BIN2DEC(\"1111111111\")",
+  "got": "-1",
+  "name": "BIN2DEC",
+  "note": "",
+  "status": "match"
+ },
+ "BIN2HEX#1": {
+  "category": "Engineering",
+  "expected": "\"00FB\"",
+  "file": "BIN2HEX(\"11111011\",4)",
+  "got": "\"00FB\"",
+  "name": "BIN2HEX",
+  "note": "",
+  "status": "match"
+ },
+ "BIN2OCT#1": {
+  "category": "Engineering",
+  "expected": "\"011\"",
+  "file": "BIN2OCT(\"1001\",3)",
+  "got": "\"011\"",
+  "name": "BIN2OCT",
+  "note": "",
+  "status": "match"
+ },
+ "BINOM.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.205078125",
+  "file": "_xlfn.BINOM.DIST(6,10,0.5,FALSE)",
+  "got": "0.205078125",
+  "name": "BINOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "BINOM.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.828125",
+  "file": "_xlfn.BINOM.DIST(6,10,0.5,TRUE)",
+  "got": "0.828125",
+  "name": "BINOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "BINOM.DIST.RANGE#1": {
+  "category": "Statistical",
+  "expected": "0.0839749674290475",
+  "file": "_xlfn.BINOM.DIST.RANGE(60,0.75,48)",
+  "got": "0.0839749674290475",
+  "name": "BINOM.DIST.RANGE",
+  "note": "",
+  "status": "match"
+ },
+ "BINOM.DIST.RANGE#2": {
+  "category": "Statistical",
+  "expected": "0.523629793471887",
+  "file": "_xlfn.BINOM.DIST.RANGE(60,0.75,45,50)",
+  "got": "0.523629793471887",
+  "name": "BINOM.DIST.RANGE",
+  "note": "",
+  "status": "match"
+ },
+ "BINOM.INV#1": {
+  "category": "Statistical",
+  "expected": "4",
+  "file": "_xlfn.BINOM.INV(6,0.5,0.75)",
+  "got": "4",
+  "name": "BINOM.INV",
+  "note": "",
+  "status": "match"
+ },
+ "BINOMDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.205078125",
+  "file": "BINOMDIST(6,10,0.5,FALSE)",
+  "got": "0.205078125",
+  "name": "BINOMDIST",
+  "note": "",
+  "status": "match"
+ },
+ "BITAND#1": {
+  "category": "Engineering",
+  "expected": "9",
+  "file": "_xlfn.BITAND(13,25)",
+  "got": "9",
+  "name": "BITAND",
+  "note": "",
+  "status": "match"
+ },
+ "BITLSHIFT#1": {
+  "category": "Engineering",
+  "expected": "16",
+  "file": "_xlfn.BITLSHIFT(4,2)",
+  "got": "16",
+  "name": "BITLSHIFT",
+  "note": "",
+  "status": "match"
+ },
+ "BITOR#1": {
+  "category": "Engineering",
+  "expected": "31",
+  "file": "_xlfn.BITOR(23,10)",
+  "got": "31",
+  "name": "BITOR",
+  "note": "",
+  "status": "match"
+ },
+ "BITRSHIFT#1": {
+  "category": "Engineering",
+  "expected": "3",
+  "file": "_xlfn.BITRSHIFT(13,2)",
+  "got": "3",
+  "name": "BITRSHIFT",
+  "note": "",
+  "status": "match"
+ },
+ "BITXOR#1": {
+  "category": "Engineering",
+  "expected": "6",
+  "file": "_xlfn.BITXOR(5,3)",
+  "got": "6",
+  "name": "BITXOR",
+  "note": "",
+  "status": "match"
+ },
+ "BYCOL#1": {
+  "category": "Logical",
+  "expected": "6",
+  "file": "INDEX(_xlfn.BYCOL({1,2;3,4},_xlfn.LAMBDA(_xlpm.c,SUM(_xlpm.c))),1,2)",
+  "got": "#NAME?",
+  "name": "BYCOL",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "BYROW#1": {
+  "category": "Logical",
+  "expected": "4",
+  "file": "INDEX(_xlfn.BYROW({1,2;3,4},_xlfn.LAMBDA(_xlpm.r,MAX(_xlpm.r))),2,1)",
+  "got": "#NAME?",
+  "name": "BYROW",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CALL#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CALL(\"Kernel32\",\"GetTickCount\",\"J!\")",
+  "got": "#NAME?",
+  "name": "CALL",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CEILING#1": {
+  "category": "Math and trigonometry",
+  "expected": "3",
+  "file": "CEILING(2.5,1)",
+  "got": "3",
+  "name": "CEILING",
+  "note": "",
+  "status": "match"
+ },
+ "CEILING#2": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "CEILING(-2.5,-2)",
+  "got": "-4",
+  "name": "CEILING",
+  "note": "",
+  "status": "match"
+ },
+ "CEILING#3": {
+  "category": "Math and trigonometry",
+  "expected": "-2",
+  "file": "CEILING(-2.5,2)",
+  "got": "-2",
+  "name": "CEILING",
+  "note": "",
+  "status": "match"
+ },
+ "CEILING.MATH#1": {
+  "category": "Math and trigonometry",
+  "expected": "-6",
+  "file": "_xlfn.CEILING.MATH(-5.5,2,-1)",
+  "got": "-6",
+  "name": "CEILING.MATH",
+  "note": "",
+  "status": "match"
+ },
+ "CEILING.MATH#2": {
+  "category": "Math and trigonometry",
+  "expected": "25",
+  "file": "_xlfn.CEILING.MATH(24.3,5)",
+  "got": "25",
+  "name": "CEILING.MATH",
+  "note": "",
+  "status": "match"
+ },
+ "CEILING.PRECISE#1": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "_xlfn.CEILING.PRECISE(-4.6,2)",
+  "got": "-4",
+  "name": "CEILING.PRECISE",
+  "note": "",
+  "status": "match"
+ },
+ "CELL#1": {
+  "category": "Information",
+  "expected": "3",
+  "file": "CELL(\"row\",Data!C3)",
+  "got": "3",
+  "name": "CELL",
+  "note": "",
+  "status": "match"
+ },
+ "CELL#2": {
+  "category": "Information",
+  "expected": "3",
+  "file": "CELL(\"col\",Data!C3)",
+  "got": "3",
+  "name": "CELL",
+  "note": "",
+  "status": "match"
+ },
+ "CELL#3": {
+  "category": "Information",
+  "expected": "\"l\"",
+  "file": "CELL(\"type\",Data!A2)",
+  "got": "\"l\"",
+  "name": "CELL",
+  "note": "",
+  "status": "match"
+ },
+ "CELL#4": {
+  "category": "Information",
+  "expected": "\"Ann\"",
+  "file": "CELL(\"contents\",Data!A2)",
+  "got": "\"Ann\"",
+  "name": "CELL",
+  "note": "",
+  "status": "match"
+ },
+ "CHAR#1": {
+  "category": "Text",
+  "expected": "\"A\"",
+  "file": "CHAR(65)",
+  "got": "\"A\"",
+  "name": "CHAR",
+  "note": "",
+  "status": "match"
+ },
+ "CHIDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0500005890913981",
+  "file": "CHIDIST(18.307,10)",
+  "got": "0.0500005890913981",
+  "name": "CHIDIST",
+  "note": "",
+  "status": "match"
+ },
+ "CHIINV#1": {
+  "category": "Compatibility",
+  "expected": "18.3069734569611",
+  "file": "CHIINV(0.050001,10)",
+  "got": "18.3069734569611",
+  "name": "CHIINV",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.520499877813047",
+  "file": "_xlfn.CHISQ.DIST(0.5,1,TRUE)",
+  "got": "0.520499877813047",
+  "name": "CHISQ.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.207553748710297",
+  "file": "_xlfn.CHISQ.DIST(2,3,FALSE)",
+  "got": "0.207553748710297",
+  "name": "CHISQ.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.DIST.RT#1": {
+  "category": "Statistical",
+  "expected": "0.0500005890913981",
+  "file": "_xlfn.CHISQ.DIST.RT(18.307,10)",
+  "got": "0.0500005890913981",
+  "name": "CHISQ.DIST.RT",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.INV#1": {
+  "category": "Statistical",
+  "expected": "3.28302028675954",
+  "file": "_xlfn.CHISQ.INV(0.93,1)",
+  "got": "3.28302028675954",
+  "name": "CHISQ.INV",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.INV.RT#1": {
+  "category": "Statistical",
+  "expected": "18.3069734569611",
+  "file": "_xlfn.CHISQ.INV.RT(0.050001,10)",
+  "got": "18.3069734569611",
+  "name": "CHISQ.INV.RT",
+  "note": "",
+  "status": "match"
+ },
+ "CHISQ.TEST#1": {
+  "category": "Statistical",
+  "expected": "0.00030819201700831",
+  "file": "_xlfn.CHISQ.TEST({58,35;11,25;10,23},{45.35,47.65;17.56,18.44;16.09,16.91})",
+  "got": "0.00030819201700831",
+  "name": "CHISQ.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "CHITEST#1": {
+  "category": "Compatibility",
+  "expected": "0.00030819201700831",
+  "file": "CHITEST({58,35;11,25;10,23},{45.35,47.65;17.56,18.44;16.09,16.91})",
+  "got": "0.00030819201700831",
+  "name": "CHITEST",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSE#1": {
+  "category": "Lookup and reference",
+  "expected": "\"2nd\"",
+  "file": "CHOOSE(2,\"1st\",\"2nd\",\"3rd\")",
+  "got": "\"2nd\"",
+  "name": "CHOOSE",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSE#2": {
+  "category": "Lookup and reference",
+  "expected": "45",
+  "file": "SUM(CHOOSE(2,Data!C2:C3,Data!C4:C5))",
+  "got": "45",
+  "name": "CHOOSE",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSECOLS#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Bob\"",
+  "file": "INDEX(_xlfn.CHOOSECOLS(Data!A2:E7,3,1),2,2)",
+  "got": "\"Bob\"",
+  "name": "CHOOSECOLS",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSECOLS#2": {
+  "category": "Lookup and reference",
+  "expected": "45306",
+  "file": "INDEX(_xlfn.CHOOSECOLS(Data!A2:E7,-1),1,1)",
+  "got": "45306",
+  "name": "CHOOSECOLS",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSEROWS#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Fay\"",
+  "file": "INDEX(_xlfn.CHOOSEROWS(Data!A2:E7,6,1),1,1)",
+  "got": "\"Fay\"",
+  "name": "CHOOSEROWS",
+  "note": "",
+  "status": "match"
+ },
+ "CHOOSEROWS#2": {
+  "category": "Lookup and reference",
+  "expected": "6",
+  "file": "INDEX(_xlfn.CHOOSEROWS({1,2;3,4;5,6},-1),1,2)",
+  "got": "6",
+  "name": "CHOOSEROWS",
+  "note": "",
+  "status": "match"
+ },
+ "CLEAN#1": {
+  "category": "Text",
+  "expected": "\"Monthly report\"",
+  "file": "CLEAN(CHAR(9)&\"Monthly report\"&CHAR(10))",
+  "got": "\"Monthly report\"",
+  "name": "CLEAN",
+  "note": "",
+  "status": "match"
+ },
+ "CODE#1": {
+  "category": "Text",
+  "expected": "65",
+  "file": "CODE(\"A\")",
+  "got": "65",
+  "name": "CODE",
+  "note": "",
+  "status": "match"
+ },
+ "COLUMN#1": {
+  "category": "Lookup and reference",
+  "expected": "4",
+  "file": "COLUMN(Data!D10)",
+  "got": "4",
+  "name": "COLUMN",
+  "note": "",
+  "status": "match"
+ },
+ "COLUMNS#1": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "COLUMNS(Data!A1:E7)",
+  "got": "5",
+  "name": "COLUMNS",
+  "note": "",
+  "status": "match"
+ },
+ "COMBIN#1": {
+  "category": "Math and trigonometry",
+  "expected": "28",
+  "file": "COMBIN(8,2)",
+  "got": "28",
+  "name": "COMBIN",
+  "note": "",
+  "status": "match"
+ },
+ "COMBINA#1": {
+  "category": "Math and trigonometry",
+  "expected": "20",
+  "file": "_xlfn.COMBINA(4,3)",
+  "got": "20",
+  "name": "COMBINA",
+  "note": "",
+  "status": "match"
+ },
+ "COMPLEX#1": {
+  "category": "Engineering",
+  "expected": "\"3+4i\"",
+  "file": "COMPLEX(3,4)",
+  "got": "\"3+4i\"",
+  "name": "COMPLEX",
+  "note": "",
+  "status": "match"
+ },
+ "COMPLEX#2": {
+  "category": "Engineering",
+  "expected": "\"j\"",
+  "file": "COMPLEX(0,1,\"j\")",
+  "got": "\"j\"",
+  "name": "COMPLEX",
+  "note": "",
+  "status": "match"
+ },
+ "COMPLEX#3": {
+  "category": "Engineering",
+  "expected": "\"1.5-2i\"",
+  "file": "COMPLEX(1.5,-2)",
+  "got": "\"1.5-2i\"",
+  "name": "COMPLEX",
+  "note": "",
+  "status": "match"
+ },
+ "CONCAT#1": {
+  "category": "Text",
+  "expected": "\"AnnBobCid!\"",
+  "file": "_xlfn.CONCAT(Data!A2:A4,\"!\")",
+  "got": "\"AnnBobCid!\"",
+  "name": "CONCAT",
+  "note": "",
+  "status": "match"
+ },
+ "CONCATENATE#1": {
+  "category": "Text",
+  "expected": "\"Stream population for trout is 32/mile\"",
+  "file": "CONCATENATE(\"Stream population for \",\"trout\",\" is \",32,\"/mile\")",
+  "got": "\"Stream population for trout is 32/mile\"",
+  "name": "CONCATENATE",
+  "note": "",
+  "status": "match"
+ },
+ "CONFIDENCE#1": {
+  "category": "Compatibility",
+  "expected": "0.692951912174839",
+  "file": "CONFIDENCE(0.05,2.5,50)",
+  "got": "0.692951912174839",
+  "name": "CONFIDENCE",
+  "note": "",
+  "status": "match"
+ },
+ "CONFIDENCE.NORM#1": {
+  "category": "Statistical",
+  "expected": "0.692951912174839",
+  "file": "_xlfn.CONFIDENCE.NORM(0.05,2.5,50)",
+  "got": "0.692951912174839",
+  "name": "CONFIDENCE.NORM",
+  "note": "",
+  "status": "match"
+ },
+ "CONFIDENCE.T#1": {
+  "category": "Statistical",
+  "expected": "0.28419685549573",
+  "file": "_xlfn.CONFIDENCE.T(0.05,1,50)",
+  "got": "0.28419685549573",
+  "name": "CONFIDENCE.T",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#1": {
+  "category": "Engineering",
+  "expected": "0.45359237",
+  "file": "CONVERT(1,\"lbm\",\"kg\")",
+  "got": "0.45359237",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#2": {
+  "category": "Engineering",
+  "expected": "20",
+  "file": "CONVERT(68,\"F\",\"C\")",
+  "got": "20",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#3": {
+  "category": "Engineering",
+  "expected": "#N/A",
+  "file": "CONVERT(2.5,\"ft\",\"sec\")",
+  "got": "#N/A",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#4": {
+  "category": "Engineering",
+  "expected": "9.290304",
+  "file": "CONVERT(100,\"ft2\",\"m2\")",
+  "got": "9.290304",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#5": {
+  "category": "Engineering",
+  "expected": "3600000",
+  "file": "CONVERT(1,\"kWh\",\"J\")",
+  "got": "3600000",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CONVERT#6": {
+  "category": "Engineering",
+  "expected": "1024",
+  "file": "CONVERT(1,\"Gibyte\",\"Mibyte\")",
+  "got": "1024",
+  "name": "CONVERT",
+  "note": "",
+  "status": "match"
+ },
+ "CORREL#1": {
+  "category": "Statistical",
+  "expected": "0.997054485501581",
+  "file": "CORREL({3,2,4,5,6},{9,7,12,15,17})",
+  "got": "0.997054485501581",
+  "name": "CORREL",
+  "note": "",
+  "status": "match"
+ },
+ "COS#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.50017107459707",
+  "file": "COS(1.047)",
+  "got": "0.50017107459707",
+  "name": "COS",
+  "note": "",
+  "status": "match"
+ },
+ "COSH#1": {
+  "category": "Math and trigonometry",
+  "expected": "27.3082328360165",
+  "file": "COSH(4)",
+  "got": "27.3082328360165",
+  "name": "COSH",
+  "note": "",
+  "status": "match"
+ },
+ "COT#1": {
+  "category": "Math and trigonometry",
+  "expected": "-0.156119952161659",
+  "file": "_xlfn.COT(30)",
+  "got": "-0.156119952161659",
+  "name": "COT",
+  "note": "",
+  "status": "match"
+ },
+ "COTH#1": {
+  "category": "Math and trigonometry",
+  "expected": "1.03731472072755",
+  "file": "_xlfn.COTH(2)",
+  "got": "1.03731472072755",
+  "name": "COTH",
+  "note": "",
+  "status": "match"
+ },
+ "COUNT#1": {
+  "category": "Statistical",
+  "expected": "18",
+  "file": "COUNT(Data!A1:E7)",
+  "got": "18",
+  "name": "COUNT",
+  "note": "",
+  "status": "match"
+ },
+ "COUNT#2": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "COUNT(1,\"2\",TRUE,\"x\")",
+  "got": "3",
+  "name": "COUNT",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTA#1": {
+  "category": "Statistical",
+  "expected": "35",
+  "file": "COUNTA(Data!A1:E7)",
+  "got": "35",
+  "name": "COUNTA",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTBLANK#1": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "COUNTBLANK(Data!L1:L3)",
+  "got": "3",
+  "name": "COUNTBLANK",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTIF#1": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "COUNTIF(Data!B2:B7,\"east\")",
+  "got": "3",
+  "name": "COUNTIF",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTIF#2": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "COUNTIF(Data!C2:C7,\">\"&Data!C4)",
+  "got": "3",
+  "name": "COUNTIF",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTIF#3": {
+  "category": "Statistical",
+  "expected": "2",
+  "file": "COUNTIF(Data!A2:A7,\"*e*\")",
+  "got": "2",
+  "name": "COUNTIF",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTIF#4": {
+  "category": "Statistical",
+  "expected": "2",
+  "file": "COUNTIF(Data!M1:M5,\"apple\")",
+  "got": "2",
+  "name": "COUNTIF",
+  "note": "",
+  "status": "match"
+ },
+ "COUNTIFS#1": {
+  "category": "Statistical",
+  "expected": "2",
+  "file": "COUNTIFS(Data!B2:B7,\"East\",Data!C2:C7,\">5\")",
+  "got": "2",
+  "name": "COUNTIFS",
+  "note": "",
+  "status": "match"
+ },
+ "COUPDAYBS#1": {
+  "category": "Financial",
+  "expected": "71",
+  "file": "COUPDAYBS(DATE(2011,1,25),DATE(2011,11,15),2,1)",
+  "got": "71",
+  "name": "COUPDAYBS",
+  "note": "",
+  "status": "match"
+ },
+ "COUPDAYS#1": {
+  "category": "Financial",
+  "expected": "181",
+  "file": "COUPDAYS(DATE(2011,1,25),DATE(2011,11,15),2,1)",
+  "got": "181",
+  "name": "COUPDAYS",
+  "note": "",
+  "status": "match"
+ },
+ "COUPDAYSNC#1": {
+  "category": "Financial",
+  "expected": "110",
+  "file": "COUPDAYSNC(DATE(2011,1,25),DATE(2011,11,15),2,1)",
+  "got": "110",
+  "name": "COUPDAYSNC",
+  "note": "",
+  "status": "match"
+ },
+ "COUPNCD#1": {
+  "category": "Financial",
+  "expected": "40678",
+  "file": "COUPNCD(DATE(2011,1,25),DATE(2011,11,15),2,1)",
+  "got": "40678",
+  "name": "COUPNCD",
+  "note": "",
+  "status": "match"
+ },
+ "COUPNUM#1": {
+  "category": "Financial",
+  "expected": "4",
+  "file": "COUPNUM(DATE(2007,1,25),DATE(2008,11,15),2,1)",
+  "got": "4",
+  "name": "COUPNUM",
+  "note": "",
+  "status": "match"
+ },
+ "COUPPCD#1": {
+  "category": "Financial",
+  "expected": "40497",
+  "file": "COUPPCD(DATE(2011,1,25),DATE(2011,11,15),2,1)",
+  "got": "40497",
+  "name": "COUPPCD",
+  "note": "",
+  "status": "match"
+ },
+ "COVAR#1": {
+  "category": "Compatibility",
+  "expected": "5.2",
+  "file": "COVAR({3,2,4,5,6},{9,7,12,15,17})",
+  "got": "5.2",
+  "name": "COVAR",
+  "note": "",
+  "status": "match"
+ },
+ "COVARIANCE.P#1": {
+  "category": "Statistical",
+  "expected": "5.2",
+  "file": "_xlfn.COVARIANCE.P({3,2,4,5,6},{9,7,12,15,17})",
+  "got": "5.2",
+  "name": "COVARIANCE.P",
+  "note": "",
+  "status": "match"
+ },
+ "COVARIANCE.S#1": {
+  "category": "Statistical",
+  "expected": "6.5",
+  "file": "_xlfn.COVARIANCE.S({3,2,4,5,6},{9,7,12,15,17})",
+  "got": "6.5",
+  "name": "COVARIANCE.S",
+  "note": "",
+  "status": "match"
+ },
+ "CRITBINOM#1": {
+  "category": "Compatibility",
+  "expected": "4",
+  "file": "CRITBINOM(6,0.5,0.75)",
+  "got": "4",
+  "name": "CRITBINOM",
+  "note": "",
+  "status": "match"
+ },
+ "CSC#1": {
+  "category": "Math and trigonometry",
+  "expected": "1.53778056154085",
+  "file": "_xlfn.CSC(15)",
+  "got": "1.53778056154085",
+  "name": "CSC",
+  "note": "",
+  "status": "match"
+ },
+ "CSCH#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.469642440595225",
+  "file": "_xlfn.CSCH(1.5)",
+  "got": "0.469642440595225",
+  "name": "CSCH",
+  "note": "",
+  "status": "match"
+ },
+ "CUBEKPIMEMBER#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBEKPIMEMBER(\"Sales\",\"MySalesKPI\",1)",
+  "got": "#NAME?",
+  "name": "CUBEKPIMEMBER",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBEMEMBER#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBEMEMBER(\"Sales\",\"[Time].[Fiscal].[2004]\")",
+  "got": "#NAME?",
+  "name": "CUBEMEMBER",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBEMEMBERPROPERTY#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBEMEMBERPROPERTY(\"Sales\",\"[Time].[Fiscal].[2004]\",\"[Time].[Fiscal].[Quarter]\")",
+  "got": "#NAME?",
+  "name": "CUBEMEMBERPROPERTY",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBERANKEDMEMBER#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBERANKEDMEMBER(\"Sales\",\"[Product].[All Products].Children\",1)",
+  "got": "#NAME?",
+  "name": "CUBERANKEDMEMBER",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBESET#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBESET(\"Sales\",\"[Product].[All Products].Children\")",
+  "got": "#NAME?",
+  "name": "CUBESET",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBESETCOUNT#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBESETCOUNT(CUBESET(\"Sales\",\"[Product].[All Products].Children\"))",
+  "got": "#NAME?",
+  "name": "CUBESETCOUNT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUBEVALUE#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "CUBEVALUE(\"Sales\",\"[Measures].[Profit]\")",
+  "got": "#NAME?",
+  "name": "CUBEVALUE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "CUMIPMT#1": {
+  "category": "Financial",
+  "expected": "-11135.2321307508",
+  "file": "CUMIPMT(0.09/12,30*12,125000,13,24,0)",
+  "got": "-11135.2321307508",
+  "name": "CUMIPMT",
+  "note": "",
+  "status": "match"
+ },
+ "CUMPRINC#1": {
+  "category": "Financial",
+  "expected": "-934.107123420868",
+  "file": "CUMPRINC(0.09/12,30*12,125000,13,24,0)",
+  "got": "-934.107123420878",
+  "name": "CUMPRINC",
+  "note": "",
+  "status": "match"
+ },
+ "DATE#1": {
+  "category": "Date and time",
+  "expected": "45351",
+  "file": "DATE(2024,2,29)",
+  "got": "45351",
+  "name": "DATE",
+  "note": "",
+  "status": "match"
+ },
+ "DATE#2": {
+  "category": "Date and time",
+  "expected": "45689",
+  "file": "DATE(2024,14,1)",
+  "got": "45689",
+  "name": "DATE",
+  "note": "",
+  "status": "match"
+ },
+ "DATE#3": {
+  "category": "Date and time",
+  "expected": "1",
+  "file": "DATE(1900,1,1)",
+  "got": "1",
+  "name": "DATE",
+  "note": "",
+  "status": "match"
+ },
+ "DATE#4": {
+  "category": "Date and time",
+  "expected": "61",
+  "file": "DATE(1900,3,1)",
+  "got": "61",
+  "name": "DATE",
+  "note": "",
+  "status": "match"
+ },
+ "DATEDIF#1": {
+  "category": "Date and time",
+  "expected": "2",
+  "file": "DATEDIF(DATE(2001,1,1),DATE(2003,1,1),\"Y\")",
+  "got": "2",
+  "name": "DATEDIF",
+  "note": "",
+  "status": "match"
+ },
+ "DATEDIF#2": {
+  "category": "Date and time",
+  "expected": "14",
+  "file": "DATEDIF(DATE(2001,6,1),DATE(2002,8,15),\"MD\")",
+  "got": "14",
+  "name": "DATEDIF",
+  "note": "",
+  "status": "match"
+ },
+ "DATEDIF#3": {
+  "category": "Date and time",
+  "expected": "75",
+  "file": "DATEDIF(DATE(2001,6,1),DATE(2002,8,15),\"YD\")",
+  "got": "75",
+  "name": "DATEDIF",
+  "note": "",
+  "status": "match"
+ },
+ "DATEVALUE#1": {
+  "category": "Date and time",
+  "expected": "45356",
+  "file": "DATEVALUE(\"2024-03-05\")",
+  "got": "45356",
+  "name": "DATEVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "DATEVALUE#2": {
+  "category": "Date and time",
+  "expected": "45356",
+  "file": "DATEVALUE(\"3/5/2024\")",
+  "got": "45356",
+  "name": "DATEVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "DATEVALUE#3": {
+  "category": "Date and time",
+  "expected": "45356",
+  "file": "DATEVALUE(\"5-Mar-2024\")",
+  "got": "45356",
+  "name": "DATEVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "DAVERAGE#1": {
+  "category": "Database",
+  "expected": "10",
+  "file": "DAVERAGE(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "10",
+  "name": "DAVERAGE",
+  "note": "",
+  "status": "match"
+ },
+ "DAY#1": {
+  "category": "Date and time",
+  "expected": "15",
+  "file": "DAY(Data!E2)",
+  "got": "15",
+  "name": "DAY",
+  "note": "",
+  "status": "match"
+ },
+ "DAYS#1": {
+  "category": "Date and time",
+  "expected": "42",
+  "file": "_xlfn.DAYS(DATE(2021,3,15),DATE(2021,2,1))",
+  "got": "42",
+  "name": "DAYS",
+  "note": "",
+  "status": "match"
+ },
+ "DAYS#2": {
+  "category": "Date and time",
+  "expected": "42",
+  "file": "_xlfn.DAYS(\"2021-03-15\",\"2021-02-01\")",
+  "got": "42",
+  "name": "DAYS",
+  "note": "",
+  "status": "match"
+ },
+ "DAYS360#1": {
+  "category": "Date and time",
+  "expected": "330",
+  "file": "DAYS360(DATE(2011,1,30),DATE(2011,12,31))",
+  "got": "330",
+  "name": "DAYS360",
+  "note": "",
+  "status": "match"
+ },
+ "DB#1": {
+  "category": "Financial",
+  "expected": "186083.333333333",
+  "file": "DB(1000000,100000,6,1,7)",
+  "got": "186083.333333333",
+  "name": "DB",
+  "note": "",
+  "status": "match"
+ },
+ "DB#2": {
+  "category": "Financial",
+  "expected": "15845.0984738481",
+  "file": "DB(1000000,100000,6,7,7)",
+  "got": "15845.0984738481",
+  "name": "DB",
+  "note": "",
+  "status": "match"
+ },
+ "DBCS#1": {
+  "category": "Text",
+  "expected": "\"ＡＢＣ\"",
+  "file": "DBCS(\"ABC\")",
+  "got": "#NAME?",
+  "name": "DBCS",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "DCOUNT#1": {
+  "category": "Database",
+  "expected": "3",
+  "file": "DCOUNT(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "3",
+  "name": "DCOUNT",
+  "note": "",
+  "status": "match"
+ },
+ "DCOUNTA#1": {
+  "category": "Database",
+  "expected": "3",
+  "file": "DCOUNTA(Data!A1:E7,\"Name\",Data!G1:G2)",
+  "got": "3",
+  "name": "DCOUNTA",
+  "note": "",
+  "status": "match"
+ },
+ "DDB#1": {
+  "category": "Financial",
+  "expected": "1.31506849315068",
+  "file": "DDB(2400,300,10*365,1)",
+  "got": "1.31506849315065",
+  "name": "DDB",
+  "note": "",
+  "status": "match"
+ },
+ "DDB#2": {
+  "category": "Financial",
+  "expected": "384",
+  "file": "DDB(2400,300,10,2)",
+  "got": "384",
+  "name": "DDB",
+  "note": "",
+  "status": "match"
+ },
+ "DEC2BIN#1": {
+  "category": "Engineering",
+  "expected": "\"1001\"",
+  "file": "DEC2BIN(9,4)",
+  "got": "\"1001\"",
+  "name": "DEC2BIN",
+  "note": "",
+  "status": "match"
+ },
+ "DEC2BIN#2": {
+  "category": "Engineering",
+  "expected": "\"1110011100\"",
+  "file": "DEC2BIN(-100)",
+  "got": "\"1110011100\"",
+  "name": "DEC2BIN",
+  "note": "",
+  "status": "match"
+ },
+ "DEC2HEX#1": {
+  "category": "Engineering",
+  "expected": "\"0064\"",
+  "file": "DEC2HEX(100,4)",
+  "got": "\"0064\"",
+  "name": "DEC2HEX",
+  "note": "",
+  "status": "match"
+ },
+ "DEC2HEX#2": {
+  "category": "Engineering",
+  "expected": "\"FFFFFFFFCA\"",
+  "file": "DEC2HEX(-54)",
+  "got": "\"FFFFFFFFCA\"",
+  "name": "DEC2HEX",
+  "note": "",
+  "status": "match"
+ },
+ "DEC2OCT#1": {
+  "category": "Engineering",
+  "expected": "\"072\"",
+  "file": "DEC2OCT(58,3)",
+  "got": "\"072\"",
+  "name": "DEC2OCT",
+  "note": "",
+  "status": "match"
+ },
+ "DECIMAL#1": {
+  "category": "Math and trigonometry",
+  "expected": "255",
+  "file": "_xlfn.DECIMAL(\"FF\",16)",
+  "got": "255",
+  "name": "DECIMAL",
+  "note": "",
+  "status": "match"
+ },
+ "DECIMAL#2": {
+  "category": "Math and trigonometry",
+  "expected": "45745",
+  "file": "_xlfn.DECIMAL(\"zap\",36)",
+  "got": "45745",
+  "name": "DECIMAL",
+  "note": "",
+  "status": "match"
+ },
+ "DEGREES#1": {
+  "category": "Math and trigonometry",
+  "expected": "180",
+  "file": "DEGREES(PI())",
+  "got": "180",
+  "name": "DEGREES",
+  "note": "",
+  "status": "match"
+ },
+ "DELTA#1": {
+  "category": "Engineering",
+  "expected": "0",
+  "file": "DELTA(5,4)",
+  "got": "0",
+  "name": "DELTA",
+  "note": "",
+  "status": "match"
+ },
+ "DETECTLANGUAGE#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.DETECTLANGUAGE(\"Bonjour\")",
+  "got": "#NAME?",
+  "name": "DETECTLANGUAGE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "DEVSQ#1": {
+  "category": "Statistical",
+  "expected": "48",
+  "file": "DEVSQ(4,5,8,7,11,4,3)",
+  "got": "48",
+  "name": "DEVSQ",
+  "note": "",
+  "status": "match"
+ },
+ "DGET#1": {
+  "category": "Database",
+  "expected": "\"Eve\"",
+  "file": "DGET(Data!A1:E7,\"Name\",Data!H1:I2)",
+  "got": "0",
+  "name": "DGET",
+  "note": "",
+  "status": "differs"
+ },
+ "DISC#1": {
+  "category": "Financial",
+  "expected": "0.0524202127659574",
+  "file": "DISC(DATE(2007,1,25),DATE(2007,6,15),97.975,100,1)",
+  "got": "0.0524202127659577",
+  "name": "DISC",
+  "note": "",
+  "status": "match"
+ },
+ "DMAX#1": {
+  "category": "Database",
+  "expected": "15",
+  "file": "DMAX(Data!A1:E7,3,Data!G1:G2)",
+  "got": "15",
+  "name": "DMAX",
+  "note": "",
+  "status": "match"
+ },
+ "DMIN#1": {
+  "category": "Database",
+  "expected": "5",
+  "file": "DMIN(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "5",
+  "name": "DMIN",
+  "note": "",
+  "status": "match"
+ },
+ "DOLLAR#1": {
+  "category": "Text",
+  "expected": "\"$1,234.57\"",
+  "file": "DOLLAR(1234.567,2)",
+  "got": "\"$1,234.57\"",
+  "name": "DOLLAR",
+  "note": "",
+  "status": "match"
+ },
+ "DOLLAR#2": {
+  "category": "Text",
+  "expected": "\"($0.1230)\"",
+  "file": "DOLLAR(-0.123,4)",
+  "got": "\"($0.1230)\"",
+  "name": "DOLLAR",
+  "note": "",
+  "status": "match"
+ },
+ "DOLLARDE#1": {
+  "category": "Financial",
+  "expected": "1.125",
+  "file": "DOLLARDE(1.02,16)",
+  "got": "1.125",
+  "name": "DOLLARDE",
+  "note": "",
+  "status": "match"
+ },
+ "DOLLARFR#1": {
+  "category": "Financial",
+  "expected": "1.02",
+  "file": "DOLLARFR(1.125,16)",
+  "got": "1.02",
+  "name": "DOLLARFR",
+  "note": "",
+  "status": "match"
+ },
+ "DPRODUCT#1": {
+  "category": "Database",
+  "expected": "750",
+  "file": "DPRODUCT(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "750",
+  "name": "DPRODUCT",
+  "note": "",
+  "status": "match"
+ },
+ "DROP#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Cid\"",
+  "file": "INDEX(_xlfn.DROP(Data!A2:E7,2),1,1)",
+  "got": "\"Cid\"",
+  "name": "DROP",
+  "note": "",
+  "status": "match"
+ },
+ "DROP#2": {
+  "category": "Lookup and reference",
+  "expected": "4",
+  "file": "ROWS(_xlfn.DROP(Data!A2:E7,-2,1))",
+  "got": "4",
+  "name": "DROP",
+  "note": "",
+  "status": "match"
+ },
+ "DROP#3": {
+  "category": "Lookup and reference",
+  "expected": "6",
+  "file": "INDEX(_xlfn.DROP({1,2,3;4,5,6},1,1),1,2)",
+  "got": "#VALUE!",
+  "name": "DROP",
+  "note": "",
+  "status": "differs"
+ },
+ "DSTDEV#1": {
+  "category": "Database",
+  "expected": "5",
+  "file": "DSTDEV(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "5",
+  "name": "DSTDEV",
+  "note": "",
+  "status": "match"
+ },
+ "DSTDEVP#1": {
+  "category": "Database",
+  "expected": "4.08248290463863",
+  "file": "DSTDEVP(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "4.08248290463863",
+  "name": "DSTDEVP",
+  "note": "",
+  "status": "match"
+ },
+ "DSUM#1": {
+  "category": "Database",
+  "expected": "30",
+  "file": "DSUM(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "30",
+  "name": "DSUM",
+  "note": "",
+  "status": "match"
+ },
+ "DURATION#1": {
+  "category": "Financial",
+  "expected": "10.9191452815",
+  "file": "DURATION(DATE(2018,7,1),DATE(2048,1,1),0.08,0.09,2,1)",
+  "got": "10.9191452815919",
+  "name": "DURATION",
+  "note": "",
+  "status": "match"
+ },
+ "DVAR#1": {
+  "category": "Database",
+  "expected": "25",
+  "file": "DVAR(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "25",
+  "name": "DVAR",
+  "note": "",
+  "status": "match"
+ },
+ "DVARP#1": {
+  "category": "Database",
+  "expected": "16.6666666666667",
+  "file": "DVARP(Data!A1:E7,\"Units\",Data!G1:G2)",
+  "got": "16.6666666666667",
+  "name": "DVARP",
+  "note": "",
+  "status": "match"
+ },
+ "EDATE#1": {
+  "category": "Date and time",
+  "expected": "45351",
+  "file": "EDATE(DATE(2024,1,31),1)",
+  "got": "45351",
+  "name": "EDATE",
+  "note": "",
+  "status": "match"
+ },
+ "EFFECT#1": {
+  "category": "Financial",
+  "expected": "0.0535426673707582",
+  "file": "EFFECT(0.0525,4)",
+  "got": "0.0535426673707582",
+  "name": "EFFECT",
+  "note": "",
+  "status": "match"
+ },
+ "ENCODEURL#1": {
+  "category": "Web",
+  "expected": "\"http%3A%2F%2Fa%20b%2F%3Fx%3D1%26y%3D%C3%A9\"",
+  "file": "_xlfn.ENCODEURL(\"http://a b/?x=1&y=é\")",
+  "got": "#NAME?",
+  "name": "ENCODEURL",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "EOMONTH#1": {
+  "category": "Date and time",
+  "expected": "45230",
+  "file": "EOMONTH(DATE(2024,1,15),-3)",
+  "got": "45230",
+  "name": "EOMONTH",
+  "note": "",
+  "status": "match"
+ },
+ "ERF#1": {
+  "category": "Engineering",
+  "expected": "0.707928920095738",
+  "file": "ERF(0.745)",
+  "got": "0.707928920095738",
+  "name": "ERF",
+  "note": "",
+  "status": "match"
+ },
+ "ERF#2": {
+  "category": "Engineering",
+  "expected": "0.152621472069238",
+  "file": "ERF(1,2)",
+  "got": "0.152621472069238",
+  "name": "ERF",
+  "note": "",
+  "status": "match"
+ },
+ "ERF.PRECISE#1": {
+  "category": "Engineering",
+  "expected": "0.842700792949715",
+  "file": "_xlfn.ERF.PRECISE(1)",
+  "got": "0.842700792949715",
+  "name": "ERF.PRECISE",
+  "note": "",
+  "status": "match"
+ },
+ "ERFC#1": {
+  "category": "Engineering",
+  "expected": "0.157299207050285",
+  "file": "ERFC(1)",
+  "got": "0.157299207050285",
+  "name": "ERFC",
+  "note": "",
+  "status": "match"
+ },
+ "ERFC.PRECISE#1": {
+  "category": "Engineering",
+  "expected": "0.157299207050285",
+  "file": "_xlfn.ERFC.PRECISE(1)",
+  "got": "0.157299207050285",
+  "name": "ERFC.PRECISE",
+  "note": "",
+  "status": "match"
+ },
+ "ERROR.TYPE#1": {
+  "category": "Information",
+  "expected": "2",
+  "file": "ERROR.TYPE(1/0)",
+  "got": "2",
+  "name": "ERROR.TYPE",
+  "note": "",
+  "status": "match"
+ },
+ "ERROR.TYPE#2": {
+  "category": "Information",
+  "expected": "7",
+  "file": "ERROR.TYPE(NA())",
+  "got": "7",
+  "name": "ERROR.TYPE",
+  "note": "",
+  "status": "match"
+ },
+ "EUROCONVERT#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "0.61",
+  "file": "EUROCONVERT(1.2,\"DEM\",\"EUR\")",
+  "got": "#NAME?",
+  "name": "EUROCONVERT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "EVEN#1": {
+  "category": "Math and trigonometry",
+  "expected": "-2",
+  "file": "EVEN(-1)",
+  "got": "-2",
+  "name": "EVEN",
+  "note": "",
+  "status": "match"
+ },
+ "EVEN#2": {
+  "category": "Math and trigonometry",
+  "expected": "2",
+  "file": "EVEN(1.5)",
+  "got": "2",
+  "name": "EVEN",
+  "note": "",
+  "status": "match"
+ },
+ "EXACT#1": {
+  "category": "Text",
+  "expected": "FALSE",
+  "file": "EXACT(\"word\",\"Word\")",
+  "got": "FALSE",
+  "name": "EXACT",
+  "note": "",
+  "status": "match"
+ },
+ "EXP#1": {
+  "category": "Math and trigonometry",
+  "expected": "7.38905609893065",
+  "file": "EXP(2)",
+  "got": "7.38905609893065",
+  "name": "EXP",
+  "note": "",
+  "status": "match"
+ },
+ "EXPAND#1": {
+  "category": "Lookup and reference",
+  "expected": "0",
+  "file": "INDEX(_xlfn.EXPAND({1,2;3,4},3,3,0),3,3)",
+  "got": "0",
+  "name": "EXPAND",
+  "note": "",
+  "status": "match"
+ },
+ "EXPAND#2": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "INDEX(_xlfn.EXPAND({1,2;3,4},3,3),3,3)",
+  "got": "#N/A",
+  "name": "EXPAND",
+  "note": "",
+  "status": "match"
+ },
+ "EXPAND#3": {
+  "category": "Lookup and reference",
+  "expected": "4",
+  "file": "ROWS(_xlfn.EXPAND({1,2},4))",
+  "got": "4",
+  "name": "EXPAND",
+  "note": "",
+  "status": "match"
+ },
+ "EXPON.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.864664716763387",
+  "file": "_xlfn.EXPON.DIST(0.2,10,TRUE)",
+  "got": "0.864664716763387",
+  "name": "EXPON.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "EXPON.DIST#2": {
+  "category": "Statistical",
+  "expected": "1.35335283236613",
+  "file": "_xlfn.EXPON.DIST(0.2,10,FALSE)",
+  "got": "1.35335283236613",
+  "name": "EXPON.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "EXPONDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.864664716763387",
+  "file": "EXPONDIST(0.2,10,TRUE)",
+  "got": "0.864664716763387",
+  "name": "EXPONDIST",
+  "note": "",
+  "status": "match"
+ },
+ "F.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.990000000047535",
+  "file": "_xlfn.F.DIST(15.2068649,6,4,TRUE)",
+  "got": "0.990000000047535",
+  "name": "F.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "F.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.00122379958977967",
+  "file": "_xlfn.F.DIST(15.2068649,6,4,FALSE)",
+  "got": "0.00122379958977966",
+  "name": "F.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "F.DIST.RT#1": {
+  "category": "Statistical",
+  "expected": "0.0099999999524646",
+  "file": "_xlfn.F.DIST.RT(15.2068649,6,4)",
+  "got": "0.0099999999524646",
+  "name": "F.DIST.RT",
+  "note": "",
+  "status": "match"
+ },
+ "F.INV#1": {
+  "category": "Statistical",
+  "expected": "0.109309914124579",
+  "file": "_xlfn.F.INV(0.01,6,4)",
+  "got": "0.109309914124579",
+  "name": "F.INV",
+  "note": "",
+  "status": "match"
+ },
+ "F.INV.RT#1": {
+  "category": "Statistical",
+  "expected": "15.2068648611575",
+  "file": "_xlfn.F.INV.RT(0.01,6,4)",
+  "got": "15.2068648611575",
+  "name": "F.INV.RT",
+  "note": "",
+  "status": "match"
+ },
+ "F.TEST#1": {
+  "category": "Statistical",
+  "expected": "0.648317846786175",
+  "file": "_xlfn.F.TEST({6,7,9,15,21},{20,28,31,38,40})",
+  "got": "0.648317846786175",
+  "name": "F.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "FACT#1": {
+  "category": "Math and trigonometry",
+  "expected": "120",
+  "file": "FACT(5)",
+  "got": "120",
+  "name": "FACT",
+  "note": "",
+  "status": "match"
+ },
+ "FACT#2": {
+  "category": "Math and trigonometry",
+  "expected": "1",
+  "file": "FACT(1.9)",
+  "got": "1",
+  "name": "FACT",
+  "note": "",
+  "status": "match"
+ },
+ "FACTDOUBLE#1": {
+  "category": "Math and trigonometry",
+  "expected": "105",
+  "file": "FACTDOUBLE(7)",
+  "got": "105",
+  "name": "FACTDOUBLE",
+  "note": "",
+  "status": "match"
+ },
+ "FALSE#1": {
+  "category": "Logical",
+  "expected": "FALSE",
+  "file": "FALSE()",
+  "got": "FALSE",
+  "name": "FALSE",
+  "note": "",
+  "status": "match"
+ },
+ "FDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0099999999524646",
+  "file": "FDIST(15.2068649,6,4)",
+  "got": "0.0099999999524646",
+  "name": "FDIST",
+  "note": "",
+  "status": "match"
+ },
+ "FIELDVALUE#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.FIELDVALUE(Data!A2,\"Population\")",
+  "got": "#NAME?",
+  "name": "FIELDVALUE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "FILTER#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Eve\"",
+  "file": "INDEX(_xlfn._xlws.FILTER(Data!A2:A7,Data!C2:C7>20),2)",
+  "got": "\"Eve\"",
+  "name": "FILTER",
+  "note": "",
+  "status": "match"
+ },
+ "FILTER#2": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "ROWS(_xlfn._xlws.FILTER(Data!A2:C7,Data!B2:B7=\"East\"))",
+  "got": "3",
+  "name": "FILTER",
+  "note": "",
+  "status": "match"
+ },
+ "FILTER#3": {
+  "category": "Lookup and reference",
+  "expected": "\"none\"",
+  "file": "_xlfn._xlws.FILTER(Data!A2:A7,Data!C2:C7>100,\"none\")",
+  "got": "\"none\"",
+  "name": "FILTER",
+  "note": "",
+  "status": "match"
+ },
+ "FILTER#4": {
+  "category": "Lookup and reference",
+  "expected": "50",
+  "file": "SUM(_xlfn._xlws.FILTER(Data!C2:C7,(Data!B2:B7=\"West\")+(Data!C2:C7<10)))",
+  "got": "50",
+  "name": "FILTER",
+  "note": "",
+  "status": "match"
+ },
+ "FILTERXML#1": {
+  "category": "Web",
+  "expected": "2",
+  "file": "INDEX(_xlfn.FILTERXML(\"<a><b>1</b><b>2</b></a>\",\"//b\"),2)",
+  "got": "#NAME?",
+  "name": "FILTERXML",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "FIND#1": {
+  "category": "Text",
+  "expected": "8",
+  "file": "FIND(\"M\",\"Miriam McGovern\",3)",
+  "got": "8",
+  "name": "FIND",
+  "note": "",
+  "status": "match"
+ },
+ "FIND#2": {
+  "category": "Text",
+  "expected": "#VALUE!",
+  "file": "FIND(\"z\",\"abc\")",
+  "got": "#VALUE!",
+  "name": "FIND",
+  "note": "",
+  "status": "match"
+ },
+ "FINDB#1": {
+  "category": "Text",
+  "expected": "3",
+  "file": "FINDB(\"c\",\"abc\")",
+  "got": "3",
+  "name": "FINDB",
+  "note": "",
+  "status": "match"
+ },
+ "FINV#1": {
+  "category": "Compatibility",
+  "expected": "15.2068648611575",
+  "file": "FINV(0.01,6,4)",
+  "got": "15.2068648611575",
+  "name": "FINV",
+  "note": "",
+  "status": "match"
+ },
+ "FISHER#1": {
+  "category": "Statistical",
+  "expected": "0.972955074527657",
+  "file": "FISHER(0.75)",
+  "got": "0.972955074527657",
+  "name": "FISHER",
+  "note": "",
+  "status": "match"
+ },
+ "FISHERINV#1": {
+  "category": "Statistical",
+  "expected": "0.749999967394148",
+  "file": "FISHERINV(0.972955)",
+  "got": "0.749999967394148",
+  "name": "FISHERINV",
+  "note": "",
+  "status": "match"
+ },
+ "FIXED#1": {
+  "category": "Text",
+  "expected": "\"1,230\"",
+  "file": "FIXED(1234.567,-1)",
+  "got": "\"1,230\"",
+  "name": "FIXED",
+  "note": "",
+  "status": "match"
+ },
+ "FIXED#2": {
+  "category": "Text",
+  "expected": "\"-1234.6\"",
+  "file": "FIXED(-1234.567,1,TRUE)",
+  "got": "\"-1234.6\"",
+  "name": "FIXED",
+  "note": "",
+  "status": "match"
+ },
+ "FLOOR#1": {
+  "category": "Math and trigonometry",
+  "expected": "-2",
+  "file": "FLOOR(-2.5,-2)",
+  "got": "-2",
+  "name": "FLOOR",
+  "note": "",
+  "status": "match"
+ },
+ "FLOOR#2": {
+  "category": "Math and trigonometry",
+  "expected": "1.5",
+  "file": "FLOOR(1.58,0.1)",
+  "got": "1.5",
+  "name": "FLOOR",
+  "note": "",
+  "status": "match"
+ },
+ "FLOOR#3": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "FLOOR(-2.5,2)",
+  "got": "#NUM!",
+  "name": "FLOOR",
+  "note": "",
+  "status": "differs"
+ },
+ "FLOOR.MATH#1": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "_xlfn.FLOOR.MATH(-5.5,2,-1)",
+  "got": "-4",
+  "name": "FLOOR.MATH",
+  "note": "",
+  "status": "match"
+ },
+ "FLOOR.PRECISE#1": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "_xlfn.FLOOR.PRECISE(-3.2,-1)",
+  "got": "-4",
+  "name": "FLOOR.PRECISE",
+  "note": "",
+  "status": "match"
+ },
+ "FORECAST#1": {
+  "category": "Statistical",
+  "expected": "10.60725308642",
+  "file": "FORECAST(30,{6,7,9,15,21},{20,28,31,38,40})",
+  "got": "10.6072530864198",
+  "name": "FORECAST",
+  "note": "",
+  "status": "match"
+ },
+ "FORECAST.ETS#1": {
+  "category": "Statistical",
+  "expected": "1",
+  "file": "_xlfn.FORECAST.ETS(13,{1,2,3,1,2,3,1,2,3,1,2,3},{1,2,3,4,5,6,7,8,9,10,11,12})",
+  "got": "#NUM!",
+  "name": "FORECAST.ETS",
+  "note": "",
+  "status": "differs"
+ },
+ "FORECAST.ETS.CONFINT#1": {
+  "category": "Statistical",
+  "expected": "(any number)",
+  "file": "_xlfn.FORECAST.ETS.CONFINT(13,{1,2,3,1,2,3,1,2,3,1,2,4},{1,2,3,4,5,6,7,8,9,10,11,12})",
+  "got": "#NUM!",
+  "name": "FORECAST.ETS.CONFINT",
+  "note": "",
+  "status": "differs"
+ },
+ "FORECAST.ETS.SEASONALITY#1": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "_xlfn.FORECAST.ETS.SEASONALITY({1,2,3,1,2,3,1,2,3,1,2,3},{1,2,3,4,5,6,7,8,9,10,11,12})",
+  "got": "1",
+  "name": "FORECAST.ETS.SEASONALITY",
+  "note": "",
+  "status": "differs"
+ },
+ "FORECAST.ETS.STAT#1": {
+  "category": "Statistical",
+  "expected": "(any number)",
+  "file": "_xlfn.FORECAST.ETS.STAT({1,2,3,1,2,3,1,2,3,1,2,4},{1,2,3,4,5,6,7,8,9,10,11,12},8)",
+  "got": "1.79769313486232e+308",
+  "name": "FORECAST.ETS.STAT",
+  "note": "recognised",
+  "status": "match"
+ },
+ "FORECAST.LINEAR#1": {
+  "category": "Statistical",
+  "expected": "10.60725308642",
+  "file": "_xlfn.FORECAST.LINEAR(30,{6,7,9,15,21},{20,28,31,38,40})",
+  "got": "10.6072530864198",
+  "name": "FORECAST.LINEAR",
+  "note": "",
+  "status": "match"
+ },
+ "FORMULATEXT#1": {
+  "category": "Lookup and reference",
+  "expected": "\"=C2*D2\"",
+  "file": "_xlfn.FORMULATEXT(Data!F2)",
+  "got": "\"=C2*D2\"",
+  "name": "FORMULATEXT",
+  "note": "",
+  "status": "match"
+ },
+ "FREQUENCY#1": {
+  "category": "Statistical",
+  "expected": "4",
+  "file": "INDEX(FREQUENCY({79,85,78,85,50,81,95,88,97},{70,79,89}),3)",
+  "got": "4",
+  "name": "FREQUENCY",
+  "note": "",
+  "status": "match"
+ },
+ "FTEST#1": {
+  "category": "Compatibility",
+  "expected": "0.648317846786175",
+  "file": "FTEST({6,7,9,15,21},{20,28,31,38,40})",
+  "got": "0.648317846786175",
+  "name": "FTEST",
+  "note": "",
+  "status": "match"
+ },
+ "FV#1": {
+  "category": "Financial",
+  "expected": "2581.40337406014",
+  "file": "FV(0.06/12,10,-200,-500,1)",
+  "got": "2581.40337406014",
+  "name": "FV",
+  "note": "",
+  "status": "match"
+ },
+ "FV#2": {
+  "category": "Financial",
+  "expected": "1000",
+  "file": "FV(0,10,-100)",
+  "got": "1000",
+  "name": "FV",
+  "note": "",
+  "status": "match"
+ },
+ "FVSCHEDULE#1": {
+  "category": "Financial",
+  "expected": "1.33089",
+  "file": "FVSCHEDULE(1,{0.09,0.11,0.1})",
+  "got": "1.33089",
+  "name": "FVSCHEDULE",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMA#1": {
+  "category": "Statistical",
+  "expected": "1.32934038817914",
+  "file": "_xlfn.GAMMA(2.5)",
+  "got": "1.32934038817914",
+  "name": "GAMMA",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMA#2": {
+  "category": "Statistical",
+  "expected": "#NUM!",
+  "file": "_xlfn.GAMMA(-1)",
+  "got": "#NUM!",
+  "name": "GAMMA",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMA.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.032639130418294",
+  "file": "_xlfn.GAMMA.DIST(10.00001131,9,2,FALSE)",
+  "got": "0.032639130418294",
+  "name": "GAMMA.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMA.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.0680940038697872",
+  "file": "_xlfn.GAMMA.DIST(10.00001131,9,2,TRUE)",
+  "got": "0.0680940038697872",
+  "name": "GAMMA.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMA.INV#1": {
+  "category": "Statistical",
+  "expected": "10.0000111914372",
+  "file": "_xlfn.GAMMA.INV(0.068094,9,2)",
+  "got": "10.0000111914372",
+  "name": "GAMMA.INV",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMADIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0680940038697872",
+  "file": "GAMMADIST(10.00001131,9,2,TRUE)",
+  "got": "0.0680940038697872",
+  "name": "GAMMADIST",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMAINV#1": {
+  "category": "Compatibility",
+  "expected": "10.0000111914372",
+  "file": "GAMMAINV(0.068094,9,2)",
+  "got": "10.0000111914372",
+  "name": "GAMMAINV",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMALN#1": {
+  "category": "Statistical",
+  "expected": "1.79175946922806",
+  "file": "GAMMALN(4)",
+  "got": "1.79175946922805",
+  "name": "GAMMALN",
+  "note": "",
+  "status": "match"
+ },
+ "GAMMALN.PRECISE#1": {
+  "category": "Statistical",
+  "expected": "1.79175946922806",
+  "file": "_xlfn.GAMMALN.PRECISE(4)",
+  "got": "1.79175946922805",
+  "name": "GAMMALN.PRECISE",
+  "note": "",
+  "status": "match"
+ },
+ "GAUSS#1": {
+  "category": "Statistical",
+  "expected": "0.477249868051821",
+  "file": "_xlfn.GAUSS(2)",
+  "got": "0.477249868051821",
+  "name": "GAUSS",
+  "note": "",
+  "status": "match"
+ },
+ "GCD#1": {
+  "category": "Math and trigonometry",
+  "expected": "12",
+  "file": "GCD(24,36)",
+  "got": "12",
+  "name": "GCD",
+  "note": "",
+  "status": "match"
+ },
+ "GEOMEAN#1": {
+  "category": "Statistical",
+  "expected": "5.47698696965696",
+  "file": "GEOMEAN(4,5,8,7,11,4,3)",
+  "got": "5.47698696965696",
+  "name": "GEOMEAN",
+  "note": "",
+  "status": "match"
+ },
+ "GESTEP#1": {
+  "category": "Engineering",
+  "expected": "1",
+  "file": "GESTEP(5,4)",
+  "got": "1",
+  "name": "GESTEP",
+  "note": "",
+  "status": "match"
+ },
+ "GETPIVOTDATA#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "GETPIVOTDATA(\"Units\",Data!A1)",
+  "got": "#REF!",
+  "name": "GETPIVOTDATA",
+  "note": "recognised",
+  "status": "match"
+ },
+ "GROUPBY#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "45",
+  "file": "INDEX(_xlfn.GROUPBY(Data!B2:B7,Data!C2:C7,_xleta.SUM),3,2)",
+  "got": "#REF!",
+  "name": "GROUPBY",
+  "note": "",
+  "status": "differs"
+ },
+ "GROWTH#1": {
+  "category": "Statistical",
+  "expected": "320196.718363473",
+  "file": "GROWTH({33100,47300,69000,102000,150000,220000},{11,12,13,14,15,16},{17})",
+  "got": "320196.718363473",
+  "name": "GROWTH",
+  "note": "",
+  "status": "match"
+ },
+ "HARMEAN#1": {
+  "category": "Statistical",
+  "expected": "5.02837596206173",
+  "file": "HARMEAN(4,5,8,7,11,4,3)",
+  "got": "5.02837596206173",
+  "name": "HARMEAN",
+  "note": "",
+  "status": "match"
+ },
+ "HEX2BIN#1": {
+  "category": "Engineering",
+  "expected": "\"00001111\"",
+  "file": "HEX2BIN(\"F\",8)",
+  "got": "\"00001111\"",
+  "name": "HEX2BIN",
+  "note": "",
+  "status": "match"
+ },
+ "HEX2DEC#1": {
+  "category": "Engineering",
+  "expected": "-165",
+  "file": "HEX2DEC(\"FFFFFFFF5B\")",
+  "got": "-165",
+  "name": "HEX2DEC",
+  "note": "",
+  "status": "match"
+ },
+ "HEX2OCT#1": {
+  "category": "Engineering",
+  "expected": "\"35516\"",
+  "file": "HEX2OCT(\"3B4E\")",
+  "got": "\"35516\"",
+  "name": "HEX2OCT",
+  "note": "",
+  "status": "match"
+ },
+ "HLOOKUP#1": {
+  "category": "Lookup and reference",
+  "expected": "20",
+  "file": "HLOOKUP(\"Units\",Data!A1:E7,3,FALSE)",
+  "got": "20",
+  "name": "HLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "HLOOKUP#2": {
+  "category": "Lookup and reference",
+  "expected": "\"c\"",
+  "file": "HLOOKUP(3,{1,2,3;\"a\",\"b\",\"c\"},2,TRUE)",
+  "got": "\"c\"",
+  "name": "HLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "HOUR#1": {
+  "category": "Date and time",
+  "expected": "18",
+  "file": "HOUR(0.75)",
+  "got": "18",
+  "name": "HOUR",
+  "note": "",
+  "status": "match"
+ },
+ "HOUR#2": {
+  "category": "Date and time",
+  "expected": "15",
+  "file": "HOUR(\"3:30:30 PM\")",
+  "got": "15",
+  "name": "HOUR",
+  "note": "",
+  "status": "match"
+ },
+ "HSTACK#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(_xlfn.HSTACK({1,2},{3,4}),1,3)",
+  "got": "3",
+  "name": "HSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "HSTACK#2": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "COLUMNS(_xlfn.HSTACK(Data!A2:B7,Data!C2:C7))",
+  "got": "3",
+  "name": "HSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "HSTACK#3": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "INDEX(_xlfn.HSTACK({1;2},{3}),2,2)",
+  "got": "#N/A",
+  "name": "HSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "HYPERLINK#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Example\"",
+  "file": "HYPERLINK(\"https://example.com/\",\"Example\")",
+  "got": "\"Example\"",
+  "name": "HYPERLINK",
+  "note": "",
+  "status": "match"
+ },
+ "HYPGEOM.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.465428276573787",
+  "file": "_xlfn.HYPGEOM.DIST(1,4,8,20,TRUE)",
+  "got": "0.465428276573787",
+  "name": "HYPGEOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "HYPGEOM.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.363261093911249",
+  "file": "_xlfn.HYPGEOM.DIST(1,4,8,20,FALSE)",
+  "got": "0.363261093911249",
+  "name": "HYPGEOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "HYPGEOMDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.363261093911249",
+  "file": "HYPGEOMDIST(1,4,8,20)",
+  "got": "0.363261093911249",
+  "name": "HYPGEOMDIST",
+  "note": "",
+  "status": "match"
+ },
+ "IF#1": {
+  "category": "Logical",
+  "expected": "\"big\"",
+  "file": "IF(Data!C2>5,\"big\",\"small\")",
+  "got": "\"big\"",
+  "name": "IF",
+  "note": "",
+  "status": "match"
+ },
+ "IF#2": {
+  "category": "Logical",
+  "expected": "FALSE",
+  "file": "IF(FALSE,1)",
+  "got": "FALSE",
+  "name": "IF",
+  "note": "",
+  "status": "match"
+ },
+ "IFERROR#1": {
+  "category": "Logical",
+  "expected": "\"none\"",
+  "file": "IFERROR(1/0,\"none\")",
+  "got": "\"none\"",
+  "name": "IFERROR",
+  "note": "",
+  "status": "match"
+ },
+ "IFNA#1": {
+  "category": "Logical",
+  "expected": "\"missing\"",
+  "file": "_xlfn.IFNA(VLOOKUP(\"zz\",Data!A2:C7,3,FALSE),\"missing\")",
+  "got": "\"missing\"",
+  "name": "IFNA",
+  "note": "",
+  "status": "match"
+ },
+ "IFS#1": {
+  "category": "Logical",
+  "expected": "\"B\"",
+  "file": "_xlfn.IFS(Data!C3>25,\"A\",Data!C3>15,\"B\",TRUE,\"C\")",
+  "got": "\"B\"",
+  "name": "IFS",
+  "note": "",
+  "status": "match"
+ },
+ "IFS#2": {
+  "category": "Logical",
+  "expected": "#N/A",
+  "file": "_xlfn.IFS(FALSE,1)",
+  "got": "#N/A",
+  "name": "IFS",
+  "note": "",
+  "status": "match"
+ },
+ "IMABS#1": {
+  "category": "Engineering",
+  "expected": "13",
+  "file": "IMABS(\"5+12i\")",
+  "got": "13",
+  "name": "IMABS",
+  "note": "",
+  "status": "match"
+ },
+ "IMAGE#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.IMAGE(\"https://example.com/logo.png\")",
+  "got": "#NAME?",
+  "name": "IMAGE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "IMAGINARY#1": {
+  "category": "Engineering",
+  "expected": "4",
+  "file": "IMAGINARY(\"3+4i\")",
+  "got": "4",
+  "name": "IMAGINARY",
+  "note": "",
+  "status": "match"
+ },
+ "IMARGUMENT#1": {
+  "category": "Engineering",
+  "expected": "0.927295218001612",
+  "file": "IMARGUMENT(\"3+4i\")",
+  "got": "0.927295218001612",
+  "name": "IMARGUMENT",
+  "note": "",
+  "status": "match"
+ },
+ "IMCONJUGATE#1": {
+  "category": "Engineering",
+  "expected": "\"3-4i\"",
+  "file": "IMCONJUGATE(\"3+4i\")",
+  "got": "\"3-4i\"",
+  "name": "IMCONJUGATE",
+  "note": "",
+  "status": "match"
+ },
+ "IMCOS#1": {
+  "category": "Engineering",
+  "expected": "0.833730025131149",
+  "file": "IMREAL(IMCOS(\"1+i\"))",
+  "got": "0.833730025131149",
+  "name": "IMCOS",
+  "note": "",
+  "status": "match"
+ },
+ "IMCOSH#1": {
+  "category": "Engineering",
+  "expected": "3.85115333481178",
+  "file": "IMAGINARY(_xlfn.IMCOSH(\"4+3i\"))",
+  "got": "3.85115333481178",
+  "name": "IMCOSH",
+  "note": "",
+  "status": "match"
+ },
+ "IMCOT#1": {
+  "category": "Engineering",
+  "expected": "0.00490118239430447",
+  "file": "IMREAL(_xlfn.IMCOT(\"4+3i\"))",
+  "got": "0.00490118239430447",
+  "name": "IMCOT",
+  "note": "",
+  "status": "match"
+ },
+ "IMCSC#1": {
+  "category": "Engineering",
+  "expected": "0.0648774713706355",
+  "file": "IMAGINARY(_xlfn.IMCSC(\"4+3i\"))",
+  "got": "0.0648774713706355",
+  "name": "IMCSC",
+  "note": "",
+  "status": "match"
+ },
+ "IMCSCH#1": {
+  "category": "Engineering",
+  "expected": "-0.036275889628626",
+  "file": "IMREAL(_xlfn.IMCSCH(\"4+3i\"))",
+  "got": "-0.036275889628626",
+  "name": "IMCSCH",
+  "note": "",
+  "status": "match"
+ },
+ "IMDIV#1": {
+  "category": "Engineering",
+  "expected": "\"5+12i\"",
+  "file": "IMDIV(\"-238+240i\",\"10+24i\")",
+  "got": "\"5+12i\"",
+  "name": "IMDIV",
+  "note": "",
+  "status": "match"
+ },
+ "IMEXP#1": {
+  "category": "Engineering",
+  "expected": "2.28735528717884",
+  "file": "IMAGINARY(IMEXP(\"1+i\"))",
+  "got": "2.28735528717884",
+  "name": "IMEXP",
+  "note": "",
+  "status": "match"
+ },
+ "IMLN#1": {
+  "category": "Engineering",
+  "expected": "1.6094379124341",
+  "file": "IMREAL(IMLN(\"3+4i\"))",
+  "got": "1.6094379124341",
+  "name": "IMLN",
+  "note": "",
+  "status": "match"
+ },
+ "IMLOG10#1": {
+  "category": "Engineering",
+  "expected": "0.402719196273373",
+  "file": "IMAGINARY(IMLOG10(\"3+4i\"))",
+  "got": "0.402719196273373",
+  "name": "IMLOG10",
+  "note": "",
+  "status": "match"
+ },
+ "IMLOG2#1": {
+  "category": "Engineering",
+  "expected": "2.32192809488736",
+  "file": "IMREAL(IMLOG2(\"3+4i\"))",
+  "got": "2.32192809488736",
+  "name": "IMLOG2",
+  "note": "",
+  "status": "match"
+ },
+ "IMPOWER#1": {
+  "category": "Engineering",
+  "expected": "-46",
+  "file": "IMREAL(IMPOWER(\"2+3i\",3))",
+  "got": "-46",
+  "name": "IMPOWER",
+  "note": "",
+  "status": "match"
+ },
+ "IMPRODUCT#1": {
+  "category": "Engineering",
+  "expected": "\"27+11i\"",
+  "file": "IMPRODUCT(\"3+4i\",\"5-3i\")",
+  "got": "\"27+11i\"",
+  "name": "IMPRODUCT",
+  "note": "",
+  "status": "match"
+ },
+ "IMREAL#1": {
+  "category": "Engineering",
+  "expected": "6",
+  "file": "IMREAL(\"6-9i\")",
+  "got": "6",
+  "name": "IMREAL",
+  "note": "",
+  "status": "match"
+ },
+ "IMSEC#1": {
+  "category": "Engineering",
+  "expected": "-0.065294027857947",
+  "file": "IMREAL(_xlfn.IMSEC(\"4+3i\"))",
+  "got": "-0.0652940278579471",
+  "name": "IMSEC",
+  "note": "",
+  "status": "match"
+ },
+ "IMSECH#1": {
+  "category": "Engineering",
+  "expected": "-0.0362534969158689",
+  "file": "IMREAL(_xlfn.IMSECH(\"4+3i\"))",
+  "got": "-0.0362534969158689",
+  "name": "IMSECH",
+  "note": "",
+  "status": "match"
+ },
+ "IMSIN#1": {
+  "category": "Engineering",
+  "expected": "-7.61923172032141",
+  "file": "IMREAL(IMSIN(\"4+3i\"))",
+  "got": "-7.61923172032141",
+  "name": "IMSIN",
+  "note": "",
+  "status": "match"
+ },
+ "IMSINH#1": {
+  "category": "Engineering",
+  "expected": "3.85373803791938",
+  "file": "IMAGINARY(_xlfn.IMSINH(\"4+3i\"))",
+  "got": "3.85373803791938",
+  "name": "IMSINH",
+  "note": "",
+  "status": "match"
+ },
+ "IMSQRT#1": {
+  "category": "Engineering",
+  "expected": "1.09868411346781",
+  "file": "IMREAL(IMSQRT(\"1+i\"))",
+  "got": "1.09868411346781",
+  "name": "IMSQRT",
+  "note": "",
+  "status": "match"
+ },
+ "IMSUB#1": {
+  "category": "Engineering",
+  "expected": "\"8+i\"",
+  "file": "IMSUB(\"13+4i\",\"5+3i\")",
+  "got": "\"8+i\"",
+  "name": "IMSUB",
+  "note": "",
+  "status": "match"
+ },
+ "IMSUM#1": {
+  "category": "Engineering",
+  "expected": "\"8+i\"",
+  "file": "IMSUM(\"3+4i\",\"5-3i\")",
+  "got": "\"8+i\"",
+  "name": "IMSUM",
+  "note": "",
+  "status": "match"
+ },
+ "IMTAN#1": {
+  "category": "Engineering",
+  "expected": "1.00070953606723",
+  "file": "IMAGINARY(_xlfn.IMTAN(\"4+3i\"))",
+  "got": "1.00070953606723",
+  "name": "IMTAN",
+  "note": "",
+  "status": "match"
+ },
+ "INDEX#1": {
+  "category": "Lookup and reference",
+  "expected": "\"West\"",
+  "file": "INDEX(Data!A1:E7,3,2)",
+  "got": "\"West\"",
+  "name": "INDEX",
+  "note": "",
+  "status": "match"
+ },
+ "INDEX#2": {
+  "category": "Lookup and reference",
+  "expected": "105",
+  "file": "SUM(INDEX(Data!A1:E7,0,3))",
+  "got": "105",
+  "name": "INDEX",
+  "note": "",
+  "status": "match"
+ },
+ "INDEX#3": {
+  "category": "Lookup and reference",
+  "expected": "10",
+  "file": "INDEX((Data!A1:B3,Data!C1:E7),2,1,2)",
+  "got": "#NAME?",
+  "name": "INDEX",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "INDIRECT#1": {
+  "category": "Lookup and reference",
+  "expected": "20",
+  "file": "INDIRECT(\"Data!C\"&3)",
+  "got": "20",
+  "name": "INDIRECT",
+  "note": "",
+  "status": "match"
+ },
+ "INDIRECT#2": {
+  "category": "Lookup and reference",
+  "expected": "15",
+  "file": "INDIRECT(\"'Data'!R4C3\",FALSE)",
+  "got": "15",
+  "name": "INDIRECT",
+  "note": "",
+  "status": "match"
+ },
+ "INFO#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "LEN(INFO(\"osversion\"))>0",
+  "got": "#NAME?",
+  "name": "INFO",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "INT#1": {
+  "category": "Math and trigonometry",
+  "expected": "-9",
+  "file": "INT(-8.9)",
+  "got": "-9",
+  "name": "INT",
+  "note": "",
+  "status": "match"
+ },
+ "INTERCEPT#1": {
+  "category": "Statistical",
+  "expected": "0.0483870967741935",
+  "file": "INTERCEPT({2,3,9,1,8},{6,5,11,7,5})",
+  "got": "0.0483870967741922",
+  "name": "INTERCEPT",
+  "note": "",
+  "status": "match"
+ },
+ "INTRATE#1": {
+  "category": "Financial",
+  "expected": "0.05768",
+  "file": "INTRATE(DATE(2008,2,15),DATE(2008,5,15),1000000,1014420,2)",
+  "got": "0.0576800000000004",
+  "name": "INTRATE",
+  "note": "",
+  "status": "match"
+ },
+ "IPMT#1": {
+  "category": "Financial",
+  "expected": "-66.6666666666667",
+  "file": "IPMT(0.1/12,1,3*12,8000)",
+  "got": "-66.6666666666667",
+  "name": "IPMT",
+  "note": "",
+  "status": "match"
+ },
+ "IPMT#2": {
+  "category": "Financial",
+  "expected": "-292.447129909366",
+  "file": "IPMT(0.1,3,3,8000)",
+  "got": "-292.447129909366",
+  "name": "IPMT",
+  "note": "",
+  "status": "match"
+ },
+ "IRR#1": {
+  "category": "Financial",
+  "expected": "0.0866309480365316",
+  "file": "IRR({-70000,12000,15000,18000,21000,26000})",
+  "got": "0.0866309480365317",
+  "name": "IRR",
+  "note": "",
+  "status": "match"
+ },
+ "IRR#2": {
+  "category": "Financial",
+  "expected": "-0.443506941334741",
+  "file": "IRR({-70000,12000,15000},-0.1)",
+  "got": "-0.443506941334505",
+  "name": "IRR",
+  "note": "",
+  "status": "match"
+ },
+ "ISBLANK#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISBLANK(Data!L1)",
+  "got": "TRUE",
+  "name": "ISBLANK",
+  "note": "",
+  "status": "match"
+ },
+ "ISBLANK#2": {
+  "category": "Information",
+  "expected": "FALSE",
+  "file": "ISBLANK(Data!L2)",
+  "got": "FALSE",
+  "name": "ISBLANK",
+  "note": "",
+  "status": "match"
+ },
+ "ISERR#1": {
+  "category": "Information",
+  "expected": "FALSE",
+  "file": "ISERR(NA())",
+  "got": "FALSE",
+  "name": "ISERR",
+  "note": "",
+  "status": "match"
+ },
+ "ISERROR#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISERROR(NA())",
+  "got": "TRUE",
+  "name": "ISERROR",
+  "note": "",
+  "status": "match"
+ },
+ "ISEVEN#1": {
+  "category": "Information",
+  "expected": "FALSE",
+  "file": "ISEVEN(-1)",
+  "got": "FALSE",
+  "name": "ISEVEN",
+  "note": "",
+  "status": "match"
+ },
+ "ISEVEN#2": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISEVEN(2.5)",
+  "got": "TRUE",
+  "name": "ISEVEN",
+  "note": "",
+  "status": "match"
+ },
+ "ISFORMULA#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "_xlfn.ISFORMULA(Data!F2)",
+  "got": "TRUE",
+  "name": "ISFORMULA",
+  "note": "",
+  "status": "match"
+ },
+ "ISLOGICAL#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISLOGICAL(TRUE)",
+  "got": "TRUE",
+  "name": "ISLOGICAL",
+  "note": "",
+  "status": "match"
+ },
+ "ISNA#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISNA(NA())",
+  "got": "TRUE",
+  "name": "ISNA",
+  "note": "",
+  "status": "match"
+ },
+ "ISNONTEXT#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISNONTEXT(Data!L1)",
+  "got": "TRUE",
+  "name": "ISNONTEXT",
+  "note": "",
+  "status": "match"
+ },
+ "ISNUMBER#1": {
+  "category": "Information",
+  "expected": "FALSE",
+  "file": "ISNUMBER(\"4\")",
+  "got": "FALSE",
+  "name": "ISNUMBER",
+  "note": "",
+  "status": "match"
+ },
+ "ISO.CEILING#1": {
+  "category": "Math and trigonometry",
+  "expected": "-4",
+  "file": "ISO.CEILING(-4.3,2)",
+  "got": "-4",
+  "name": "ISO.CEILING",
+  "note": "",
+  "status": "match"
+ },
+ "ISODD#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISODD(5)",
+  "got": "TRUE",
+  "name": "ISODD",
+  "note": "",
+  "status": "match"
+ },
+ "ISOMITTED#1": {
+  "category": "Information",
+  "expected": "\"none\"",
+  "file": "_xlfn.LAMBDA(_xlpm.a,_xlpm.b,IF(_xlfn.ISOMITTED(_xlpm.b),\"none\",_xlpm.b))(1,)",
+  "got": "#NAME?",
+  "name": "ISOMITTED",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "ISOWEEKNUM#1": {
+  "category": "Date and time",
+  "expected": "10",
+  "file": "_xlfn.ISOWEEKNUM(DATE(2012,3,9))",
+  "got": "10",
+  "name": "ISOWEEKNUM",
+  "note": "",
+  "status": "match"
+ },
+ "ISOWEEKNUM#2": {
+  "category": "Date and time",
+  "expected": "53",
+  "file": "_xlfn.ISOWEEKNUM(DATE(2021,1,1))",
+  "got": "53",
+  "name": "ISOWEEKNUM",
+  "note": "",
+  "status": "match"
+ },
+ "ISPMT#1": {
+  "category": "Financial",
+  "expected": "-64814.8148148148",
+  "file": "ISPMT(0.1/12,1,3*12,8000000)",
+  "got": "-64814.8148148148",
+  "name": "ISPMT",
+  "note": "",
+  "status": "match"
+ },
+ "ISREF#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISREF(Data!A1)",
+  "got": "TRUE",
+  "name": "ISREF",
+  "note": "",
+  "status": "match"
+ },
+ "ISREF#2": {
+  "category": "Information",
+  "expected": "FALSE",
+  "file": "ISREF(1)",
+  "got": "FALSE",
+  "name": "ISREF",
+  "note": "",
+  "status": "match"
+ },
+ "ISTEXT#1": {
+  "category": "Information",
+  "expected": "TRUE",
+  "file": "ISTEXT(Data!A2)",
+  "got": "TRUE",
+  "name": "ISTEXT",
+  "note": "",
+  "status": "match"
+ },
+ "KURT#1": {
+  "category": "Statistical",
+  "expected": "-0.151799637208414",
+  "file": "KURT(3,4,5,2,3,4,5,6,4,7)",
+  "got": "-0.151799637208417",
+  "name": "KURT",
+  "note": "",
+  "status": "match"
+ },
+ "LAMBDA#1": {
+  "category": "Logical",
+  "expected": "12",
+  "file": "_xlfn.LAMBDA(_xlpm.x,_xlpm.y,_xlpm.x*_xlpm.y)(3,4)",
+  "got": "#NAME?",
+  "name": "LAMBDA",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "LARGE#1": {
+  "category": "Statistical",
+  "expected": "25",
+  "file": "LARGE(Data!C2:C7,2)",
+  "got": "25",
+  "name": "LARGE",
+  "note": "",
+  "status": "match"
+ },
+ "LCM#1": {
+  "category": "Math and trigonometry",
+  "expected": "72",
+  "file": "LCM(24,36)",
+  "got": "72",
+  "name": "LCM",
+  "note": "",
+  "status": "match"
+ },
+ "LEFT#1": {
+  "category": "Text",
+  "expected": "\"Sale\"",
+  "file": "LEFT(\"Sale Price\",4)",
+  "got": "\"Sale\"",
+  "name": "LEFT",
+  "note": "",
+  "status": "match"
+ },
+ "LEFTB#1": {
+  "category": "Text",
+  "expected": "\"Sale\"",
+  "file": "LEFTB(\"Sale Price\",4)",
+  "got": "\"Sale\"",
+  "name": "LEFTB",
+  "note": "",
+  "status": "match"
+ },
+ "LEN#1": {
+  "category": "Text",
+  "expected": "11",
+  "file": "LEN(\"Phoenix, AZ\")",
+  "got": "11",
+  "name": "LEN",
+  "note": "",
+  "status": "match"
+ },
+ "LENB#1": {
+  "category": "Text",
+  "expected": "3",
+  "file": "LENB(\"abc\")",
+  "got": "3",
+  "name": "LENB",
+  "note": "",
+  "status": "match"
+ },
+ "LET#1": {
+  "category": "Logical",
+  "expected": "15",
+  "file": "_xlfn.LET(_xlpm.x,5,_xlpm.y,_xlpm.x*2,_xlpm.x+_xlpm.y)",
+  "got": "#NAME?",
+  "name": "LET",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "LET#2": {
+  "category": "Logical",
+  "expected": "17.5",
+  "file": "_xlfn.LET(_xlpm.r,Data!C2:C7,SUM(_xlpm.r)/COUNT(_xlpm.r))",
+  "got": "#NAME?",
+  "name": "LET",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "LINEST#1": {
+  "category": "Statistical",
+  "expected": "2",
+  "file": "INDEX(LINEST({1,9,5,7},{0,4,2,3}),1)",
+  "got": "2",
+  "name": "LINEST",
+  "note": "",
+  "status": "match"
+ },
+ "LINEST#2": {
+  "category": "Statistical",
+  "expected": "1",
+  "file": "INDEX(LINEST({1,9,5,7},{0,4,2,3},TRUE,TRUE),3,1)",
+  "got": "1",
+  "name": "LINEST",
+  "note": "",
+  "status": "match"
+ },
+ "LN#1": {
+  "category": "Math and trigonometry",
+  "expected": "4.45434729625351",
+  "file": "LN(86)",
+  "got": "4.45434729625351",
+  "name": "LN",
+  "note": "",
+  "status": "match"
+ },
+ "LOG#1": {
+  "category": "Math and trigonometry",
+  "expected": "3",
+  "file": "LOG(8,2)",
+  "got": "3",
+  "name": "LOG",
+  "note": "",
+  "status": "match"
+ },
+ "LOG#2": {
+  "category": "Math and trigonometry",
+  "expected": "1",
+  "file": "LOG(10)",
+  "got": "1",
+  "name": "LOG",
+  "note": "",
+  "status": "match"
+ },
+ "LOG10#1": {
+  "category": "Math and trigonometry",
+  "expected": "5",
+  "file": "LOG10(1E5)",
+  "got": "5",
+  "name": "LOG10",
+  "note": "",
+  "status": "match"
+ },
+ "LOGEST#1": {
+  "category": "Statistical",
+  "expected": "1.46327562811618",
+  "file": "INDEX(LOGEST({33100,47300,69000,102000,150000,220000},{11,12,13,14,15,16}),1)",
+  "got": "1.46327562811618",
+  "name": "LOGEST",
+  "note": "",
+  "status": "match"
+ },
+ "LOGINV#1": {
+  "category": "Compatibility",
+  "expected": "4.00002521868064",
+  "file": "LOGINV(0.039084,3.5,1.2)",
+  "got": "4.00002521868064",
+  "name": "LOGINV",
+  "note": "",
+  "status": "match"
+ },
+ "LOGNORM.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.0390835557068005",
+  "file": "_xlfn.LOGNORM.DIST(4,3.5,1.2,TRUE)",
+  "got": "0.0390835557068005",
+  "name": "LOGNORM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "LOGNORM.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.0176175966818192",
+  "file": "_xlfn.LOGNORM.DIST(4,3.5,1.2,FALSE)",
+  "got": "0.0176175966818192",
+  "name": "LOGNORM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "LOGNORM.INV#1": {
+  "category": "Statistical",
+  "expected": "4.00002521868064",
+  "file": "_xlfn.LOGNORM.INV(0.039084,3.5,1.2)",
+  "got": "4.00002521868064",
+  "name": "LOGNORM.INV",
+  "note": "",
+  "status": "match"
+ },
+ "LOGNORMDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0390835557068005",
+  "file": "LOGNORMDIST(4,3.5,1.2)",
+  "got": "0.0390835557068005",
+  "name": "LOGNORMDIST",
+  "note": "",
+  "status": "match"
+ },
+ "LOOKUP#1": {
+  "category": "Lookup and reference",
+  "expected": "\"orange\"",
+  "file": "LOOKUP(4.19,{4.14,4.19,5.17},{\"red\",\"orange\",\"yellow\"})",
+  "got": "\"orange\"",
+  "name": "LOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "LOOKUP#2": {
+  "category": "Lookup and reference",
+  "expected": "\"yellow\"",
+  "file": "LOOKUP(7.66,{4.14,4.19,5.17},{\"red\",\"orange\",\"yellow\"})",
+  "got": "\"yellow\"",
+  "name": "LOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "LOOKUP#3": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "LOOKUP(0,{4.14,4.19})",
+  "got": "0",
+  "name": "LOOKUP",
+  "note": "",
+  "status": "differs"
+ },
+ "LOWER#1": {
+  "category": "Text",
+  "expected": "\"e. e. cummings\"",
+  "file": "LOWER(\"E. E. Cummings\")",
+  "got": "\"e. e. cummings\"",
+  "name": "LOWER",
+  "note": "",
+  "status": "match"
+ },
+ "MAKEARRAY#1": {
+  "category": "Logical",
+  "expected": "6",
+  "file": "INDEX(_xlfn.MAKEARRAY(2,3,_xlfn.LAMBDA(_xlpm.r,_xlpm.c,_xlpm.r*_xlpm.c)),2,3)",
+  "got": "#NAME?",
+  "name": "MAKEARRAY",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "MAP#1": {
+  "category": "Logical",
+  "expected": "14",
+  "file": "SUM(_xlfn.MAP({1,2,3},_xlfn.LAMBDA(_xlpm.x,_xlpm.x*_xlpm.x)))",
+  "got": "#NAME?",
+  "name": "MAP",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "MATCH#1": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "MATCH(25,Data!C2:C7,0)",
+  "got": "5",
+  "name": "MATCH",
+  "note": "",
+  "status": "match"
+ },
+ "MATCH#2": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "MATCH(22,{10,20,30},1)",
+  "got": "2",
+  "name": "MATCH",
+  "note": "",
+  "status": "match"
+ },
+ "MATCH#3": {
+  "category": "Lookup and reference",
+  "expected": "1",
+  "file": "MATCH(22,{30,20,10},-1)",
+  "got": "1",
+  "name": "MATCH",
+  "note": "",
+  "status": "match"
+ },
+ "MATCH#4": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "MATCH(\"c*\",Data!A2:A7,0)",
+  "got": "3",
+  "name": "MATCH",
+  "note": "",
+  "status": "match"
+ },
+ "MATCH#5": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "MATCH(\"BOB\",Data!A2:A7,0)",
+  "got": "2",
+  "name": "MATCH",
+  "note": "",
+  "status": "match"
+ },
+ "MAX#1": {
+  "category": "Statistical",
+  "expected": "30",
+  "file": "MAX(Data!C2:C7)",
+  "got": "30",
+  "name": "MAX",
+  "note": "",
+  "status": "match"
+ },
+ "MAX#2": {
+  "category": "Statistical",
+  "expected": "0.5",
+  "file": "MAX(Data!L4,0.5)",
+  "got": "0.5",
+  "name": "MAX",
+  "note": "",
+  "status": "match"
+ },
+ "MAXA#1": {
+  "category": "Statistical",
+  "expected": "1",
+  "file": "MAXA(Data!L4,0.5)",
+  "got": "1",
+  "name": "MAXA",
+  "note": "",
+  "status": "match"
+ },
+ "MAXIFS#1": {
+  "category": "Statistical",
+  "expected": "15",
+  "file": "_xlfn.MAXIFS(Data!C2:C7,Data!B2:B7,\"East\")",
+  "got": "15",
+  "name": "MAXIFS",
+  "note": "",
+  "status": "match"
+ },
+ "MDETERM#1": {
+  "category": "Math and trigonometry",
+  "expected": "1",
+  "file": "MDETERM({3,6,1;1,1,0;3,10,2})",
+  "got": "-36",
+  "name": "MDETERM",
+  "note": "",
+  "status": "differs"
+ },
+ "MDURATION#1": {
+  "category": "Financial",
+  "expected": "5.73566981391",
+  "file": "MDURATION(DATE(2008,1,1),DATE(2016,1,1),0.08,0.09,2,1)",
+  "got": "5.73566981391884",
+  "name": "MDURATION",
+  "note": "",
+  "status": "match"
+ },
+ "MEDIAN#1": {
+  "category": "Statistical",
+  "expected": "3.5",
+  "file": "MEDIAN(1,2,3,4,5,6)",
+  "got": "3.5",
+  "name": "MEDIAN",
+  "note": "",
+  "status": "match"
+ },
+ "MID#1": {
+  "category": "Text",
+  "expected": "\"Flow\"",
+  "file": "MID(\"Fluid Flow\",7,20)",
+  "got": "\"Flow\"",
+  "name": "MID",
+  "note": "",
+  "status": "match"
+ },
+ "MIDB#1": {
+  "category": "Text",
+  "expected": "\"Fluid\"",
+  "file": "MIDB(\"Fluid Flow\",1,5)",
+  "got": "\"Fluid\"",
+  "name": "MIDB",
+  "note": "",
+  "status": "match"
+ },
+ "MIN#1": {
+  "category": "Statistical",
+  "expected": "5",
+  "file": "MIN(Data!C2:C7)",
+  "got": "5",
+  "name": "MIN",
+  "note": "",
+  "status": "match"
+ },
+ "MINA#1": {
+  "category": "Statistical",
+  "expected": "0",
+  "file": "MINA(Data!L5:L6)",
+  "got": "0",
+  "name": "MINA",
+  "note": "",
+  "status": "match"
+ },
+ "MINIFS#1": {
+  "category": "Statistical",
+  "expected": "20",
+  "file": "_xlfn.MINIFS(Data!C2:C7,Data!B2:B7,\"West\")",
+  "got": "20",
+  "name": "MINIFS",
+  "note": "",
+  "status": "match"
+ },
+ "MINUTE#1": {
+  "category": "Date and time",
+  "expected": "45",
+  "file": "MINUTE(\"12:45:00 PM\")",
+  "got": "45",
+  "name": "MINUTE",
+  "note": "",
+  "status": "match"
+ },
+ "MINVERSE#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.5",
+  "file": "INDEX(MINVERSE({4,-1;2,0}),1,2)",
+  "got": "0.5",
+  "name": "MINVERSE",
+  "note": "",
+  "status": "match"
+ },
+ "MIRR#1": {
+  "category": "Financial",
+  "expected": "0.126094130365905",
+  "file": "MIRR({-120000,39000,30000,21000,37000,46000},0.1,0.12)",
+  "got": "0.126094130365905",
+  "name": "MIRR",
+  "note": "",
+  "status": "match"
+ },
+ "MMULT#1": {
+  "category": "Math and trigonometry",
+  "expected": "39",
+  "file": "INDEX(MMULT({1,2;3,4},{5;6}),2,1)",
+  "got": "39",
+  "name": "MMULT",
+  "note": "",
+  "status": "match"
+ },
+ "MOD#1": {
+  "category": "Math and trigonometry",
+  "expected": "1",
+  "file": "MOD(-3,2)",
+  "got": "1",
+  "name": "MOD",
+  "note": "",
+  "status": "match"
+ },
+ "MOD#2": {
+  "category": "Math and trigonometry",
+  "expected": "-1",
+  "file": "MOD(3,-2)",
+  "got": "-1",
+  "name": "MOD",
+  "note": "",
+  "status": "match"
+ },
+ "MODE#1": {
+  "category": "Compatibility",
+  "expected": "4",
+  "file": "MODE(5.6,4,4,3,2,4)",
+  "got": "4",
+  "name": "MODE",
+  "note": "",
+  "status": "match"
+ },
+ "MODE.MULT#1": {
+  "category": "Statistical",
+  "expected": "3",
+  "file": "INDEX(_xlfn.MODE.MULT({1,2,3,4,3,2,1,2,3}),2)",
+  "got": "3",
+  "name": "MODE.MULT",
+  "note": "",
+  "status": "match"
+ },
+ "MODE.SNGL#1": {
+  "category": "Statistical",
+  "expected": "4",
+  "file": "_xlfn.MODE.SNGL(5.6,4,4,3,2,4)",
+  "got": "4",
+  "name": "MODE.SNGL",
+  "note": "",
+  "status": "match"
+ },
+ "MONTH#1": {
+  "category": "Date and time",
+  "expected": "4",
+  "file": "MONTH(\"15-Apr-2011\")",
+  "got": "4",
+  "name": "MONTH",
+  "note": "",
+  "status": "match"
+ },
+ "MROUND#1": {
+  "category": "Math and trigonometry",
+  "expected": "9",
+  "file": "MROUND(10,3)",
+  "got": "9",
+  "name": "MROUND",
+  "note": "",
+  "status": "match"
+ },
+ "MROUND#2": {
+  "category": "Math and trigonometry",
+  "expected": "-9",
+  "file": "MROUND(-10,-3)",
+  "got": "-9",
+  "name": "MROUND",
+  "note": "",
+  "status": "match"
+ },
+ "MROUND#3": {
+  "category": "Math and trigonometry",
+  "expected": "#NUM!",
+  "file": "MROUND(5,-2)",
+  "got": "#NUM!",
+  "name": "MROUND",
+  "note": "",
+  "status": "match"
+ },
+ "MULTINOMIAL#1": {
+  "category": "Math and trigonometry",
+  "expected": "1260",
+  "file": "MULTINOMIAL(2,3,4)",
+  "got": "1260",
+  "name": "MULTINOMIAL",
+  "note": "",
+  "status": "match"
+ },
+ "MUNIT#1": {
+  "category": "Math and trigonometry",
+  "expected": "1",
+  "file": "INDEX(_xlfn.MUNIT(3),2,2)",
+  "got": "1",
+  "name": "MUNIT",
+  "note": "",
+  "status": "match"
+ },
+ "N#1": {
+  "category": "Information",
+  "expected": "1",
+  "file": "N(TRUE)",
+  "got": "1",
+  "name": "N",
+  "note": "",
+  "status": "match"
+ },
+ "N#2": {
+  "category": "Information",
+  "expected": "0",
+  "file": "N(\"7\")",
+  "got": "0",
+  "name": "N",
+  "note": "",
+  "status": "match"
+ },
+ "NA#1": {
+  "category": "Information",
+  "expected": "#N/A",
+  "file": "NA()",
+  "got": "#N/A",
+  "name": "NA",
+  "note": "",
+  "status": "match"
+ },
+ "NEGBINOM.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.313514058478177",
+  "file": "_xlfn.NEGBINOM.DIST(10,5,0.25,TRUE)",
+  "got": "0.313514058478177",
+  "name": "NEGBINOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NEGBINOM.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.0550486603751779",
+  "file": "_xlfn.NEGBINOM.DIST(10,5,0.25,FALSE)",
+  "got": "0.0550486603751779",
+  "name": "NEGBINOM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NEGBINOMDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0550486603751779",
+  "file": "NEGBINOMDIST(10,5,0.25)",
+  "got": "0.0550486603751779",
+  "name": "NEGBINOMDIST",
+  "note": "",
+  "status": "match"
+ },
+ "NETWORKDAYS#1": {
+  "category": "Date and time",
+  "expected": "109",
+  "file": "NETWORKDAYS(DATE(2012,10,1),DATE(2013,3,1),DATE(2012,11,22))",
+  "got": "109",
+  "name": "NETWORKDAYS",
+  "note": "",
+  "status": "match"
+ },
+ "NETWORKDAYS.INTL#1": {
+  "category": "Date and time",
+  "expected": "22",
+  "file": "NETWORKDAYS.INTL(DATE(2006,1,1),DATE(2006,2,1),7,{\"2006/1/2\",\"2006/1/16\"})",
+  "got": "22",
+  "name": "NETWORKDAYS.INTL",
+  "note": "",
+  "status": "match"
+ },
+ "NETWORKDAYS.INTL#2": {
+  "category": "Date and time",
+  "expected": "-21",
+  "file": "NETWORKDAYS.INTL(DATE(2006,2,28),DATE(2006,1,31),\"0010001\")",
+  "got": "-21",
+  "name": "NETWORKDAYS.INTL",
+  "note": "",
+  "status": "match"
+ },
+ "NOMINAL#1": {
+  "category": "Financial",
+  "expected": "0.052500319868356",
+  "file": "NOMINAL(0.053543,4)",
+  "got": "0.052500319868356",
+  "name": "NOMINAL",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.908788780274132",
+  "file": "_xlfn.NORM.DIST(42,40,1.5,TRUE)",
+  "got": "0.908788780274132",
+  "name": "NORM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.109340049783996",
+  "file": "_xlfn.NORM.DIST(42,40,1.5,FALSE)",
+  "got": "0.109340049783996",
+  "name": "NORM.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.INV#1": {
+  "category": "Statistical",
+  "expected": "42.0000020095662",
+  "file": "_xlfn.NORM.INV(0.908789,40,1.5)",
+  "got": "42.0000020095662",
+  "name": "NORM.INV",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.S.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.908788725604095",
+  "file": "_xlfn.NORM.S.DIST(1.333333,TRUE)",
+  "got": "0.908788725604095",
+  "name": "NORM.S.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.S.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.164010147569367",
+  "file": "_xlfn.NORM.S.DIST(1.333333,FALSE)",
+  "got": "0.164010147569367",
+  "name": "NORM.S.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORM.S.INV#1": {
+  "category": "Statistical",
+  "expected": "1.33333467304411",
+  "file": "_xlfn.NORM.S.INV(0.908789)",
+  "got": "1.33333467304411",
+  "name": "NORM.S.INV",
+  "note": "",
+  "status": "match"
+ },
+ "NORMDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.908788780274132",
+  "file": "NORMDIST(42,40,1.5,TRUE)",
+  "got": "0.908788780274132",
+  "name": "NORMDIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORMINV#1": {
+  "category": "Compatibility",
+  "expected": "42.0000020095662",
+  "file": "NORMINV(0.908789,40,1.5)",
+  "got": "42.0000020095662",
+  "name": "NORMINV",
+  "note": "",
+  "status": "match"
+ },
+ "NORMSDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.908788725604095",
+  "file": "NORMSDIST(1.333333)",
+  "got": "0.908788725604095",
+  "name": "NORMSDIST",
+  "note": "",
+  "status": "match"
+ },
+ "NORMSINV#1": {
+  "category": "Compatibility",
+  "expected": "1.33333467304411",
+  "file": "NORMSINV(0.908789)",
+  "got": "1.33333467304411",
+  "name": "NORMSINV",
+  "note": "",
+  "status": "match"
+ },
+ "NOT#1": {
+  "category": "Logical",
+  "expected": "FALSE",
+  "file": "NOT(1+1=2)",
+  "got": "FALSE",
+  "name": "NOT",
+  "note": "",
+  "status": "match"
+ },
+ "NOW#1": {
+  "category": "Date and time",
+  "expected": "TRUE",
+  "file": "NOW()>DATE(2020,1,1)",
+  "got": "TRUE",
+  "name": "NOW",
+  "note": "",
+  "status": "match"
+ },
+ "NPER#1": {
+  "category": "Financial",
+  "expected": "59.6738656742946",
+  "file": "NPER(0.12/12,-100,-1000,10000,1)",
+  "got": "59.6738656742946",
+  "name": "NPER",
+  "note": "",
+  "status": "match"
+ },
+ "NPV#1": {
+  "category": "Financial",
+  "expected": "1188.44341233522",
+  "file": "NPV(0.1,-10000,3000,4200,6800)",
+  "got": "1188.44341233522",
+  "name": "NPV",
+  "note": "",
+  "status": "match"
+ },
+ "NUMBERVALUE#1": {
+  "category": "Text",
+  "expected": "2500.27",
+  "file": "_xlfn.NUMBERVALUE(\"2.500,27\",\",\",\".\")",
+  "got": "2500.27",
+  "name": "NUMBERVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "NUMBERVALUE#2": {
+  "category": "Text",
+  "expected": "0.035",
+  "file": "_xlfn.NUMBERVALUE(\"3.5%\")",
+  "got": "0.035",
+  "name": "NUMBERVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "OCT2BIN#1": {
+  "category": "Engineering",
+  "expected": "\"011\"",
+  "file": "OCT2BIN(\"3\",3)",
+  "got": "\"011\"",
+  "name": "OCT2BIN",
+  "note": "",
+  "status": "match"
+ },
+ "OCT2DEC#1": {
+  "category": "Engineering",
+  "expected": "-165",
+  "file": "OCT2DEC(\"7777777533\")",
+  "got": "-165",
+  "name": "OCT2DEC",
+  "note": "",
+  "status": "match"
+ },
+ "OCT2HEX#1": {
+  "category": "Engineering",
+  "expected": "\"0040\"",
+  "file": "OCT2HEX(\"100\",4)",
+  "got": "\"0040\"",
+  "name": "OCT2HEX",
+  "note": "",
+  "status": "match"
+ },
+ "ODD#1": {
+  "category": "Math and trigonometry",
+  "expected": "3",
+  "file": "ODD(1.5)",
+  "got": "3",
+  "name": "ODD",
+  "note": "",
+  "status": "match"
+ },
+ "ODD#2": {
+  "category": "Math and trigonometry",
+  "expected": "-3",
+  "file": "ODD(-2)",
+  "got": "-3",
+  "name": "ODD",
+  "note": "",
+  "status": "match"
+ },
+ "ODDFPRICE#1": {
+  "category": "Financial",
+  "expected": "113.597717474079",
+  "file": "ODDFPRICE(DATE(2008,11,11),DATE(2021,3,1),DATE(2008,10,15),DATE(2009,3,1),0.0785,0.0625,100,2,1)",
+  "got": "113.597717474079",
+  "name": "ODDFPRICE",
+  "note": "",
+  "status": "match"
+ },
+ "ODDFYIELD#1": {
+  "category": "Financial",
+  "expected": "0.0772455415972",
+  "file": "ODDFYIELD(DATE(2008,11,11),DATE(2021,3,1),DATE(2008,10,15),DATE(2009,3,1),0.0575,84.5,100,2,0)",
+  "got": "0.0772455415978174",
+  "name": "ODDFYIELD",
+  "note": "",
+  "status": "match"
+ },
+ "ODDLPRICE#1": {
+  "category": "Financial",
+  "expected": "99.8782860147",
+  "file": "ODDLPRICE(DATE(2008,2,7),DATE(2008,6,15),DATE(2007,10,15),0.0375,0.0405,100,2,0)",
+  "got": "99.8782860147213",
+  "name": "ODDLPRICE",
+  "note": "",
+  "status": "match"
+ },
+ "ODDLYIELD#1": {
+  "category": "Financial",
+  "expected": "0.0451922356291",
+  "file": "ODDLYIELD(DATE(2008,4,20),DATE(2008,6,15),DATE(2007,12,24),0.0375,99.875,100,2,0)",
+  "got": "0.045192235629169",
+  "name": "ODDLYIELD",
+  "note": "",
+  "status": "match"
+ },
+ "OFFSET#1": {
+  "category": "Lookup and reference",
+  "expected": "65",
+  "file": "SUM(OFFSET(Data!C2,1,0,3,1))",
+  "got": "65",
+  "name": "OFFSET",
+  "note": "",
+  "status": "match"
+ },
+ "OFFSET#2": {
+  "category": "Lookup and reference",
+  "expected": "\"West\"",
+  "file": "OFFSET(Data!A1,2,1)",
+  "got": "\"West\"",
+  "name": "OFFSET",
+  "note": "",
+  "status": "match"
+ },
+ "OR#1": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "OR(FALSE,0,\"x\"=\"X\")",
+  "got": "TRUE",
+  "name": "OR",
+  "note": "",
+  "status": "match"
+ },
+ "PDURATION#1": {
+  "category": "Financial",
+  "expected": "3.85986616262266",
+  "file": "_xlfn.PDURATION(0.025,2000,2200)",
+  "got": "3.85986616262265",
+  "name": "PDURATION",
+  "note": "",
+  "status": "match"
+ },
+ "PEARSON#1": {
+  "category": "Statistical",
+  "expected": "0.699378606180235",
+  "file": "PEARSON({9,7,5,3,1},{10,6,1,5,3})",
+  "got": "0.699378606180235",
+  "name": "PEARSON",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTILE#1": {
+  "category": "Compatibility",
+  "expected": "1.9",
+  "file": "PERCENTILE({1,3,2,4},0.3)",
+  "got": "1.9",
+  "name": "PERCENTILE",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTILE.EXC#1": {
+  "category": "Statistical",
+  "expected": "2.5",
+  "file": "_xlfn.PERCENTILE.EXC({1,2,3,6,6,6,7,8,9},0.25)",
+  "got": "2.5",
+  "name": "PERCENTILE.EXC",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTILE.EXC#2": {
+  "category": "Statistical",
+  "expected": "#NUM!",
+  "file": "_xlfn.PERCENTILE.EXC({1,2,3},0.1)",
+  "got": "#NUM!",
+  "name": "PERCENTILE.EXC",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTILE.INC#1": {
+  "category": "Statistical",
+  "expected": "1.9",
+  "file": "_xlfn.PERCENTILE.INC({1,3,2,4},0.3)",
+  "got": "1.9",
+  "name": "PERCENTILE.INC",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTOF#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.25",
+  "file": "_xlfn.PERCENTOF(25,100)",
+  "got": "0.25",
+  "name": "PERCENTOF",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTOF#2": {
+  "category": "Math and trigonometry",
+  "expected": "0.4",
+  "file": "_xlfn.PERCENTOF({10,30},{10,30,60})",
+  "got": "0.4",
+  "name": "PERCENTOF",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTRANK#1": {
+  "category": "Compatibility",
+  "expected": "0.333",
+  "file": "PERCENTRANK({13,12,11,8,4,3,2,1,1,1},2)",
+  "got": "0.333",
+  "name": "PERCENTRANK",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTRANK.EXC#1": {
+  "category": "Statistical",
+  "expected": "0.7",
+  "file": "_xlfn.PERCENTRANK.EXC({1,2,3,6,6,6,7,8,9},7)",
+  "got": "0.7",
+  "name": "PERCENTRANK.EXC",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTRANK.EXC#2": {
+  "category": "Statistical",
+  "expected": "0.38109",
+  "file": "_xlfn.PERCENTRANK.EXC({1,2,3,6,6,6,7,8,9},5.43,5)",
+  "got": "0.381",
+  "name": "PERCENTRANK.EXC",
+  "note": "",
+  "status": "differs"
+ },
+ "PERCENTRANK.INC#1": {
+  "category": "Statistical",
+  "expected": "0.333",
+  "file": "_xlfn.PERCENTRANK.INC({13,12,11,8,4,3,2,1,1,1},2)",
+  "got": "0.333",
+  "name": "PERCENTRANK.INC",
+  "note": "",
+  "status": "match"
+ },
+ "PERCENTRANK.INC#2": {
+  "category": "Statistical",
+  "expected": "0.583",
+  "file": "_xlfn.PERCENTRANK.INC({13,12,11,8,4,3,2,1,1,1},5)",
+  "got": "0.583",
+  "name": "PERCENTRANK.INC",
+  "note": "",
+  "status": "match"
+ },
+ "PERMUT#1": {
+  "category": "Statistical",
+  "expected": "970200",
+  "file": "PERMUT(100,3)",
+  "got": "970200",
+  "name": "PERMUT",
+  "note": "",
+  "status": "match"
+ },
+ "PERMUTATIONA#1": {
+  "category": "Statistical",
+  "expected": "9",
+  "file": "_xlfn.PERMUTATIONA(3,2)",
+  "got": "9",
+  "name": "PERMUTATIONA",
+  "note": "",
+  "status": "match"
+ },
+ "PHI#1": {
+  "category": "Statistical",
+  "expected": "0.301137432154804",
+  "file": "_xlfn.PHI(0.75)",
+  "got": "0.301137432154804",
+  "name": "PHI",
+  "note": "",
+  "status": "match"
+ },
+ "PHONETIC#1": {
+  "category": "Text",
+  "expected": "\"Ann\"",
+  "file": "PHONETIC(Data!A2)",
+  "got": "#NAME?",
+  "name": "PHONETIC",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "PI#1": {
+  "category": "Math and trigonometry",
+  "expected": "3.14159265358979",
+  "file": "PI()",
+  "got": "3.14159265358979",
+  "name": "PI",
+  "note": "",
+  "status": "match"
+ },
+ "PIVOTBY#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "\"East\"",
+  "file": "INDEX(_xlfn.PIVOTBY(Data!A2:A7,Data!B2:B7,Data!C2:C7,_xleta.SUM),1,2)",
+  "got": "#REF!",
+  "name": "PIVOTBY",
+  "note": "",
+  "status": "differs"
+ },
+ "PMT#1": {
+  "category": "Financial",
+  "expected": "-1037.03208935916",
+  "file": "PMT(0.08/12,10,10000)",
+  "got": "-1037.03208935916",
+  "name": "PMT",
+  "note": "",
+  "status": "match"
+ },
+ "PMT#2": {
+  "category": "Financial",
+  "expected": "-129.081160867995",
+  "file": "PMT(0.06/12,18*12,0,50000)",
+  "got": "-129.081160867995",
+  "name": "PMT",
+  "note": "",
+  "status": "match"
+ },
+ "POISSON#1": {
+  "category": "Compatibility",
+  "expected": "0.0842243374885683",
+  "file": "POISSON(2,5,FALSE)",
+  "got": "0.0842243374885683",
+  "name": "POISSON",
+  "note": "",
+  "status": "match"
+ },
+ "POISSON.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.124652019483081",
+  "file": "_xlfn.POISSON.DIST(2,5,TRUE)",
+  "got": "0.124652019483081",
+  "name": "POISSON.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "POISSON.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.0842243374885683",
+  "file": "_xlfn.POISSON.DIST(2,5,FALSE)",
+  "got": "0.0842243374885683",
+  "name": "POISSON.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "POWER#1": {
+  "category": "Math and trigonometry",
+  "expected": "25",
+  "file": "POWER(5,2)",
+  "got": "25",
+  "name": "POWER",
+  "note": "",
+  "status": "match"
+ },
+ "PPMT#1": {
+  "category": "Financial",
+  "expected": "-75.6231860083666",
+  "file": "PPMT(0.1/12,1,2*12,2000)",
+  "got": "-75.6231860083667",
+  "name": "PPMT",
+  "note": "",
+  "status": "match"
+ },
+ "PRICE#1": {
+  "category": "Financial",
+  "expected": "94.6343616213221",
+  "file": "PRICE(DATE(2008,2,15),DATE(2017,11,15),0.0575,0.065,100,2,0)",
+  "got": "94.6343616213221",
+  "name": "PRICE",
+  "note": "",
+  "status": "match"
+ },
+ "PRICEDISC#1": {
+  "category": "Financial",
+  "expected": "99.7958333333333",
+  "file": "PRICEDISC(DATE(2008,2,16),DATE(2008,3,1),0.0525,100,2)",
+  "got": "99.7958333333333",
+  "name": "PRICEDISC",
+  "note": "",
+  "status": "match"
+ },
+ "PRICEMAT#1": {
+  "category": "Financial",
+  "expected": "99.9844988755",
+  "file": "PRICEMAT(DATE(2008,2,15),DATE(2008,4,13),DATE(2007,11,11),0.061,0.061,0)",
+  "got": "99.984498875557",
+  "name": "PRICEMAT",
+  "note": "",
+  "status": "match"
+ },
+ "PROB#1": {
+  "category": "Statistical",
+  "expected": "0.1",
+  "file": "PROB({0,1,2,3},{0.2,0.3,0.1,0.4},2)",
+  "got": "0.1",
+  "name": "PROB",
+  "note": "",
+  "status": "match"
+ },
+ "PROB#2": {
+  "category": "Statistical",
+  "expected": "0.8",
+  "file": "PROB({0,1,2,3},{0.2,0.3,0.1,0.4},1,3)",
+  "got": "0.8",
+  "name": "PROB",
+  "note": "",
+  "status": "match"
+ },
+ "PRODUCT#1": {
+  "category": "Math and trigonometry",
+  "expected": "3000",
+  "file": "PRODUCT(Data!C2:C4)",
+  "got": "3000",
+  "name": "PRODUCT",
+  "note": "",
+  "status": "match"
+ },
+ "PROPER#1": {
+  "category": "Text",
+  "expected": "\"This Is A Title 2-Way\"",
+  "file": "PROPER(\"this is a TITLE 2-way\")",
+  "got": "\"This Is A Title 2-Way\"",
+  "name": "PROPER",
+  "note": "",
+  "status": "match"
+ },
+ "PV#1": {
+  "category": "Financial",
+  "expected": "-59777.1458511878",
+  "file": "PV(0.08/12,12*20,500,,0)",
+  "got": "-59777.1458511878",
+  "name": "PV",
+  "note": "",
+  "status": "match"
+ },
+ "QUARTILE#1": {
+  "category": "Compatibility",
+  "expected": "3.5",
+  "file": "QUARTILE({1,2,4,7,8,9,10,12},1)",
+  "got": "3.5",
+  "name": "QUARTILE",
+  "note": "",
+  "status": "match"
+ },
+ "QUARTILE.EXC#1": {
+  "category": "Statistical",
+  "expected": "15",
+  "file": "_xlfn.QUARTILE.EXC({6,7,15,36,39,40,41,42,43,47,49},1)",
+  "got": "15",
+  "name": "QUARTILE.EXC",
+  "note": "",
+  "status": "match"
+ },
+ "QUARTILE.INC#1": {
+  "category": "Statistical",
+  "expected": "3.5",
+  "file": "_xlfn.QUARTILE.INC({1,2,4,7,8,9,10,12},1)",
+  "got": "3.5",
+  "name": "QUARTILE.INC",
+  "note": "",
+  "status": "match"
+ },
+ "QUOTIENT#1": {
+  "category": "Math and trigonometry",
+  "expected": "-3",
+  "file": "QUOTIENT(-10,3)",
+  "got": "-3",
+  "name": "QUOTIENT",
+  "note": "",
+  "status": "match"
+ },
+ "RADIANS#1": {
+  "category": "Math and trigonometry",
+  "expected": "4.71238898038469",
+  "file": "RADIANS(270)",
+  "got": "4.71238898038469",
+  "name": "RADIANS",
+  "note": "",
+  "status": "match"
+ },
+ "RAND#1": {
+  "category": "Math and trigonometry",
+  "expected": "TRUE",
+  "file": "AND(RAND()>=0,RAND()<1)",
+  "got": "TRUE",
+  "name": "RAND",
+  "note": "",
+  "status": "match"
+ },
+ "RANDARRAY#1": {
+  "category": "Math and trigonometry",
+  "expected": "4",
+  "file": "ROWS(_xlfn.RANDARRAY(4,2))",
+  "got": "4",
+  "name": "RANDARRAY",
+  "note": "",
+  "status": "match"
+ },
+ "RANDARRAY#2": {
+  "category": "Math and trigonometry",
+  "expected": "TRUE",
+  "file": "AND(_xlfn.RANDARRAY(3,3,5,6,TRUE)>=5)",
+  "got": "TRUE",
+  "name": "RANDARRAY",
+  "note": "",
+  "status": "match"
+ },
+ "RANDBETWEEN#1": {
+  "category": "Math and trigonometry",
+  "expected": "TRUE",
+  "file": "AND(RANDBETWEEN(1,3)>=1,RANDBETWEEN(1,3)<=3)",
+  "got": "TRUE",
+  "name": "RANDBETWEEN",
+  "note": "",
+  "status": "match"
+ },
+ "RANK#1": {
+  "category": "Compatibility",
+  "expected": "3",
+  "file": "RANK(3.5,{7,3.5,3.5,1,2},1)",
+  "got": "3",
+  "name": "RANK",
+  "note": "",
+  "status": "match"
+ },
+ "RANK.AVG#1": {
+  "category": "Statistical",
+  "expected": "4",
+  "file": "_xlfn.RANK.AVG(94,{89,88,92,101,94,97,95})",
+  "got": "4",
+  "name": "RANK.AVG",
+  "note": "",
+  "status": "match"
+ },
+ "RANK.AVG#2": {
+  "category": "Statistical",
+  "expected": "2.5",
+  "file": "_xlfn.RANK.AVG(2,{1,2,2,3},1)",
+  "got": "2.5",
+  "name": "RANK.AVG",
+  "note": "",
+  "status": "match"
+ },
+ "RANK.EQ#1": {
+  "category": "Statistical",
+  "expected": "2",
+  "file": "_xlfn.RANK.EQ(2,{1,2,2,3},1)",
+  "got": "2",
+  "name": "RANK.EQ",
+  "note": "",
+  "status": "match"
+ },
+ "RATE#1": {
+  "category": "Financial",
+  "expected": "0.00770147248820115",
+  "file": "RATE(4*12,-200,8000)",
+  "got": "0.0077014724882333",
+  "name": "RATE",
+  "note": "",
+  "status": "match"
+ },
+ "RECEIVED#1": {
+  "category": "Financial",
+  "expected": "1014584.6544071",
+  "file": "RECEIVED(DATE(2008,2,15),DATE(2008,5,15),1000000,0.0575,2)",
+  "got": "1014584.6544071",
+  "name": "RECEIVED",
+  "note": "",
+  "status": "match"
+ },
+ "REDUCE#1": {
+  "category": "Logical",
+  "expected": "10",
+  "file": "_xlfn.REDUCE(0,{1,2,3,4},_xlfn.LAMBDA(_xlpm.a,_xlpm.v,_xlpm.a+_xlpm.v))",
+  "got": "#NAME?",
+  "name": "REDUCE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REGEXEXTRACT#1": {
+  "category": "Text",
+  "expected": "\"555-1234\"",
+  "file": "_xlfn.REGEXEXTRACT(\"Phone: 555-1234\",\"[0-9]{3}-[0-9]{4}\")",
+  "got": "#NAME?",
+  "name": "REGEXEXTRACT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REGEXREPLACE#1": {
+  "category": "Text",
+  "expected": "\"a#b#c#\"",
+  "file": "_xlfn.REGEXREPLACE(\"a1b22c333\",\"[0-9]+\",\"#\")",
+  "got": "#NAME?",
+  "name": "REGEXREPLACE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REGEXTEST#1": {
+  "category": "Text",
+  "expected": "TRUE",
+  "file": "_xlfn.REGEXTEST(\"alpha@example.com\",\"^[^@]+@[^@]+$\")",
+  "got": "#NAME?",
+  "name": "REGEXTEST",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REGEXTEST#2": {
+  "category": "Text",
+  "expected": "TRUE",
+  "file": "_xlfn.REGEXTEST(\"ABC\",\"abc\",1)",
+  "got": "#NAME?",
+  "name": "REGEXTEST",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REGISTER.ID#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "REGISTER.ID(\"Kernel32\",\"GetTickCount\",\"J!\")",
+  "got": "#NAME?",
+  "name": "REGISTER.ID",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "REPLACE#1": {
+  "category": "Text",
+  "expected": "\"abcde*k\"",
+  "file": "REPLACE(\"abcdefghijk\",6,5,\"*\")",
+  "got": "\"abcde*k\"",
+  "name": "REPLACE",
+  "note": "",
+  "status": "match"
+ },
+ "REPLACEB#1": {
+  "category": "Text",
+  "expected": "\"abcde*k\"",
+  "file": "REPLACEB(\"abcdefghijk\",6,5,\"*\")",
+  "got": "\"abcde*k\"",
+  "name": "REPLACEB",
+  "note": "",
+  "status": "match"
+ },
+ "REPT#1": {
+  "category": "Text",
+  "expected": "\"*-*-*-\"",
+  "file": "REPT(\"*-\",3)",
+  "got": "\"*-*-*-\"",
+  "name": "REPT",
+  "note": "",
+  "status": "match"
+ },
+ "RIGHT#1": {
+  "category": "Text",
+  "expected": "\"Price\"",
+  "file": "RIGHT(\"Sale Price\",5)",
+  "got": "\"Price\"",
+  "name": "RIGHT",
+  "note": "",
+  "status": "match"
+ },
+ "RIGHTB#1": {
+  "category": "Text",
+  "expected": "\"Price\"",
+  "file": "RIGHTB(\"Sale Price\",5)",
+  "got": "\"Price\"",
+  "name": "RIGHTB",
+  "note": "",
+  "status": "match"
+ },
+ "ROMAN#1": {
+  "category": "Math and trigonometry",
+  "expected": "\"CDXCIX\"",
+  "file": "ROMAN(499)",
+  "got": "\"CDXCIX\"",
+  "name": "ROMAN",
+  "note": "",
+  "status": "match"
+ },
+ "ROMAN#2": {
+  "category": "Math and trigonometry",
+  "expected": "\"ID\"",
+  "file": "ROMAN(499,4)",
+  "got": "\"ID\"",
+  "name": "ROMAN",
+  "note": "",
+  "status": "match"
+ },
+ "ROUND#1": {
+  "category": "Math and trigonometry",
+  "expected": "3",
+  "file": "ROUND(2.5,0)",
+  "got": "3",
+  "name": "ROUND",
+  "note": "",
+  "status": "match"
+ },
+ "ROUND#2": {
+  "category": "Math and trigonometry",
+  "expected": "-3",
+  "file": "ROUND(-2.5,0)",
+  "got": "-3",
+  "name": "ROUND",
+  "note": "",
+  "status": "match"
+ },
+ "ROUND#3": {
+  "category": "Math and trigonometry",
+  "expected": "20",
+  "file": "ROUND(21.5,-1)",
+  "got": "20",
+  "name": "ROUND",
+  "note": "",
+  "status": "match"
+ },
+ "ROUND#4": {
+  "category": "Math and trigonometry",
+  "expected": "1.01",
+  "file": "ROUND(1.005,2)",
+  "got": "1.01",
+  "name": "ROUND",
+  "note": "",
+  "status": "match"
+ },
+ "ROUNDDOWN#1": {
+  "category": "Math and trigonometry",
+  "expected": "-3.1",
+  "file": "ROUNDDOWN(-3.14159,1)",
+  "got": "-3.1",
+  "name": "ROUNDDOWN",
+  "note": "",
+  "status": "match"
+ },
+ "ROUNDUP#1": {
+  "category": "Math and trigonometry",
+  "expected": "-3.2",
+  "file": "ROUNDUP(-3.14159,1)",
+  "got": "-3.2",
+  "name": "ROUNDUP",
+  "note": "",
+  "status": "match"
+ },
+ "ROUNDUP#2": {
+  "category": "Math and trigonometry",
+  "expected": "31500",
+  "file": "ROUNDUP(31415.92654,-2)",
+  "got": "31500",
+  "name": "ROUNDUP",
+  "note": "",
+  "status": "match"
+ },
+ "ROW#1": {
+  "category": "Lookup and reference",
+  "expected": "10",
+  "file": "ROW(Data!C10)",
+  "got": "10",
+  "name": "ROW",
+  "note": "",
+  "status": "match"
+ },
+ "ROWS#1": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "ROWS({1,2,3;4,5,6})",
+  "got": "2",
+  "name": "ROWS",
+  "note": "",
+  "status": "match"
+ },
+ "RRI#1": {
+  "category": "Financial",
+  "expected": "0.00099330737629133",
+  "file": "_xlfn.RRI(96,10000,11000)",
+  "got": "0.00099330737629133",
+  "name": "RRI",
+  "note": "",
+  "status": "match"
+ },
+ "RSQ#1": {
+  "category": "Statistical",
+  "expected": "0.0579501915708812",
+  "file": "RSQ({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "0.0579501915708812",
+  "name": "RSQ",
+  "note": "",
+  "status": "match"
+ },
+ "RTD#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "RTD(\"sg.rtd.none\",,\"x\")",
+  "got": "#NAME?",
+  "name": "RTD",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "SCAN#1": {
+  "category": "Logical",
+  "expected": "6",
+  "file": "INDEX(_xlfn.SCAN(0,{1,2,3},_xlfn.LAMBDA(_xlpm.a,_xlpm.v,_xlpm.a+_xlpm.v)),1,3)",
+  "got": "#NAME?",
+  "name": "SCAN",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "SEARCH#1": {
+  "category": "Text",
+  "expected": "8",
+  "file": "SEARCH(\"margin\",\"Profit Margin\")",
+  "got": "8",
+  "name": "SEARCH",
+  "note": "",
+  "status": "match"
+ },
+ "SEARCH#2": {
+  "category": "Text",
+  "expected": "1",
+  "file": "SEARCH(\"p?o\",\"Profit Margin\")",
+  "got": "1",
+  "name": "SEARCH",
+  "note": "",
+  "status": "match"
+ },
+ "SEARCH#3": {
+  "category": "Text",
+  "expected": "2",
+  "file": "SEARCH(\"~*\",\"a*b\")",
+  "got": "2",
+  "name": "SEARCH",
+  "note": "",
+  "status": "match"
+ },
+ "SEARCHB#1": {
+  "category": "Text",
+  "expected": "2",
+  "file": "SEARCHB(\"b\",\"abc\")",
+  "got": "2",
+  "name": "SEARCHB",
+  "note": "",
+  "status": "match"
+ },
+ "SEC#1": {
+  "category": "Math and trigonometry",
+  "expected": "1.90359440740442",
+  "file": "_xlfn.SEC(45)",
+  "got": "1.90359440740442",
+  "name": "SEC",
+  "note": "",
+  "status": "match"
+ },
+ "SECH#1": {
+  "category": "Math and trigonometry",
+  "expected": "5.72503716109879e-20",
+  "file": "_xlfn.SECH(45)",
+  "got": "5.7250371610988e-20",
+  "name": "SECH",
+  "note": "",
+  "status": "match"
+ },
+ "SECOND#1": {
+  "category": "Date and time",
+  "expected": "18",
+  "file": "SECOND(\"4:48:18 PM\")",
+  "got": "18",
+  "name": "SECOND",
+  "note": "",
+  "status": "match"
+ },
+ "SEQUENCE#1": {
+  "category": "Math and trigonometry",
+  "expected": "210",
+  "file": "SUM(_xlfn.SEQUENCE(4,5))",
+  "got": "210",
+  "name": "SEQUENCE",
+  "note": "",
+  "status": "match"
+ },
+ "SEQUENCE#2": {
+  "category": "Math and trigonometry",
+  "expected": "-6",
+  "file": "INDEX(_xlfn.SEQUENCE(3,3,10,-2),3,3)",
+  "got": "-6",
+  "name": "SEQUENCE",
+  "note": "",
+  "status": "match"
+ },
+ "SERIESSUM#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.707103215",
+  "file": "SERIESSUM(0.785398163,0,2,{1,-0.5,0.041666667,-0.001388889})",
+  "got": "#VALUE!",
+  "name": "SERIESSUM",
+  "note": "",
+  "status": "differs"
+ },
+ "SHEET#1": {
+  "category": "Information",
+  "expected": "2",
+  "file": "_xlfn.SHEET(Data!A1)",
+  "got": "2",
+  "name": "SHEET",
+  "note": "",
+  "status": "match"
+ },
+ "SHEETS#1": {
+  "category": "Information",
+  "expected": "2",
+  "file": "_xlfn.SHEETS()",
+  "got": "2",
+  "name": "SHEETS",
+  "note": "",
+  "status": "match"
+ },
+ "SIGN#1": {
+  "category": "Math and trigonometry",
+  "expected": "-1",
+  "file": "SIGN(-0.00001)",
+  "got": "-1",
+  "name": "SIGN",
+  "note": "",
+  "status": "match"
+ },
+ "SIN#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.5",
+  "file": "SIN(PI()/6)",
+  "got": "0.5",
+  "name": "SIN",
+  "note": "",
+  "status": "match"
+ },
+ "SINH#1": {
+  "category": "Math and trigonometry",
+  "expected": "1.1752011936438",
+  "file": "SINH(1)",
+  "got": "1.1752011936438",
+  "name": "SINH",
+  "note": "",
+  "status": "match"
+ },
+ "SKEW#1": {
+  "category": "Statistical",
+  "expected": "0.359543071406798",
+  "file": "SKEW(3,4,5,2,3,4,5,6,4,7)",
+  "got": "0.359543071406797",
+  "name": "SKEW",
+  "note": "",
+  "status": "match"
+ },
+ "SKEW.P#1": {
+  "category": "Statistical",
+  "expected": "0.303193339354144",
+  "file": "_xlfn.SKEW.P(3,4,5,2,3,4,5,6,4,7)",
+  "got": "0.303193339354144",
+  "name": "SKEW.P",
+  "note": "",
+  "status": "match"
+ },
+ "SLN#1": {
+  "category": "Financial",
+  "expected": "2250",
+  "file": "SLN(30000,7500,10)",
+  "got": "2250",
+  "name": "SLN",
+  "note": "",
+  "status": "match"
+ },
+ "SLOPE#1": {
+  "category": "Statistical",
+  "expected": "0.305555555555555",
+  "file": "SLOPE({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "0.305555555555556",
+  "name": "SLOPE",
+  "note": "",
+  "status": "match"
+ },
+ "SMALL#1": {
+  "category": "Statistical",
+  "expected": "10",
+  "file": "SMALL(Data!C2:C7,2)",
+  "got": "10",
+  "name": "SMALL",
+  "note": "",
+  "status": "match"
+ },
+ "SORT#1": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "INDEX(_xlfn._xlws.SORT(Data!C2:C7),1)",
+  "got": "5",
+  "name": "SORT",
+  "note": "",
+  "status": "match"
+ },
+ "SORT#2": {
+  "category": "Lookup and reference",
+  "expected": "\"Dee\"",
+  "file": "INDEX(_xlfn._xlws.SORT(Data!A2:C7,3,-1),1,1)",
+  "got": "\"Dee\"",
+  "name": "SORT",
+  "note": "",
+  "status": "match"
+ },
+ "SORT#3": {
+  "category": "Lookup and reference",
+  "expected": "1",
+  "file": "INDEX(_xlfn._xlws.SORT({3,1,2},,,TRUE),1,1)",
+  "got": "1",
+  "name": "SORT",
+  "note": "",
+  "status": "match"
+ },
+ "SORTBY#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Eve\"",
+  "file": "INDEX(_xlfn.SORTBY(Data!A2:A7,Data!C2:C7,-1),2)",
+  "got": "\"Eve\"",
+  "name": "SORTBY",
+  "note": "",
+  "status": "match"
+ },
+ "SORTBY#2": {
+  "category": "Lookup and reference",
+  "expected": "\"Cid\"",
+  "file": "INDEX(_xlfn.SORTBY(Data!A2:A7,Data!B2:B7,1,Data!C2:C7,-1),1)",
+  "got": "\"Cid\"",
+  "name": "SORTBY",
+  "note": "",
+  "status": "match"
+ },
+ "SQRT#1": {
+  "category": "Math and trigonometry",
+  "expected": "4",
+  "file": "SQRT(16)",
+  "got": "4",
+  "name": "SQRT",
+  "note": "",
+  "status": "match"
+ },
+ "SQRT#2": {
+  "category": "Math and trigonometry",
+  "expected": "#NUM!",
+  "file": "SQRT(-16)",
+  "got": "#NUM!",
+  "name": "SQRT",
+  "note": "",
+  "status": "match"
+ },
+ "SQRTPI#1": {
+  "category": "Math and trigonometry",
+  "expected": "2.506628274631",
+  "file": "SQRTPI(2)",
+  "got": "2.506628274631",
+  "name": "SQRTPI",
+  "note": "",
+  "status": "match"
+ },
+ "STANDARDIZE#1": {
+  "category": "Statistical",
+  "expected": "1.33333333333333",
+  "file": "STANDARDIZE(42,40,1.5)",
+  "got": "1.33333333333333",
+  "name": "STANDARDIZE",
+  "note": "",
+  "status": "match"
+ },
+ "STDEV#1": {
+  "category": "Compatibility",
+  "expected": "27.4639157198435",
+  "file": "STDEV(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "27.4639157198435",
+  "name": "STDEV",
+  "note": "",
+  "status": "match"
+ },
+ "STDEV.P#1": {
+  "category": "Statistical",
+  "expected": "26.0545581424825",
+  "file": "_xlfn.STDEV.P(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "26.0545581424825",
+  "name": "STDEV.P",
+  "note": "",
+  "status": "match"
+ },
+ "STDEV.S#1": {
+  "category": "Statistical",
+  "expected": "27.4639157198435",
+  "file": "_xlfn.STDEV.S(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "27.4639157198435",
+  "name": "STDEV.S",
+  "note": "",
+  "status": "match"
+ },
+ "STDEVA#1": {
+  "category": "Statistical",
+  "expected": "1.15470053837925",
+  "file": "STDEVA(Data!L4,1,3)",
+  "got": "1.15470053837925",
+  "name": "STDEVA",
+  "note": "",
+  "status": "match"
+ },
+ "STDEVP#1": {
+  "category": "Compatibility",
+  "expected": "26.0545581424825",
+  "file": "STDEVP(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "26.0545581424825",
+  "name": "STDEVP",
+  "note": "",
+  "status": "match"
+ },
+ "STDEVPA#1": {
+  "category": "Statistical",
+  "expected": "0.942809041582063",
+  "file": "STDEVPA(Data!L4,1,3)",
+  "got": "0.942809041582063",
+  "name": "STDEVPA",
+  "note": "",
+  "status": "match"
+ },
+ "STEYX#1": {
+  "category": "Statistical",
+  "expected": "3.30571895021004",
+  "file": "STEYX({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "3.30571895021004",
+  "name": "STEYX",
+  "note": "",
+  "status": "match"
+ },
+ "STOCKHISTORY#1": {
+  "category": "Financial",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.STOCKHISTORY(\"MSFT\",DATE(2020,1,2))",
+  "got": "#NAME?",
+  "name": "STOCKHISTORY",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "SUBSTITUTE#1": {
+  "category": "Text",
+  "expected": "\"Quarter 1, 2012\"",
+  "file": "SUBSTITUTE(\"Quarter 1, 2011\",\"1\",\"2\",3)",
+  "got": "\"Quarter 1, 2012\"",
+  "name": "SUBSTITUTE",
+  "note": "",
+  "status": "match"
+ },
+ "SUBTOTAL#1": {
+  "category": "Math and trigonometry",
+  "expected": "105",
+  "file": "SUBTOTAL(9,Data!C2:C7)",
+  "got": "105",
+  "name": "SUBTOTAL",
+  "note": "",
+  "status": "match"
+ },
+ "SUBTOTAL#2": {
+  "category": "Math and trigonometry",
+  "expected": "17.5",
+  "file": "SUBTOTAL(101,Data!C2:C7)",
+  "got": "17.5",
+  "name": "SUBTOTAL",
+  "note": "",
+  "status": "match"
+ },
+ "SUM#1": {
+  "category": "Math and trigonometry",
+  "expected": "105",
+  "file": "SUM(Data!C2:C7)",
+  "got": "105",
+  "name": "SUM",
+  "note": "",
+  "status": "match"
+ },
+ "SUM#2": {
+  "category": "Math and trigonometry",
+  "expected": "6",
+  "file": "SUM(\"3\",2,TRUE)",
+  "got": "6",
+  "name": "SUM",
+  "note": "",
+  "status": "match"
+ },
+ "SUM#3": {
+  "category": "Math and trigonometry",
+  "expected": "0",
+  "file": "SUM(Data!A2:A7)",
+  "got": "0",
+  "name": "SUM",
+  "note": "",
+  "status": "match"
+ },
+ "SUMIF#1": {
+  "category": "Math and trigonometry",
+  "expected": "30",
+  "file": "SUMIF(Data!B2:B7,\"East\",Data!C2:C7)",
+  "got": "30",
+  "name": "SUMIF",
+  "note": "",
+  "status": "match"
+ },
+ "SUMIF#2": {
+  "category": "Math and trigonometry",
+  "expected": "75",
+  "file": "SUMIF(Data!C2:C7,\">15\")",
+  "got": "75",
+  "name": "SUMIF",
+  "note": "",
+  "status": "match"
+ },
+ "SUMIF#3": {
+  "category": "Math and trigonometry",
+  "expected": "30",
+  "file": "SUMIF(Data!A2:A7,\"?e?\",Data!C2:C7)",
+  "got": "30",
+  "name": "SUMIF",
+  "note": "",
+  "status": "match"
+ },
+ "SUMIFS#1": {
+  "category": "Math and trigonometry",
+  "expected": "25",
+  "file": "SUMIFS(Data!C2:C7,Data!B2:B7,\"East\",Data!C2:C7,\">=10\")",
+  "got": "25",
+  "name": "SUMIFS",
+  "note": "",
+  "status": "match"
+ },
+ "SUMIFS#2": {
+  "category": "Math and trigonometry",
+  "expected": "25",
+  "file": "SUMIFS(Data!C2:C7,Data!A2:A7,\"<>Bob\",Data!B2:B7,\"W*\")",
+  "got": "25",
+  "name": "SUMIFS",
+  "note": "",
+  "status": "match"
+ },
+ "SUMPRODUCT#1": {
+  "category": "Math and trigonometry",
+  "expected": "380",
+  "file": "SUMPRODUCT(Data!C2:C7,Data!D2:D7)",
+  "got": "380",
+  "name": "SUMPRODUCT",
+  "note": "",
+  "status": "match"
+ },
+ "SUMPRODUCT#2": {
+  "category": "Math and trigonometry",
+  "expected": "30",
+  "file": "SUMPRODUCT((Data!B2:B7=\"East\")*Data!C2:C7)",
+  "got": "30",
+  "name": "SUMPRODUCT",
+  "note": "",
+  "status": "match"
+ },
+ "SUMSQ#1": {
+  "category": "Math and trigonometry",
+  "expected": "25",
+  "file": "SUMSQ(3,4)",
+  "got": "25",
+  "name": "SUMSQ",
+  "note": "",
+  "status": "match"
+ },
+ "SUMX2MY2#1": {
+  "category": "Math and trigonometry",
+  "expected": "-55",
+  "file": "SUMX2MY2({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "-55",
+  "name": "SUMX2MY2",
+  "note": "",
+  "status": "match"
+ },
+ "SUMX2PY2#1": {
+  "category": "Math and trigonometry",
+  "expected": "521",
+  "file": "SUMX2PY2({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "521",
+  "name": "SUMX2PY2",
+  "note": "",
+  "status": "match"
+ },
+ "SUMXMY2#1": {
+  "category": "Math and trigonometry",
+  "expected": "79",
+  "file": "SUMXMY2({2,3,9,1,8,7,5},{6,5,11,7,5,4,4})",
+  "got": "79",
+  "name": "SUMXMY2",
+  "note": "",
+  "status": "match"
+ },
+ "SWITCH#1": {
+  "category": "Logical",
+  "expected": "\"Tue\"",
+  "file": "_xlfn.SWITCH(WEEKDAY(DATE(2024,3,5)),1,\"Sun\",3,\"Tue\",\"other\")",
+  "got": "\"Tue\"",
+  "name": "SWITCH",
+  "note": "",
+  "status": "match"
+ },
+ "SWITCH#2": {
+  "category": "Logical",
+  "expected": "#N/A",
+  "file": "_xlfn.SWITCH(9,1,\"a\")",
+  "got": "#N/A",
+  "name": "SWITCH",
+  "note": "",
+  "status": "match"
+ },
+ "SYD#1": {
+  "category": "Financial",
+  "expected": "4090.90909090909",
+  "file": "SYD(30000,7500,10,1)",
+  "got": "4090.90909090909",
+  "name": "SYD",
+  "note": "",
+  "status": "match"
+ },
+ "T#1": {
+  "category": "Text",
+  "expected": "\"\"",
+  "file": "T(123)",
+  "got": "\"\"",
+  "name": "T",
+  "note": "",
+  "status": "match"
+ },
+ "T#2": {
+  "category": "Text",
+  "expected": "\"Rainfall\"",
+  "file": "T(\"Rainfall\")",
+  "got": "\"Rainfall\"",
+  "name": "T",
+  "note": "",
+  "status": "match"
+ },
+ "T.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.994695326367377",
+  "file": "_xlfn.T.DIST(60,1,TRUE)",
+  "got": "0.994695326367377",
+  "name": "T.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "T.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.000736906520946926",
+  "file": "_xlfn.T.DIST(8,3,FALSE)",
+  "got": "0.000736906520946927",
+  "name": "T.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "T.DIST.2T#1": {
+  "category": "Statistical",
+  "expected": "0.0546449299759209",
+  "file": "_xlfn.T.DIST.2T(1.959999998,60)",
+  "got": "0.0546449299759211",
+  "name": "T.DIST.2T",
+  "note": "",
+  "status": "match"
+ },
+ "T.DIST.RT#1": {
+  "category": "Statistical",
+  "expected": "0.0273224649879604",
+  "file": "_xlfn.T.DIST.RT(1.959999998,60)",
+  "got": "0.0273224649879605",
+  "name": "T.DIST.RT",
+  "note": "",
+  "status": "match"
+ },
+ "T.INV#1": {
+  "category": "Statistical",
+  "expected": "0.816496580927726",
+  "file": "_xlfn.T.INV(0.75,2)",
+  "got": "0.816496580927726",
+  "name": "T.INV",
+  "note": "",
+  "status": "match"
+ },
+ "T.INV.2T#1": {
+  "category": "Statistical",
+  "expected": "0.606533075833376",
+  "file": "_xlfn.T.INV.2T(0.546449,60)",
+  "got": "0.606533075825754",
+  "name": "T.INV.2T",
+  "note": "",
+  "status": "match"
+ },
+ "T.TEST#1": {
+  "category": "Statistical",
+  "expected": "0.196015784925282",
+  "file": "_xlfn.T.TEST({3,4,5,8,9,1,2,4,5},{6,19,3,2,14,4,5,17,1},2,1)",
+  "got": "0.196015784925282",
+  "name": "T.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "T.TEST#2": {
+  "category": "Statistical",
+  "expected": "0.191995886760396",
+  "file": "_xlfn.T.TEST({3,4,5,8,9,1,2,4,5},{6,19,3,2,14,4,5,17,1},2,2)",
+  "got": "0.191995886760397",
+  "name": "T.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "T.TEST#3": {
+  "category": "Statistical",
+  "expected": "0.101146961684339",
+  "file": "_xlfn.T.TEST({3,4,5,8,9,1,2,4,5},{6,19,3,2,14,4,5,17,1},1,3)",
+  "got": "0.101146961684339",
+  "name": "T.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "TAKE#1": {
+  "category": "Lookup and reference",
+  "expected": "\"Bob\"",
+  "file": "INDEX(_xlfn.TAKE(Data!A2:E7,2),2,1)",
+  "got": "\"Bob\"",
+  "name": "TAKE",
+  "note": "",
+  "status": "match"
+ },
+ "TAKE#2": {
+  "category": "Lookup and reference",
+  "expected": "45351",
+  "file": "INDEX(_xlfn.TAKE(Data!A2:E7,-1,-1),1,1)",
+  "got": "45351",
+  "name": "TAKE",
+  "note": "",
+  "status": "match"
+ },
+ "TAKE#3": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "COLUMNS(_xlfn.TAKE({1,2,3;4,5,6},,2))",
+  "got": "2",
+  "name": "TAKE",
+  "note": "",
+  "status": "match"
+ },
+ "TAN#1": {
+  "category": "Math and trigonometry",
+  "expected": "0.999203990105043",
+  "file": "TAN(0.785)",
+  "got": "0.999203990105043",
+  "name": "TAN",
+  "note": "",
+  "status": "match"
+ },
+ "TANH#1": {
+  "category": "Math and trigonometry",
+  "expected": "-0.964027580075817",
+  "file": "TANH(-2)",
+  "got": "-0.964027580075817",
+  "name": "TANH",
+  "note": "",
+  "status": "match"
+ },
+ "TBILLEQ#1": {
+  "category": "Financial",
+  "expected": "0.094151493565943",
+  "file": "TBILLEQ(DATE(2008,3,31),DATE(2008,6,1),0.0914)",
+  "got": "0.094151493565943",
+  "name": "TBILLEQ",
+  "note": "",
+  "status": "match"
+ },
+ "TBILLPRICE#1": {
+  "category": "Financial",
+  "expected": "98.45",
+  "file": "TBILLPRICE(DATE(2008,3,31),DATE(2008,6,1),0.09)",
+  "got": "98.45",
+  "name": "TBILLPRICE",
+  "note": "",
+  "status": "match"
+ },
+ "TBILLYIELD#1": {
+  "category": "Financial",
+  "expected": "0.0914169629253426",
+  "file": "TBILLYIELD(DATE(2008,3,31),DATE(2008,6,1),98.45)",
+  "got": "0.0914169629253426",
+  "name": "TBILLYIELD",
+  "note": "",
+  "status": "match"
+ },
+ "TDIST#1": {
+  "category": "Compatibility",
+  "expected": "0.0546449299759209",
+  "file": "TDIST(1.959999998,60,2)",
+  "got": "0.0546449299759211",
+  "name": "TDIST",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#1": {
+  "category": "Text",
+  "expected": "\"$1,234.57\"",
+  "file": "TEXT(1234.567,\"$#,##0.00\")",
+  "got": "\"$1,234.57\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#10": {
+  "category": "Text",
+  "expected": "\"Mar-24\"",
+  "file": "TEXT(DATE(2024,3,5),\"mmm-yy\")",
+  "got": "\"Mar-24\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#2": {
+  "category": "Text",
+  "expected": "\"Tuesday, March 5, 2024\"",
+  "file": "TEXT(DATE(2024,3,5),\"dddd, mmmm d, yyyy\")",
+  "got": "\"Tuesday, March 5, 2024\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#3": {
+  "category": "Text",
+  "expected": "\"28.5%\"",
+  "file": "TEXT(0.285,\"0.0%\")",
+  "got": "\"28.5%\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#4": {
+  "category": "Text",
+  "expected": "\"6:00 PM\"",
+  "file": "TEXT(0.75,\"h:mm AM/PM\")",
+  "got": "\"6:00 PM\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#5": {
+  "category": "Text",
+  "expected": "\"1.23E+06\"",
+  "file": "TEXT(1234567,\"0.00E+00\")",
+  "got": "\"1.23E+06\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#6": {
+  "category": "Text",
+  "expected": "\"4 1/4\"",
+  "file": "TEXT(4.25,\"# ?/?\")",
+  "got": "\"4 1/4\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#7": {
+  "category": "Text",
+  "expected": "\"1900-01-01\"",
+  "file": "TEXT(1,\"yyyy-mm-dd\")",
+  "got": "\"1900-01-01\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#8": {
+  "category": "Text",
+  "expected": "\"(5)\"",
+  "file": "TEXT(-5,\"0;(0)\")",
+  "got": "\"(5)\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXT#9": {
+  "category": "Text",
+  "expected": "\"000012\"",
+  "file": "TEXT(12,\"000000\")",
+  "got": "\"000012\"",
+  "name": "TEXT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#1": {
+  "category": "Text",
+  "expected": "\" Riding Hood's red hood\"",
+  "file": "_xlfn.TEXTAFTER(\"Little Red Riding Hood's red hood\",\"Red\")",
+  "got": "\" Riding Hood's red hood\"",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#2": {
+  "category": "Text",
+  "expected": "\" hood\"",
+  "file": "_xlfn.TEXTAFTER(\"Little Red Riding Hood's red hood\",\"red\",2,1)",
+  "got": "\" hood\"",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#3": {
+  "category": "Text",
+  "expected": "\" hood\"",
+  "file": "_xlfn.TEXTAFTER(\"Little Red Riding Hood's red hood\",\"red\",-1)",
+  "got": "\" hood\"",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#4": {
+  "category": "Text",
+  "expected": "\"\"",
+  "file": "_xlfn.TEXTAFTER(\"Little Red Riding Hood's red hood\",\"hood\")",
+  "got": "\"\"",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#5": {
+  "category": "Text",
+  "expected": "#N/A",
+  "file": "_xlfn.TEXTAFTER(\"abc\",\"x\")",
+  "got": "#N/A",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTAFTER#6": {
+  "category": "Text",
+  "expected": "\"none\"",
+  "file": "_xlfn.TEXTAFTER(\"abc\",\"x\",,,,\"none\")",
+  "got": "\"none\"",
+  "name": "TEXTAFTER",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTBEFORE#1": {
+  "category": "Text",
+  "expected": "\"Little \"",
+  "file": "_xlfn.TEXTBEFORE(\"Little Red Riding Hood's red hood\",\"Red\")",
+  "got": "\"Little \"",
+  "name": "TEXTBEFORE",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTBEFORE#2": {
+  "category": "Text",
+  "expected": "\"Little Red Riding Hood's \"",
+  "file": "_xlfn.TEXTBEFORE(\"Little Red Riding Hood's red hood\",\"red\",2,1)",
+  "got": "\"Little Red Riding Hood's \"",
+  "name": "TEXTBEFORE",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTBEFORE#3": {
+  "category": "Text",
+  "expected": "\"a-b\"",
+  "file": "_xlfn.TEXTBEFORE(\"a-b-c\",\"-\",-1)",
+  "got": "\"a-b\"",
+  "name": "TEXTBEFORE",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTBEFORE#4": {
+  "category": "Text",
+  "expected": "\"abc\"",
+  "file": "_xlfn.TEXTBEFORE(\"abc\",\"x\",,,1)",
+  "got": "\"abc\"",
+  "name": "TEXTBEFORE",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTBEFORE#5": {
+  "category": "Text",
+  "expected": "\"a, b\"",
+  "file": "_xlfn.TEXTBEFORE(\"a, b; c\",{\",\",\";\"},2)",
+  "got": "\"a, b\"",
+  "name": "TEXTBEFORE",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTJOIN#1": {
+  "category": "Text",
+  "expected": "\"Ann, Bob, Cid, end\"",
+  "file": "_xlfn.TEXTJOIN(\", \",TRUE,Data!A2:A4,Data!L1,\"end\")",
+  "got": "\"Ann, Bob, Cid, end\"",
+  "name": "TEXTJOIN",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTJOIN#2": {
+  "category": "Text",
+  "expected": "\"a--b\"",
+  "file": "_xlfn.TEXTJOIN(\"-\",FALSE,\"a\",Data!L1,\"b\")",
+  "got": "\"a--b\"",
+  "name": "TEXTJOIN",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#1": {
+  "category": "Text",
+  "expected": "\"Lennon\"",
+  "file": "INDEX(_xlfn.TEXTSPLIT(\"Dakota Lennon Sanchez\",\" \"),1,2)",
+  "got": "\"Lennon\"",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#2": {
+  "category": "Text",
+  "expected": "4",
+  "file": "COLUMNS(_xlfn.TEXTSPLIT(\"1,2,3,4\",\",\"))",
+  "got": "4",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#3": {
+  "category": "Text",
+  "expected": "\"c\"",
+  "file": "INDEX(_xlfn.TEXTSPLIT(\"a,b;c,d\",\",\",\";\"),2,1)",
+  "got": "\"c\"",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#4": {
+  "category": "Text",
+  "expected": "2",
+  "file": "ROWS(_xlfn.TEXTSPLIT(\"a;;b\",,\";\",TRUE))",
+  "got": "2",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#5": {
+  "category": "Text",
+  "expected": "\"-\"",
+  "file": "INDEX(_xlfn.TEXTSPLIT(\"a,b;c\",\",\",\";\",,,\"-\"),2,2)",
+  "got": "\"-\"",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TEXTSPLIT#6": {
+  "category": "Text",
+  "expected": "#N/A",
+  "file": "INDEX(_xlfn.TEXTSPLIT(\"a,b;c\",\",\",\";\"),2,2)",
+  "got": "#N/A",
+  "name": "TEXTSPLIT",
+  "note": "",
+  "status": "match"
+ },
+ "TIME#1": {
+  "category": "Date and time",
+  "expected": "0.5",
+  "file": "TIME(12,0,0)",
+  "got": "0.5",
+  "name": "TIME",
+  "note": "",
+  "status": "match"
+ },
+ "TIME#2": {
+  "category": "Date and time",
+  "expected": "0.125",
+  "file": "TIME(27,0,0)",
+  "got": "0.125",
+  "name": "TIME",
+  "note": "",
+  "status": "match"
+ },
+ "TIMEVALUE#1": {
+  "category": "Date and time",
+  "expected": "0.274305555555556",
+  "file": "TIMEVALUE(\"6:35 AM\")",
+  "got": "0.274305555555556",
+  "name": "TIMEVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "TIMEVALUE#2": {
+  "category": "Date and time",
+  "expected": "0.274305555555556",
+  "file": "TIMEVALUE(\"22-Aug-2011 6:35 AM\")",
+  "got": "0.274305555554747",
+  "name": "TIMEVALUE",
+  "note": "",
+  "status": "match"
+ },
+ "TINV#1": {
+  "category": "Compatibility",
+  "expected": "1.95999999779883",
+  "file": "TINV(0.054644930,60)",
+  "got": "1.95999999779883",
+  "name": "TINV",
+  "note": "",
+  "status": "match"
+ },
+ "TOCOL#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(_xlfn.TOCOL({1,2;3,4}),3)",
+  "got": "3",
+  "name": "TOCOL",
+  "note": "",
+  "status": "match"
+ },
+ "TOCOL#2": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(_xlfn.TOCOL({1,2;3,4},,TRUE),2)",
+  "got": "3",
+  "name": "TOCOL",
+  "note": "",
+  "status": "match"
+ },
+ "TOCOL#3": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "ROWS(_xlfn.TOCOL({1,#N/A;3,4},2))",
+  "got": "3",
+  "name": "TOCOL",
+  "note": "",
+  "status": "match"
+ },
+ "TODAY#1": {
+  "category": "Date and time",
+  "expected": "TRUE",
+  "file": "TODAY()>DATE(2020,1,1)",
+  "got": "TRUE",
+  "name": "TODAY",
+  "note": "",
+  "status": "match"
+ },
+ "TOROW#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(_xlfn.TOROW({1,2;3,4}),1,3)",
+  "got": "3",
+  "name": "TOROW",
+  "note": "",
+  "status": "match"
+ },
+ "TOROW#2": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(_xlfn.TOROW({1,2;3,4},,TRUE),1,2)",
+  "got": "3",
+  "name": "TOROW",
+  "note": "",
+  "status": "match"
+ },
+ "TRANSLATE#1": {
+  "category": "Cube, add-in and external data",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.TRANSLATE(\"Hello\",\"en\",\"es\")",
+  "got": "#NAME?",
+  "name": "TRANSLATE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "TRANSPOSE#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "INDEX(TRANSPOSE({1,2,3}),3,1)",
+  "got": "3",
+  "name": "TRANSPOSE",
+  "note": "",
+  "status": "match"
+ },
+ "TREND#1": {
+  "category": "Statistical",
+  "expected": "146171.515151515",
+  "file": "TREND({133890,135000,135790,137300,138130,139100,139900,141120,141890,143230,144000,145290},{1,2,3,4,5,6,7,8,9,10,11,12},{13})",
+  "got": "146171.515151515",
+  "name": "TREND",
+  "note": "",
+  "status": "match"
+ },
+ "TRIM#1": {
+  "category": "Text",
+  "expected": "\"First Quarter Earnings\"",
+  "file": "TRIM(\"  First   Quarter Earnings  \")",
+  "got": "\"First Quarter Earnings\"",
+  "name": "TRIM",
+  "note": "",
+  "status": "match"
+ },
+ "TRIMMEAN#1": {
+  "category": "Statistical",
+  "expected": "3.77777777777778",
+  "file": "TRIMMEAN({4,5,6,7,2,3,4,5,1,2,3},0.2)",
+  "got": "3.77777777777778",
+  "name": "TRIMMEAN",
+  "note": "",
+  "status": "match"
+ },
+ "TRIMRANGE#1": {
+  "category": "Lookup and reference",
+  "expected": "7",
+  "file": "ROWS(_xlfn.TRIMRANGE(Data!C1:C50))",
+  "got": "10",
+  "name": "TRIMRANGE",
+  "note": "",
+  "status": "differs"
+ },
+ "TRUE#1": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "TRUE()",
+  "got": "TRUE",
+  "name": "TRUE",
+  "note": "",
+  "status": "match"
+ },
+ "TRUNC#1": {
+  "category": "Math and trigonometry",
+  "expected": "-8",
+  "file": "TRUNC(-8.9)",
+  "got": "-8",
+  "name": "TRUNC",
+  "note": "",
+  "status": "match"
+ },
+ "TRUNC#2": {
+  "category": "Math and trigonometry",
+  "expected": "3.141",
+  "file": "TRUNC(PI(),3)",
+  "got": "3.141",
+  "name": "TRUNC",
+  "note": "",
+  "status": "match"
+ },
+ "TTEST#1": {
+  "category": "Compatibility",
+  "expected": "0.196015784925282",
+  "file": "TTEST({3,4,5,8,9,1,2,4,5},{6,19,3,2,14,4,5,17,1},2,1)",
+  "got": "0.196015784925282",
+  "name": "TTEST",
+  "note": "",
+  "status": "match"
+ },
+ "TYPE#1": {
+  "category": "Information",
+  "expected": "2",
+  "file": "TYPE(\"x\")",
+  "got": "2",
+  "name": "TYPE",
+  "note": "",
+  "status": "match"
+ },
+ "TYPE#2": {
+  "category": "Information",
+  "expected": "64",
+  "file": "TYPE({1,2})",
+  "got": "64",
+  "name": "TYPE",
+  "note": "",
+  "status": "match"
+ },
+ "UNICHAR#1": {
+  "category": "Text",
+  "expected": "\"€\"",
+  "file": "_xlfn.UNICHAR(8364)",
+  "got": "\"€\"",
+  "name": "UNICHAR",
+  "note": "",
+  "status": "match"
+ },
+ "UNICODE#1": {
+  "category": "Text",
+  "expected": "8364",
+  "file": "_xlfn.UNICODE(\"€\")",
+  "got": "8364",
+  "name": "UNICODE",
+  "note": "",
+  "status": "match"
+ },
+ "UNIQUE#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "ROWS(_xlfn.UNIQUE(Data!B2:B7))",
+  "got": "3",
+  "name": "UNIQUE",
+  "note": "",
+  "status": "match"
+ },
+ "UNIQUE#2": {
+  "category": "Lookup and reference",
+  "expected": "\"North\"",
+  "file": "INDEX(_xlfn.UNIQUE(Data!B2:B7),3)",
+  "got": "\"North\"",
+  "name": "UNIQUE",
+  "note": "",
+  "status": "match"
+ },
+ "UNIQUE#3": {
+  "category": "Lookup and reference",
+  "expected": "1",
+  "file": "ROWS(_xlfn.UNIQUE(Data!B2:B7,,TRUE))",
+  "got": "1",
+  "name": "UNIQUE",
+  "note": "",
+  "status": "match"
+ },
+ "UNIQUE#4": {
+  "category": "Lookup and reference",
+  "expected": "2",
+  "file": "COLUMNS(_xlfn.UNIQUE({1,1,2},TRUE))",
+  "got": "2",
+  "name": "UNIQUE",
+  "note": "",
+  "status": "match"
+ },
+ "UPPER#1": {
+  "category": "Text",
+  "expected": "\"TOTAL\"",
+  "file": "UPPER(\"total\")",
+  "got": "\"TOTAL\"",
+  "name": "UPPER",
+  "note": "",
+  "status": "match"
+ },
+ "VALUE#1": {
+  "category": "Text",
+  "expected": "1000",
+  "file": "VALUE(\"$1,000\")",
+  "got": "1000",
+  "name": "VALUE",
+  "note": "",
+  "status": "match"
+ },
+ "VALUE#2": {
+  "category": "Text",
+  "expected": "0.2",
+  "file": "VALUE(\"16:48:00\")-VALUE(\"12:00:00\")",
+  "got": "0.2",
+  "name": "VALUE",
+  "note": "",
+  "status": "match"
+ },
+ "VALUETOTEXT#1": {
+  "category": "Text",
+  "expected": "\"abc\"",
+  "file": "_xlfn.VALUETOTEXT(\"abc\")",
+  "got": "#NAME?",
+  "name": "VALUETOTEXT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "VALUETOTEXT#2": {
+  "category": "Text",
+  "expected": "\"\"abc\"\"",
+  "file": "_xlfn.VALUETOTEXT(\"abc\",1)",
+  "got": "#NAME?",
+  "name": "VALUETOTEXT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "VALUETOTEXT#3": {
+  "category": "Text",
+  "expected": "\"12.5\"",
+  "file": "_xlfn.VALUETOTEXT(12.5)",
+  "got": "#NAME?",
+  "name": "VALUETOTEXT",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "VAR#1": {
+  "category": "Compatibility",
+  "expected": "754.266666666667",
+  "file": "VAR(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "754.266666666667",
+  "name": "VAR",
+  "note": "",
+  "status": "match"
+ },
+ "VAR.P#1": {
+  "category": "Statistical",
+  "expected": "678.84",
+  "file": "_xlfn.VAR.P(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "678.84",
+  "name": "VAR.P",
+  "note": "",
+  "status": "match"
+ },
+ "VAR.S#1": {
+  "category": "Statistical",
+  "expected": "754.266666666667",
+  "file": "_xlfn.VAR.S(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "754.266666666667",
+  "name": "VAR.S",
+  "note": "",
+  "status": "match"
+ },
+ "VARA#1": {
+  "category": "Statistical",
+  "expected": "1.33333333333333",
+  "file": "VARA(Data!L4,1,3)",
+  "got": "1.33333333333333",
+  "name": "VARA",
+  "note": "",
+  "status": "match"
+ },
+ "VARP#1": {
+  "category": "Compatibility",
+  "expected": "678.84",
+  "file": "VARP(1345,1301,1368,1322,1310,1370,1318,1350,1303,1299)",
+  "got": "678.84",
+  "name": "VARP",
+  "note": "",
+  "status": "match"
+ },
+ "VARPA#1": {
+  "category": "Statistical",
+  "expected": "0.888888888888889",
+  "file": "VARPA(Data!L4,1,3)",
+  "got": "0.888888888888889",
+  "name": "VARPA",
+  "note": "",
+  "status": "match"
+ },
+ "VDB#1": {
+  "category": "Financial",
+  "expected": "1.31506849315068",
+  "file": "VDB(2400,300,10*365,0,1)",
+  "got": "1.31506849315065",
+  "name": "VDB",
+  "note": "",
+  "status": "match"
+ },
+ "VDB#2": {
+  "category": "Financial",
+  "expected": "40",
+  "file": "VDB(2400,300,10*12,0,1)",
+  "got": "40",
+  "name": "VDB",
+  "note": "",
+  "status": "match"
+ },
+ "VDB#3": {
+  "category": "Financial",
+  "expected": "315",
+  "file": "VDB(2400,300,10,0,0.875,1.5)",
+  "got": "315",
+  "name": "VDB",
+  "note": "",
+  "status": "match"
+ },
+ "VDB#4": {
+  "category": "Financial",
+  "expected": "396.306053264751",
+  "file": "VDB(2400,300,10*12,6,18)",
+  "got": "396.306053264752",
+  "name": "VDB",
+  "note": "",
+  "status": "match"
+ },
+ "VLOOKUP#1": {
+  "category": "Lookup and reference",
+  "expected": "15",
+  "file": "VLOOKUP(\"Cid\",Data!A2:C7,3,FALSE)",
+  "got": "15",
+  "name": "VLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "VLOOKUP#2": {
+  "category": "Lookup and reference",
+  "expected": "\"East\"",
+  "file": "VLOOKUP(\"cid\",Data!A2:C7,2,FALSE)",
+  "got": "\"East\"",
+  "name": "VLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "VLOOKUP#3": {
+  "category": "Lookup and reference",
+  "expected": "\"a\"",
+  "file": "VLOOKUP(1.5,{1,\"a\";2,\"b\"},2)",
+  "got": "\"a\"",
+  "name": "VLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "VLOOKUP#4": {
+  "category": "Lookup and reference",
+  "expected": "20",
+  "file": "VLOOKUP(\"B*\",Data!A2:C7,3,FALSE)",
+  "got": "#N/A",
+  "name": "VLOOKUP",
+  "note": "",
+  "status": "differs"
+ },
+ "VLOOKUP#5": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "VLOOKUP(\"zz\",Data!A2:C7,3,FALSE)",
+  "got": "#N/A",
+  "name": "VLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "VSTACK#1": {
+  "category": "Lookup and reference",
+  "expected": "4",
+  "file": "INDEX(_xlfn.VSTACK({1,2},{3,4}),2,2)",
+  "got": "4",
+  "name": "VSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "VSTACK#2": {
+  "category": "Lookup and reference",
+  "expected": "7",
+  "file": "ROWS(_xlfn.VSTACK(Data!A1:E1,Data!A2:E7))",
+  "got": "7",
+  "name": "VSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "VSTACK#3": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "INDEX(_xlfn.VSTACK({1,2},{3}),2,2)",
+  "got": "#N/A",
+  "name": "VSTACK",
+  "note": "",
+  "status": "match"
+ },
+ "WEBSERVICE#1": {
+  "category": "Web",
+  "expected": "(recognised; any result)",
+  "file": "_xlfn.WEBSERVICE(\"http://127.0.0.1:9/nothing\")",
+  "got": "#NAME?",
+  "name": "WEBSERVICE",
+  "note": "not known (#NAME?)",
+  "status": "missing"
+ },
+ "WEEKDAY#1": {
+  "category": "Date and time",
+  "expected": "5",
+  "file": "WEEKDAY(DATE(2008,2,14))",
+  "got": "5",
+  "name": "WEEKDAY",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKDAY#2": {
+  "category": "Date and time",
+  "expected": "4",
+  "file": "WEEKDAY(DATE(2008,2,14),2)",
+  "got": "4",
+  "name": "WEEKDAY",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKDAY#3": {
+  "category": "Date and time",
+  "expected": "3",
+  "file": "WEEKDAY(DATE(2008,2,14),3)",
+  "got": "3",
+  "name": "WEEKDAY",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKDAY#4": {
+  "category": "Date and time",
+  "expected": "6",
+  "file": "WEEKDAY(DATE(2008,2,14),16)",
+  "got": "6",
+  "name": "WEEKDAY",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKNUM#1": {
+  "category": "Date and time",
+  "expected": "10",
+  "file": "WEEKNUM(DATE(2012,3,9))",
+  "got": "10",
+  "name": "WEEKNUM",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKNUM#2": {
+  "category": "Date and time",
+  "expected": "11",
+  "file": "WEEKNUM(DATE(2012,3,9),2)",
+  "got": "11",
+  "name": "WEEKNUM",
+  "note": "",
+  "status": "match"
+ },
+ "WEEKNUM#3": {
+  "category": "Date and time",
+  "expected": "10",
+  "file": "WEEKNUM(DATE(2012,3,9),21)",
+  "got": "10",
+  "name": "WEEKNUM",
+  "note": "",
+  "status": "match"
+ },
+ "WEIBULL#1": {
+  "category": "Compatibility",
+  "expected": "0.929581390069277",
+  "file": "WEIBULL(105,20,100,TRUE)",
+  "got": "0.929581390069277",
+  "name": "WEIBULL",
+  "note": "",
+  "status": "match"
+ },
+ "WEIBULL.DIST#1": {
+  "category": "Statistical",
+  "expected": "0.929581390069277",
+  "file": "_xlfn.WEIBULL.DIST(105,20,100,TRUE)",
+  "got": "0.929581390069277",
+  "name": "WEIBULL.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "WEIBULL.DIST#2": {
+  "category": "Statistical",
+  "expected": "0.0355888640245043",
+  "file": "_xlfn.WEIBULL.DIST(105,20,100,FALSE)",
+  "got": "0.0355888640245043",
+  "name": "WEIBULL.DIST",
+  "note": "",
+  "status": "match"
+ },
+ "WORKDAY#1": {
+  "category": "Date and time",
+  "expected": "39938",
+  "file": "WORKDAY(DATE(2008,10,1),151,{\"2008/11/26\",\"2008/12/4\",\"2009/1/21\"})",
+  "got": "39938",
+  "name": "WORKDAY",
+  "note": "",
+  "status": "match"
+ },
+ "WORKDAY.INTL#1": {
+  "category": "Date and time",
+  "expected": "#NUM!",
+  "file": "WORKDAY.INTL(DATE(2012,1,1),30,0)",
+  "got": "#NUM!",
+  "name": "WORKDAY.INTL",
+  "note": "",
+  "status": "match"
+ },
+ "WORKDAY.INTL#2": {
+  "category": "Date and time",
+  "expected": "41013",
+  "file": "WORKDAY.INTL(DATE(2012,1,1),90,11)",
+  "got": "41013",
+  "name": "WORKDAY.INTL",
+  "note": "",
+  "status": "match"
+ },
+ "WORKDAY.INTL#3": {
+  "category": "Date and time",
+  "expected": "40944",
+  "file": "WORKDAY.INTL(DATE(2012,1,1),30,17)",
+  "got": "40944",
+  "name": "WORKDAY.INTL",
+  "note": "",
+  "status": "match"
+ },
+ "WRAPCOLS#1": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "INDEX(_xlfn.WRAPCOLS({1,2,3,4,5},2),1,3)",
+  "got": "5",
+  "name": "WRAPCOLS",
+  "note": "",
+  "status": "match"
+ },
+ "WRAPCOLS#2": {
+  "category": "Lookup and reference",
+  "expected": "0",
+  "file": "INDEX(_xlfn.WRAPCOLS({1,2,3,4,5},2,0),2,3)",
+  "got": "0",
+  "name": "WRAPCOLS",
+  "note": "",
+  "status": "match"
+ },
+ "WRAPROWS#1": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "INDEX(_xlfn.WRAPROWS({1,2,3,4,5},2),3,1)",
+  "got": "5",
+  "name": "WRAPROWS",
+  "note": "",
+  "status": "match"
+ },
+ "WRAPROWS#2": {
+  "category": "Lookup and reference",
+  "expected": "#N/A",
+  "file": "INDEX(_xlfn.WRAPROWS({1,2,3,4,5},2),3,2)",
+  "got": "#N/A",
+  "name": "WRAPROWS",
+  "note": "",
+  "status": "match"
+ },
+ "XIRR#1": {
+  "category": "Financial",
+  "expected": "0.373362533518831",
+  "file": "XIRR({-10000,2750,4250,3250,2750},{39448,39508,39751,39859,39904})",
+  "got": "0.373362533518831",
+  "name": "XIRR",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#1": {
+  "category": "Lookup and reference",
+  "expected": "30",
+  "file": "_xlfn.XLOOKUP(\"Dee\",Data!A2:A7,Data!C2:C7)",
+  "got": "30",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#2": {
+  "category": "Lookup and reference",
+  "expected": "\"not found\"",
+  "file": "_xlfn.XLOOKUP(\"Zed\",Data!A2:A7,Data!C2:C7,\"not found\")",
+  "got": "\"not found\"",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#3": {
+  "category": "Lookup and reference",
+  "expected": "\"Eve\"",
+  "file": "_xlfn.XLOOKUP(22,Data!C2:C7,Data!A2:A7,,1)",
+  "got": "\"Eve\"",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#4": {
+  "category": "Lookup and reference",
+  "expected": "\"Bob\"",
+  "file": "_xlfn.XLOOKUP(22,Data!C2:C7,Data!A2:A7,,-1)",
+  "got": "\"Bob\"",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#5": {
+  "category": "Lookup and reference",
+  "expected": "25",
+  "file": "_xlfn.XLOOKUP(\"E*\",Data!A2:A7,Data!C2:C7,,2)",
+  "got": "25",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#6": {
+  "category": "Lookup and reference",
+  "expected": "\"Fay\"",
+  "file": "_xlfn.XLOOKUP(\"East\",Data!B2:B7,Data!A2:A7,,0,-1)",
+  "got": "\"Fay\"",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#7": {
+  "category": "Lookup and reference",
+  "expected": "23",
+  "file": "SUM(_xlfn.XLOOKUP(\"Bob\",Data!A2:A7,Data!C2:D7))",
+  "got": "23",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XLOOKUP#8": {
+  "category": "Lookup and reference",
+  "expected": "\"c\"",
+  "file": "_xlfn.XLOOKUP(15,{5,10,15,20,25},{\"a\",\"b\",\"c\",\"d\",\"e\"},,0,2)",
+  "got": "\"c\"",
+  "name": "XLOOKUP",
+  "note": "",
+  "status": "match"
+ },
+ "XMATCH#1": {
+  "category": "Lookup and reference",
+  "expected": "3",
+  "file": "_xlfn.XMATCH(\"Cid\",Data!A2:A7)",
+  "got": "3",
+  "name": "XMATCH",
+  "note": "",
+  "status": "match"
+ },
+ "XMATCH#2": {
+  "category": "Lookup and reference",
+  "expected": "5",
+  "file": "_xlfn.XMATCH(22,Data!C2:C7,1)",
+  "got": "5",
+  "name": "XMATCH",
+  "note": "",
+  "status": "match"
+ },
+ "XMATCH#3": {
+  "category": "Lookup and reference",
+  "expected": "4",
+  "file": "_xlfn.XMATCH(\"?e?\",Data!A2:A7,2)",
+  "got": "4",
+  "name": "XMATCH",
+  "note": "",
+  "status": "match"
+ },
+ "XMATCH#4": {
+  "category": "Lookup and reference",
+  "expected": "6",
+  "file": "_xlfn.XMATCH(\"East\",Data!B2:B7,0,-1)",
+  "got": "6",
+  "name": "XMATCH",
+  "note": "",
+  "status": "match"
+ },
+ "XNPV#1": {
+  "category": "Financial",
+  "expected": "2086.64760203153",
+  "file": "XNPV(0.09,{-10000,2750,4250,3250,2750},{39448,39508,39751,39859,39904})",
+  "got": "2086.64760203153",
+  "name": "XNPV",
+  "note": "",
+  "status": "match"
+ },
+ "XOR#1": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "_xlfn.XOR(TRUE,TRUE,TRUE)",
+  "got": "TRUE",
+  "name": "XOR",
+  "note": "",
+  "status": "match"
+ },
+ "XOR#2": {
+  "category": "Logical",
+  "expected": "TRUE",
+  "file": "_xlfn.XOR(3>2,2<1)",
+  "got": "TRUE",
+  "name": "XOR",
+  "note": "",
+  "status": "match"
+ },
+ "YEAR#1": {
+  "category": "Date and time",
+  "expected": "2024",
+  "file": "YEAR(Data!E3)",
+  "got": "2024",
+  "name": "YEAR",
+  "note": "",
+  "status": "match"
+ },
+ "YEARFRAC#1": {
+  "category": "Date and time",
+  "expected": "0.580555555555556",
+  "file": "YEARFRAC(DATE(2012,1,1),DATE(2012,7,30))",
+  "got": "0.580555555555556",
+  "name": "YEARFRAC",
+  "note": "",
+  "status": "match"
+ },
+ "YEARFRAC#2": {
+  "category": "Date and time",
+  "expected": "0.57650273",
+  "file": "YEARFRAC(DATE(2012,1,1),DATE(2012,7,30),1)",
+  "got": "0.576502732240437",
+  "name": "YEARFRAC",
+  "note": "",
+  "status": "match"
+ },
+ "YEARFRAC#3": {
+  "category": "Date and time",
+  "expected": "0.57808219",
+  "file": "YEARFRAC(DATE(2012,1,1),DATE(2012,7,30),3)",
+  "got": "0.578082191780822",
+  "name": "YEARFRAC",
+  "note": "",
+  "status": "match"
+ },
+ "YIELD#1": {
+  "category": "Financial",
+  "expected": "0.0650000068807",
+  "file": "YIELD(DATE(2008,2,15),DATE(2016,11,15),0.0575,95.04287,100,2,0)",
+  "got": "0.0650000068807548",
+  "name": "YIELD",
+  "note": "",
+  "status": "match"
+ },
+ "YIELDDISC#1": {
+  "category": "Financial",
+  "expected": "0.0528225719868583",
+  "file": "YIELDDISC(DATE(2008,2,16),DATE(2008,3,1),99.795,100,2)",
+  "got": "0.0528225719868601",
+  "name": "YIELDDISC",
+  "note": "",
+  "status": "match"
+ },
+ "YIELDMAT#1": {
+  "category": "Financial",
+  "expected": "0.0609543336915",
+  "file": "YIELDMAT(DATE(2008,3,15),DATE(2008,11,3),DATE(2007,11,8),0.0625,100.0123,0)",
+  "got": "0.0609543336915386",
+  "name": "YIELDMAT",
+  "note": "",
+  "status": "match"
+ },
+ "Z.TEST#1": {
+  "category": "Statistical",
+  "expected": "0.0905741968513639",
+  "file": "_xlfn.Z.TEST({3,6,7,8,6,5,4,2,1,9},4)",
+  "got": "0.0905741968513638",
+  "name": "Z.TEST",
+  "note": "",
+  "status": "match"
+ },
+ "ZTEST#1": {
+  "category": "Compatibility",
+  "expected": "0.0905741968513639",
+  "file": "ZTEST({3,6,7,8,6,5,4,2,1,9},4)",
+  "got": "0.0905741968513638",
+  "name": "ZTEST",
+  "note": "",
+  "status": "match"
+ }
+}

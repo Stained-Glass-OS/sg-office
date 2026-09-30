@@ -1,0 +1,33 @@
+SG Office -- based on ONLYOFFICE
+================================
+
+SG Office is Stained Glass OS's office suite. Its engine is ONLYOFFICE's --
+the sdkjs document engines, the core converter/renderer and the web-apps
+editors -- developed by Ascensio System SIA (https://www.onlyoffice.com),
+built from their published source at the versions in upstream.conf, with the
+changes in patches/ made by Stained Glass OS contributors.
+
+Licence: GNU Affero General Public License version 3 (LICENSE), with
+ONLYOFFICE's additional terms under its Section 7, which this derivative keeps:
+
+  * Section 7(a): Ascensio System SIA excludes the warranty of
+    non-infringement of any third-party rights.
+  * Section 7(b): the original Product logo is retained when the program is
+    distributed. (SG Office shows the ONLYOFFICE logo in its About box.)
+  * Section 7(e): no rights are granted under trademark law for Ascensio
+    System SIA's trademarks. "ONLYOFFICE" is used here only to say truthfully
+    what SG Office is based on; SG Office is not ONLYOFFICE and is not
+    endorsed by Ascensio System SIA.
+  * Interactive user interfaces display Appropriate Legal Notices (AGPL
+    Section 5).
+  * ONLYOFFICE's GUI elements, illustrations, icon sets and technical writing
+    are licensed CC BY-SA 4.0; where SG Office uses them, it credits them so.
+
+Source: this repository (our build scripts and patches) plus the upstream
+repositories named in upstream.conf. Anyone receiving SG Office -- including
+over a network -- is entitled to this Corresponding Source (AGPL Section 13).
+
+Microsoft, Word, Excel and PowerPoint are trademarks of Microsoft Corporation.
+SG Office is not affiliated with or endorsed by Microsoft; it reads and writes
+their published file formats (ECMA-376 / ISO/IEC 29500) and implements the
+documented behaviour of their functions, without any Microsoft code.
