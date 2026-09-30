@@ -1,0 +1,102 @@
+From 17f82919b350dabdc8c34a8713a4d571fd7c4f32 Mon Sep 17 00:00:00 2001
+From: Stained-Glass-OS-contributors <noreply@stainedglass.invalid>
+Date: Wed, 30 Sep 2026 07:43:14 -0700
+Subject: [PATCH 1/5] build: sg_debian mode -- Debian's ICU, OpenSSL and zlib;
+ GCC 14
+
+A native build on Debian (CONFIG+=sg_debian) links the distribution's ICU 76,
+OpenSSL 3 and zlib instead of the bundled ICU 58, OpenSSL and zlib 1.2.11
+(the latter with known CVEs); ONLYOFFICE's modified minizip is still compiled
+in. ICU >= 68 needs C++17 and no longer defines TRUE/FALSE. GCC 14 made
+several old C diagnostics errors; the bundled C sources (cximage's codecs,
+minizip) were written for older GCC, where they are warnings, so they stay
+warnings in this mode.
+---
+ Common/3dParty/icu/icu.pri         | 10 +++++++++-
+ Common/3dParty/openssl/openssl.pri |  3 +++
+ Common/base.pri                    |  9 +++++++++
+ OfficeUtils/OfficeUtils.pri        |  9 ++++++++-
+ 4 files changed, 29 insertions(+), 2 deletions(-)
+
+diff --git a/Common/3dParty/icu/icu.pri b/Common/3dParty/icu/icu.pri
+index c5ae929f..12d0cec7 100644
+--- a/Common/3dParty/icu/icu.pri
++++ b/Common/3dParty/icu/icu.pri
+@@ -10,7 +10,7 @@ core_windows {
+     LIBS        += -L$$PWD/$$CORE_BUILDS_PLATFORM_PREFIX/build -licuuc
+ }
+ 
+-core_linux {
++core_linux:!sg_debian {
+     INCLUDEPATH += $$PWD/$$CORE_BUILDS_PLATFORM_PREFIX/build/include
+ 
+     LIBS        += $$PWD/$$CORE_BUILDS_PLATFORM_PREFIX/build/libicuuc.so.$$ICU_MAJOR_VER
+@@ -47,3 +47,11 @@ core_android {
+     LIBS        += $$PWD/android/build/$$CORE_BUILDS_PLATFORM_PREFIX_DST/libicuuc.a
+     LIBS        += $$PWD/android/build/$$CORE_BUILDS_PLATFORM_PREFIX_DST/libicudata.a
+ }
++
++# Stained Glass OS: build against the distribution's ICU (Debian libicu-dev).
++core_linux:sg_debian {
++    LIBS += -licuuc -licudata
++    # ICU >= 68 headers need C++17 and no longer define TRUE/FALSE
++    CONFIG += c++17
++    DEFINES += U_DEFINE_FALSE_AND_TRUE=1
++}
+diff --git a/Common/3dParty/openssl/openssl.pri b/Common/3dParty/openssl/openssl.pri
+index cb565d46..46ce1a07 100644
+--- a/Common/3dParty/openssl/openssl.pri
++++ b/Common/3dParty/openssl/openssl.pri
+@@ -31,6 +31,9 @@ core_ios {
+ core_windows {
+     LIBS += $$OPENSSL_LIBS_DIRECTORY/libssl.lib
+ 	LIBS += $$OPENSSL_LIBS_DIRECTORY/libcrypto.lib
++} else:sg_debian {
++    # Stained Glass OS: the distribution's OpenSSL (Debian libssl-dev).
++    LIBS += -lssl -lcrypto
+ } else {
+     LIBS += $$OPENSSL_LIBS_DIRECTORY/libssl.a
+ 	LIBS += $$OPENSSL_LIBS_DIRECTORY/libcrypto.a
+diff --git a/Common/base.pri b/Common/base.pri
+index e8dc81b1..dfe60346 100644
+--- a/Common/base.pri
++++ b/Common/base.pri
+@@ -610,3 +610,12 @@ ADD_INC_PATH = $$(ADDITIONAL_INCLUDE_PATH)
+ !disable_precompiled_header {
+ 	CONFIG += precompile_header
+ }
++
++# Stained Glass OS "sg_debian" build: a native build on Debian (GCC 14) with
++# the distribution's libraries. GCC 14 made several old C diagnostics errors;
++# upstream's bundled C sources (zlib contrib, cximage codecs, ...) were built
++# with older GCC where they were warnings, so keep them warnings here.
++core_linux:sg_debian {
++    QMAKE_CFLAGS += -Wno-error=incompatible-pointer-types -Wno-error=implicit-function-declaration \
++                    -Wno-error=int-conversion -Wno-error=implicit-int -Wno-error=return-mismatch
++}
+diff --git a/OfficeUtils/OfficeUtils.pri b/OfficeUtils/OfficeUtils.pri
+index b4e1f497..349e8f55 100644
+--- a/OfficeUtils/OfficeUtils.pri
++++ b/OfficeUtils/OfficeUtils.pri
+@@ -10,10 +10,17 @@ build_zlib_as_sources {
+     DEFINES += BUILD_ZLIB_AS_SOURCES
+ }
+ 
++# Stained Glass OS: zlib itself from the distribution (Debian zlib1g-dev),
++# not the bundled 1.2.11; ONLYOFFICE's modified minizip is still compiled in.
++sg_debian {
++    CONFIG -= build_all_zlib
++    LIBS += -lz
++}
++
+ INCLUDEPATH += \
+     $$PWD/src/zlib-1.2.11/contrib/minizip \
+-    $$PWD/src/zlib-1.2.11 \
+     $$PWD/src
++!sg_debian:INCLUDEPATH += $$PWD/src/zlib-1.2.11
+ 
+ SOURCES +=  \
+     $$PWD/src/OfficeUtils.cpp \
+-- 
+2.47.3
+

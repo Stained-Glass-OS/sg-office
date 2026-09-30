@@ -1,0 +1,262 @@
+From 3078fa5748878955a32b0fa917d785b6a1474e9b Mon Sep 17 00:00:00 2001
+From: Stained-Glass-OS-contributors <noreply@stainedglass.invalid>
+Date: Wed, 30 Sep 2026 07:43:14 -0700
+Subject: [PATCH 2/5] doctrenderer: build against Debian's V8 (libnode)
+
+In sg_debian mode the JavaScript engine is the V8 Debian ships in libnode
+(V8 11.3 with nodejs 20), built without pointer compression or sandbox, in
+place of a V8 8.9 built from Chromium's depot_tools. It exports everything
+doctrenderer uses, SnapshotCreator included. V8's internal src/base headers
+are not part of it, so the memory limits come from sysconf/getrlimit, and
+V8 11 disposes its platform with DisposePlatform. The inspector (a websocket
+debug server) is left out.
+---
+ Common/3dParty/v8/v8.pri                      | 142 ++++++++++--------
+ .../doctrenderer/js_internal/js_base.pri      |   1 +
+ .../doctrenderer/js_internal/v8/v8_base.h     |  30 +++-
+ 3 files changed, 104 insertions(+), 69 deletions(-)
+
+diff --git a/Common/3dParty/v8/v8.pri b/Common/3dParty/v8/v8.pri
+index 11c7c72d..cb7409af 100644
+--- a/Common/3dParty/v8/v8.pri
++++ b/Common/3dParty/v8/v8.pri
+@@ -1,88 +1,98 @@
+-CORE_V8_PATH_OVERRIDE=$$PWD
+-!v8_version_60:CONFIG += v8_version_89
+-
+-v8_version_89 {
+-    CONFIG += c++14
+-    CONFIG += use_v8_monolith
+-    DEFINES += V8_VERSION_89_PLUS
+-	DEFINES += V8_SUPPORT_SNAPSHOTS
++# Stained Glass OS: Debian's own V8 -- the one libnode carries (V8 11.3 in
++# trixie's nodejs 20), built without pointer compression and without the
++# sandbox, so neither V8_COMPRESS_POINTERS nor V8_ENABLE_SANDBOX here.
++sg_debian {
++    CONFIG += c++17
++    DEFINES += V8_VERSION_89_PLUS V8_SUPPORT_SNAPSHOTS SG_V8_LIBNODE
++    INCLUDEPATH += /usr/include/node
++    LIBS += -lnode
++} else {
++    CORE_V8_PATH_OVERRIDE=$$PWD
++    !v8_version_60:CONFIG += v8_version_89
++
++    v8_version_89 {
++        CONFIG += c++14
++        CONFIG += use_v8_monolith
++        DEFINES += V8_VERSION_89_PLUS
++    	DEFINES += V8_SUPPORT_SNAPSHOTS
++
++        core_win_32:CONFIG += build_platform_32
++        core_linux_32:CONFIG += build_platform_32
++
++        core_android {
++            isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_armv7):CONFIG += build_platform_32
++            isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86):CONFIG += build_platform_32
++        }
+ 
+-    core_win_32:CONFIG += build_platform_32
+-    core_linux_32:CONFIG += build_platform_32
++        !build_platform_32:DEFINES += V8_COMPRESS_POINTERS
+ 
+-    core_android {
+-        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_armv7):CONFIG += build_platform_32
+-        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86):CONFIG += build_platform_32
++        CORE_V8_PATH_OVERRIDE = $$PWD/../v8_89
+     }
+ 
+-    !build_platform_32:DEFINES += V8_COMPRESS_POINTERS
++    CORE_V8_PATH_INCLUDE    = $$CORE_V8_PATH_OVERRIDE/v8
++    CORE_V8_PATH_LIBS       = $$CORE_V8_PATH_INCLUDE/out.gn/$$CORE_BUILDS_PLATFORM_PREFIX/obj
+ 
+-    CORE_V8_PATH_OVERRIDE = $$PWD/../v8_89
+-}
++    core_android {
++        CORE_V8_PATH_INCLUDE = $$PWD/android/v8
++        CORE_V8_PATH_LIBS = $$PWD/android/build
+ 
+-CORE_V8_PATH_INCLUDE    = $$CORE_V8_PATH_OVERRIDE/v8
+-CORE_V8_PATH_LIBS       = $$CORE_V8_PATH_INCLUDE/out.gn/$$CORE_BUILDS_PLATFORM_PREFIX/obj
++        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_arm64_v8a):CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/arm64-v8a
++        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_armv7):    CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/armeabi-v7a
++        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86):      CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/x86
++        isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86_64):   CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/x86_64
++    }
+ 
+-core_android {
+-    CORE_V8_PATH_INCLUDE = $$PWD/android/v8
+-    CORE_V8_PATH_LIBS = $$PWD/android/build
++    INCLUDEPATH += \
++        $$CORE_V8_PATH_INCLUDE \
++        $$CORE_V8_PATH_INCLUDE/include
+ 
+-    isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_arm64_v8a):CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/arm64-v8a
+-    isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_armv7):    CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/armeabi-v7a
+-    isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86):      CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/x86
+-    isEqual(CORE_BUILDS_PLATFORM_PREFIX, android_x86_64):   CORE_V8_PATH_LIBS=$$CORE_V8_PATH_LIBS/x86_64
+-}
++    core_windows {
++        CORE_V8_PATH_LIBS = $$CORE_V8_PATH_INCLUDE/out.gn/$$CORE_BUILDS_PLATFORM_PREFIX/$$CORE_BUILDS_CONFIGURATION_PREFIX/obj
+ 
+-INCLUDEPATH += \
+-    $$CORE_V8_PATH_INCLUDE \
+-    $$CORE_V8_PATH_INCLUDE/include
++        use_v8_monolith {
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
++        } else {
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -lv8_snapshot -lv8_libsampler
++            LIBS += -L$$CORE_V8_PATH_LIBS/third_party/icu -licui18n -licuuc
++        }
+ 
+-core_windows {
+-    CORE_V8_PATH_LIBS = $$CORE_V8_PATH_INCLUDE/out.gn/$$CORE_BUILDS_PLATFORM_PREFIX/$$CORE_BUILDS_CONFIGURATION_PREFIX/obj
++        LIBS += -lwinmm
++        LIBS += -ladvapi32
++        LIBS += -lShell32
+ 
+-    use_v8_monolith {
+-        LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
+-    } else {
+-        LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -lv8_snapshot -lv8_libsampler
+-        LIBS += -L$$CORE_V8_PATH_LIBS/third_party/icu -licui18n -licuuc
++        LIBS += -lDbgHelp
++        LIBS += -lShlwapi
+     }
+ 
+-    LIBS += -lwinmm
+-    LIBS += -ladvapi32
+-    LIBS += -lShell32
++    core_linux {
++        use_v8_monolith {
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
++        } else {
++            SNAPSHOT_LIB=v8_snapshot
++            !exists($$CORE_V8_PATH_LIBS/libv8_snapshot.a) {
++                SNAPSHOT_LIB=v8_nosnapshot
++            }
++
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -l$$SNAPSHOT_LIB -lv8_libsampler
++            LIBS += -L$$CORE_V8_PATH_LIBS/third_party/icu -licui18n -licuuc
++        }
++    }
+ 
+-    LIBS += -lDbgHelp
+-    LIBS += -lShlwapi
+-}
++    core_mac {
+ 
+-core_linux {
+-    use_v8_monolith {
+-        LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
+-    } else {
+-        SNAPSHOT_LIB=v8_snapshot
+-        !exists($$CORE_V8_PATH_LIBS/libv8_snapshot.a) {
+-            SNAPSHOT_LIB=v8_nosnapshot
++        use_v8_monolith {
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
++        } else {
++            LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -lv8_snapshot -lv8_libsampler
++            LIBS += $$CORE_V8_PATH_LIBS/third_party/icu/libicui18n.a
++            LIBS += $$CORE_V8_PATH_LIBS/third_party/icu/libicuuc.a
+         }
+ 
+-        LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -l$$SNAPSHOT_LIB -lv8_libsampler
+-        LIBS += -L$$CORE_V8_PATH_LIBS/third_party/icu -licui18n -licuuc
++        QMAKE_CXXFLAGS += -Wall -Wno-inconsistent-missing-override
++        QMAKE_CFLAGS += -Wall -Wno-inconsistent-missing-override
+     }
+-}
+-
+-core_mac {
+ 
+-    use_v8_monolith {
++    core_android {
+         LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
+-    } else {
+-        LIBS += -L$$CORE_V8_PATH_LIBS -lv8_base -lv8_libplatform -lv8_libbase -lv8_snapshot -lv8_libsampler
+-        LIBS += $$CORE_V8_PATH_LIBS/third_party/icu/libicui18n.a
+-        LIBS += $$CORE_V8_PATH_LIBS/third_party/icu/libicuuc.a
+     }
+-
+-    QMAKE_CXXFLAGS += -Wall -Wno-inconsistent-missing-override
+-    QMAKE_CFLAGS += -Wall -Wno-inconsistent-missing-override
+-}
+-
+-core_android {
+-    LIBS += -L$$CORE_V8_PATH_LIBS -lv8_monolith
+ }
+diff --git a/DesktopEditor/doctrenderer/js_internal/js_base.pri b/DesktopEditor/doctrenderer/js_internal/js_base.pri
+index 467d6e43..9089c91f 100644
+--- a/DesktopEditor/doctrenderer/js_internal/js_base.pri
++++ b/DesktopEditor/doctrenderer/js_internal/js_base.pri
+@@ -20,6 +20,7 @@ SOURCES += $$PWD/js_logger.cpp
+     core_android:CONFIG += disable_v8_use_inspector
+     linux_arm64:CONFIG += disable_v8_use_inspector
+     build_xp::CONFIG += disable_v8_use_inspector
++    sg_debian:CONFIG += disable_v8_use_inspector
+ 
+     !disable_v8_use_inspector:CONFIG += v8_use_inspector
+ 
+diff --git a/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h b/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
+index a30f58ce..911e2372 100644
+--- a/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
++++ b/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
+@@ -24,7 +24,31 @@
+ #include "libplatform/libplatform.h"
+ 
+ #ifndef DISABLE_MEMORY_LIMITATION
++#ifdef SG_V8_LIBNODE
++// Stained Glass OS: Debian's V8 (libnode) does not ship V8's internal
++// src/base headers; the two memory figures come from the system instead.
++#include <unistd.h>
++#include <sys/resource.h>
++namespace sg_sysinfo
++{
++	inline int64_t AmountOfPhysicalMemory()
++	{
++		long pages = sysconf(_SC_PHYS_PAGES), size = sysconf(_SC_PAGESIZE);
++		return (pages > 0 && size > 0) ? (int64_t)pages * size : 0;
++	}
++	inline int64_t AmountOfVirtualMemory()
++	{
++		struct rlimit rl;
++		if (0 != getrlimit(RLIMIT_DATA, &rl) || RLIM_INFINITY == rl.rlim_cur)
++			return 0;
++		return (int64_t)rl.rlim_cur;
++	}
++}
++#define V8_SG_SYSINFO sg_sysinfo
++#else
+ #include "src/base/sys-info.h"
++#define V8_SG_SYSINFO v8::base::SysInfo
++#endif
+ #endif
+ 
+ #ifdef V8_VERSION_89_PLUS
+@@ -154,7 +178,7 @@ public:
+ #endif
+ 
+ 		v8::V8::Dispose();
+-	#ifdef V8_VERSION_121_PLUS
++	#if defined(V8_VERSION_121_PLUS) || defined(SG_V8_LIBNODE)
+ 		v8::V8::DisposePlatform();
+ 	#else
+ 		v8::V8::ShutdownPlatform();
+@@ -191,12 +215,12 @@ public:
+ 		create_params.array_buffer_allocator = m_pAllocator;
+ 
+ #ifndef DISABLE_MEMORY_LIMITATION
+-		int64_t nMaxVirtualMemory = v8::base::SysInfo::AmountOfVirtualMemory();
++		int64_t nMaxVirtualMemory = V8_SG_SYSINFO::AmountOfVirtualMemory();
+ 		if (0 == nMaxVirtualMemory)
+ 			nMaxVirtualMemory = 4000000000; // 4Gb
+ 
+ 		create_params.constraints.ConfigureDefaults(
+-					v8::base::SysInfo::AmountOfPhysicalMemory(),
++					V8_SG_SYSINFO::AmountOfPhysicalMemory(),
+ 					nMaxVirtualMemory);
+ #endif
+ 
+-- 
+2.47.3
+

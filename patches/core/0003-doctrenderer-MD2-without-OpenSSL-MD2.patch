@@ -1,0 +1,116 @@
+From b11945b186dc88970e9ec928ae0055fff5721517 Mon Sep 17 00:00:00 2001
+From: Stained-Glass-OS-contributors <noreply@stainedglass.invalid>
+Date: Wed, 30 Sep 2026 07:43:14 -0700
+Subject: [PATCH 3/5] doctrenderer: MD2 when OpenSSL has none
+
+Debian's OpenSSL 3 is built without MD2 (OPENSSL_NO_MD2), but documents from
+old Office versions protect sheets and files with MD2 password hashes. With
+no MD2 in OpenSSL, hash.cpp uses sg_md2.h, written from RFC 1319 (checked
+against all seven of the RFC's test vectors).
+---
+ DesktopEditor/doctrenderer/hash.cpp |  5 ++
+ DesktopEditor/doctrenderer/sg_md2.h | 76 +++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
+ create mode 100644 DesktopEditor/doctrenderer/sg_md2.h
+
+diff --git a/DesktopEditor/doctrenderer/hash.cpp b/DesktopEditor/doctrenderer/hash.cpp
+index c7ea04d8..53501b4c 100644
+--- a/DesktopEditor/doctrenderer/hash.cpp
++++ b/DesktopEditor/doctrenderer/hash.cpp
+@@ -14,6 +14,11 @@
+ #include <cstring>
+ #include <memory>
+ #include <stdlib.h>
++#ifdef OPENSSL_NO_MD2
++// Stained Glass OS: OpenSSL without MD2 (Debian's OpenSSL 3); RFC 1319's own
++#include "sg_md2.h"
++#define MD2 sg_md2
++#endif
+ 
+ int CHash::getDigestLength(HashAlgs alg)
+ {
+diff --git a/DesktopEditor/doctrenderer/sg_md2.h b/DesktopEditor/doctrenderer/sg_md2.h
+new file mode 100644
+index 00000000..54b739a7
+--- /dev/null
++++ b/DesktopEditor/doctrenderer/sg_md2.h
+@@ -0,0 +1,76 @@
++/*
++ * MD2 (RFC 1319) for builds whose OpenSSL has it disabled (OPENSSL_NO_MD2,
++ * e.g. Debian's OpenSSL 3). Documents written by old Office versions protect
++ * sheets and documents with MD2 password hashes, so the engine still needs it.
++ * Written for Stained Glass OS from the RFC's description.
++ *
++ * Copyright (C) 2026 Stained Glass OS contributors
++ * SPDX-License-Identifier: AGPL-3.0-or-later
++ */
++#ifndef SG_MD2_H
++#define SG_MD2_H
++
++#include <stddef.h>
++#include <string.h>
++
++/* RFC 1319 section 3.2: a permutation of 0..255 built from the digits of pi */
++static const unsigned char sg_md2_S[256] = {
++	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6, 19,
++	98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188, 76, 130, 202,
++	30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24, 138, 23, 229, 18,
++	190, 78, 196, 214, 218, 158, 222, 73, 160, 251, 245, 142, 187, 47, 238, 122,
++	169, 104, 121, 145, 21, 178, 7, 63, 148, 194, 16, 137, 11, 34, 95, 33,
++	128, 127, 93, 154, 90, 144, 50, 39, 53, 62, 204, 231, 191, 247, 151, 3,
++	255, 25, 48, 179, 72, 165, 181, 209, 215, 94, 146, 42, 172, 86, 170, 198,
++	79, 184, 56, 210, 150, 164, 125, 182, 118, 252, 107, 226, 156, 116, 4, 241,
++	69, 157, 112, 89, 100, 113, 135, 32, 134, 91, 207, 101, 230, 45, 168, 2,
++	27, 96, 37, 173, 174, 176, 185, 246, 28, 70, 97, 105, 52, 64, 126, 15,
++	85, 71, 163, 35, 221, 81, 175, 58, 195, 92, 249, 206, 186, 197, 234, 38,
++	44, 83, 13, 110, 133, 40, 132, 9, 211, 223, 205, 244, 65, 129, 77, 82,
++	106, 220, 55, 200, 108, 193, 171, 250, 36, 225, 123, 8, 12, 189, 177, 74,
++	120, 136, 149, 139, 227, 99, 232, 109, 233, 203, 213, 254, 59, 0, 29, 57,
++	242, 239, 183, 14, 102, 88, 208, 228, 166, 119, 114, 248, 235, 117, 75, 10,
++	49, 68, 80, 180, 143, 237, 31, 26, 219, 153, 141, 51, 159, 17, 131, 20
++};
++
++static inline void sg_md2_block(unsigned char X[48], unsigned char C[16], const unsigned char* M)
++{
++	int j, k;
++	unsigned char t, L = C[15];
++	for (j = 0; j < 16; j++)                  /* checksum (3.2) */
++		L = C[j] ^= sg_md2_S[M[j] ^ L];
++	for (j = 0; j < 16; j++)                  /* 48-byte buffer (3.4) */
++	{
++		X[16 + j] = M[j];
++		X[32 + j] = (unsigned char)(X[j] ^ M[j]);
++	}
++	t = 0;
++	for (j = 0; j < 18; j++)                  /* 18 rounds */
++	{
++		for (k = 0; k < 48; k++)
++			t = X[k] ^= sg_md2_S[t];
++		t = (unsigned char)(t + j);
++	}
++}
++
++/* MD2 of data[0..n) into out[16] -- the OpenSSL MD2() signature */
++static inline unsigned char* sg_md2(const unsigned char* data, size_t n, unsigned char* out)
++{
++	unsigned char X[48], C[16], block[16];
++	size_t i, full = n / 16 * 16;
++	unsigned char pad;
++	memset(X, 0, sizeof(X));
++	memset(C, 0, sizeof(C));
++	for (i = 0; i < full; i += 16)
++		sg_md2_block(X, C, data + i);
++	pad = (unsigned char)(16 - (n - full));   /* padding (3.1): always 1..16 bytes */
++	memcpy(block, data + full, n - full);
++	memset(block + (n - full), pad, pad);
++	sg_md2_block(X, C, block);
++	memcpy(block, C, 16);                      /* the checksum block (3.2) */
++	sg_md2_block(X, C, block);
++	memcpy(out, X, 16);
++	return out;
++}
++
++#endif
+-- 
+2.47.3
+

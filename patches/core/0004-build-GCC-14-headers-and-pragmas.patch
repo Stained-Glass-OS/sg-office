@@ -1,0 +1,102 @@
+From 6130cca7526f0f47b5b4ff988aca62e291ce0bd6 Mon Sep 17 00:00:00 2001
+From: Stained-Glass-OS-contributors <noreply@stainedglass.invalid>
+Date: Wed, 30 Sep 2026 07:43:14 -0700
+Subject: [PATCH 4/5] build: compile with GCC 14
+
+Headers newer libstdc++ no longer pulls in transitively (<cfloat> for
+DBL_MIN, <array>, <cstdint> for std::uintptr_t), and MSVC editor-folding
+'#pragma region' lines placed between an if block and its else, which GCC 14
+treats as ending the statement.
+---
+ MsBinaryFile/XlsFile/Format/Binary/CFRecord.cpp           | 1 +
+ .../Format/Logic/Biff_structures/StringPtgParser.cpp      | 8 --------
+ OOXML/XlsbFormat/Biff12_records/BeginPCDSCSet.h           | 1 +
+ OOXML/XlsxFormat/Worksheets/SheetData.cpp                 | 1 +
+ 4 files changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/MsBinaryFile/XlsFile/Format/Binary/CFRecord.cpp b/MsBinaryFile/XlsFile/Format/Binary/CFRecord.cpp
+index 2015a5dd..5fe3411f 100644
+--- a/MsBinaryFile/XlsFile/Format/Binary/CFRecord.cpp
++++ b/MsBinaryFile/XlsFile/Format/Binary/CFRecord.cpp
+@@ -32,6 +32,7 @@
+ 
+ #include "CFRecord.h"
+ #include "CFStream.h"
++#include <cstdint>
+ 
+ 
+ namespace XLS
+diff --git a/MsBinaryFile/XlsFile/Format/Logic/Biff_structures/StringPtgParser.cpp b/MsBinaryFile/XlsFile/Format/Logic/Biff_structures/StringPtgParser.cpp
+index 8db8e40b..192e8e56 100644
+--- a/MsBinaryFile/XlsFile/Format/Logic/Biff_structures/StringPtgParser.cpp
++++ b/MsBinaryFile/XlsFile/Format/Logic/Biff_structures/StringPtgParser.cpp
+@@ -75,7 +75,6 @@ const bool StringPtgParser::parseToPtgs(const std::wstring& assembled_formula, R
+ 
+     for(std::wstring::const_iterator it = assembled_formula.begin(), itEnd = assembled_formula.end(); it != itEnd;)
+     {
+-        #pragma region Operators
+         if(SyntaxPtg::is_operators(it, itEnd) || SyntaxPtg::is_PtgIsect(it, itEnd))
+         {
+             OperatorPtgPtr found_operator;
+@@ -184,8 +183,6 @@ const bool StringPtgParser::parseToPtgs(const std::wstring& assembled_formula, R
+             ptg_stack.push(found_operator);
+             last_ptg = found_operator;
+         }
+-        #pragma endregion
+-        #pragma region Parenthesis
+         else if(SyntaxPtg::extract_LeftParenthesis(it, itEnd))
+         {
+             PtgFuncPtr func;
+@@ -250,8 +247,6 @@ const bool StringPtgParser::parseToPtgs(const std::wstring& assembled_formula, R
+                 rgce.addPtg(last_ptg);
+             operand_expected = false;
+         }
+-        #pragma endregion
+-        #pragma region Comma and PtgUnion
+         else if(SyntaxPtg::extract_comma(it, itEnd))
+         {
+             SyntaxPtg::remove_extraSymbols(it, itEnd);
+@@ -278,8 +273,6 @@ const bool StringPtgParser::parseToPtgs(const std::wstring& assembled_formula, R
+             last_ptg = left_p; // PtgParen. Mostly to differ unary and binary minuses and pluses
+             operand_expected = true;
+         }
+-        #pragma endregion
+-        #pragma region Operands
+         else
+         {
+             OperandPtgPtr found_operand;
+@@ -439,7 +432,6 @@ const bool StringPtgParser::parseToPtgs(const std::wstring& assembled_formula, R
+                 union_expected = false;
+             }
+         }
+-        #pragma endregion
+     }
+ 
+     while(ptg_stack.size())
+diff --git a/OOXML/XlsbFormat/Biff12_records/BeginPCDSCSet.h b/OOXML/XlsbFormat/Biff12_records/BeginPCDSCSet.h
+index 2bcfc582..bfdec9fc 100644
+--- a/OOXML/XlsbFormat/Biff12_records/BeginPCDSCSet.h
++++ b/OOXML/XlsbFormat/Biff12_records/BeginPCDSCSet.h
+@@ -36,6 +36,7 @@
+ #include "../../../MsBinaryFile/XlsFile/Format/Logic/Biff_structures/BIFF12/XLWideString.h"
+ #include "../../../MsBinaryFile/XlsFile/Format/Logic/Biff_structures/BIFF12/RelID.h"
+ #include "../../../MsBinaryFile/XlsFile/Format/Logic/Biff_structures/BIFF12/CellRangeRef.h"
++#include <array>
+ 
+ namespace XLSB
+ {
+diff --git a/OOXML/XlsxFormat/Worksheets/SheetData.cpp b/OOXML/XlsxFormat/Worksheets/SheetData.cpp
+index 007a16aa..125426e6 100644
+--- a/OOXML/XlsxFormat/Worksheets/SheetData.cpp
++++ b/OOXML/XlsxFormat/Worksheets/SheetData.cpp
+@@ -38,6 +38,7 @@
+ #include "../../DocxFormat/VmlDrawing.h"
+ #include "../Styles/Styles.h"
+ #include "../Styles/Xfs.h"
++#include <cfloat>
+ #include "../SharedStrings/SharedStrings.h"
+ #include "DataValidation.h"
+ #include "../Comments/ThreadedComments.h"
+-- 
+2.47.3
+

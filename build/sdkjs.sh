@@ -20,11 +20,10 @@ mkdir -p "$WORK" "$OUT"
 if [ ! -d "$SRC/.git" ]; then
     git clone -q --depth 1 --branch "$SDKJS_TAG" "$SDKJS_URL" "$SRC"
 fi
-got=$(git -C "$SRC" rev-parse HEAD)
-[ "$got" = "$SDKJS_COMMIT" ] || { echo "sdkjs: HEAD $got is not the pinned $SDKJS_COMMIT"; exit 1; }
+git -C "$SRC" cat-file -e "$SDKJS_COMMIT^{commit}" 2>/dev/null || { echo "sdkjs: pinned commit $SDKJS_COMMIT not found"; exit 1; }
 
 # a clean tree, then our series
-git -C "$SRC" checkout -q -- .
+git -C "$SRC" checkout -q -f --detach "$SDKJS_COMMIT"
 git -C "$SRC" clean -qfdx -e build/node_modules
 if [ "${SG_SDKJS_NOPATCH:-0}" != 1 ]; then
     while read -r p; do
@@ -40,4 +39,5 @@ nice -n 10 node node_modules/grunt/bin/grunt --no-color ${SG_SDKJS_EDITORS:-}
 
 rm -rf "$OUT/sdkjs"
 cp -a "$SRC/deploy/sdkjs" "$OUT/sdkjs"
-echo "sdkjs built: $OUT/sdkjs ($(git -C "$SRC" describe --tags) + $(grep -cv '^#' "$HERE/patches/sdkjs/series" || true) patch(es))"
+if [ "${SG_SDKJS_NOPATCH:-0}" = 1 ]; then n="UNPATCHED"; else n="+ $(grep -cv '^#' "$HERE/patches/sdkjs/series" || true) patch(es)"; fi
+echo "sdkjs built: $OUT/sdkjs ($(git -C "$SRC" describe --tags) $n)"

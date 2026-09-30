@@ -1,0 +1,37 @@
+From ca8d56ac398bbc44da8025292513a88bdf14a49c Mon Sep 17 00:00:00 2001
+From: Stained-Glass-OS-contributors <noreply@stainedglass.invalid>
+Date: Wed, 30 Sep 2026 07:50:21 -0700
+Subject: [PATCH 5/5] doctrenderer: no unaligned V8 code range with Debian's V8
+
+When the process has no data-size limit, doctrenderer assumed a 4,000,000,000
+byte virtual-memory limit. V8 sizes its code range as 1/8 of that and, since
+V8 10, requires the result to be page-aligned; 500,000,000 is not, and V8
+aborts creating the isolate. With Debian's V8, no limit stays no limit, and
+a real limit is rounded down to a multiple of 8 x 2 MiB.
+---
+ DesktopEditor/doctrenderer/js_internal/v8/v8_base.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h b/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
+index 911e2372..4c92b237 100644
+--- a/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
++++ b/DesktopEditor/doctrenderer/js_internal/v8/v8_base.h
+@@ -216,8 +216,15 @@ public:
+ 
+ #ifndef DISABLE_MEMORY_LIMITATION
+ 		int64_t nMaxVirtualMemory = V8_SG_SYSINFO::AmountOfVirtualMemory();
++#ifdef SG_V8_LIBNODE
++		// V8 >= 10 sizes its code range as 1/8 of this limit and requires it
++		// page-aligned: 4,000,000,000 / 8 is not, and V8 aborts. No limit
++		// (0) stays no limit; a real one is rounded down to 8 * 2 MiB.
++		nMaxVirtualMemory -= nMaxVirtualMemory % ((int64_t)8 << 21);
++#else
+ 		if (0 == nMaxVirtualMemory)
+ 			nMaxVirtualMemory = 4000000000; // 4Gb
++#endif
+ 
+ 		create_params.constraints.ConfigureDefaults(
+ 					V8_SG_SYSINFO::AmountOfPhysicalMemory(),
+-- 
+2.47.3
+

@@ -1,1 +1,6 @@
 # SG Office patches to ONLYOFFICE core, applied in order
+0001-build-sg_debian-mode-Debian-libraries-GCC-14.patch
+0002-doctrenderer-Debian-V8-libnode.patch
+0003-doctrenderer-MD2-without-OpenSSL-MD2.patch
+0004-build-GCC-14-headers-and-pragmas.patch
+0005-doctrenderer-aligned-V8-code-range.patch

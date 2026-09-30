@@ -20,18 +20,19 @@ JOBS=${SG_CORE_JOBS:-3}
 CORE=$WORK/core
 mkdir -p "$WORK" "$OUT"
 
-pinned() {  # DIR URL TAG COMMIT
+pinned() {  # DIR URL TAG COMMIT -- a checkout of exactly the pinned commit
     [ -d "$1/.git" ] || git clone -q --depth 1 --branch "$3" "$2" "$1"
-    got=$(git -C "$1" rev-parse HEAD)
-    [ "$got" = "$4" ] || { echo "$1: HEAD $got is not the pinned $4"; exit 1; }
+    git -C "$1" cat-file -e "$4^{commit}" 2>/dev/null || { echo "$1: pinned commit $4 not found"; exit 1; }
+    [ "$(git -C "$1" rev-parse HEAD)" = "$4" ] || git -C "$1" checkout -q -f --detach "$4"
 }
 pinned "$CORE" "$CORE_URL" "$CORE_TAG" "$CORE_COMMIT"
 pinned "$WORK/build_tools" "$BUILD_TOOLS_URL" "$BUILD_TOOLS_TAG" "$BUILD_TOOLS_COMMIT"
 pinned "$WORK/sdkjs" "$SDKJS_URL" "$SDKJS_TAG" "$SDKJS_COMMIT"     # pdf engine's cmap.bin
+pinned "$WORK/document-templates" "$TEMPLATES_URL" "$TEMPLATES_TAG" "$TEMPLATES_COMMIT"
 
 # upstream's tracked tree, then our series (build output and the fetched
 # third-party sources are git-ignored and kept, so rebuilds are incremental)
-git -C "$CORE" checkout -q -- .
+git -C "$CORE" checkout -q -f --detach "$CORE_COMMIT"
 while read -r p; do
     case "$p" in ''|'#'*) continue;; esac
     git -C "$CORE" apply --whitespace=nowarn "$HERE/patches/core/$p"
@@ -107,6 +108,7 @@ cp "$B/x2t" "$B/docbuilder" "$H/"
 cp "$WORK/sdkjs/pdf/src/engine/cmap.bin" "$H/cmap.bin"
 cp "$B/allfontsgen" "$B/allthemesgen" "$H/" 2>/dev/null || true
 mkdir -p "$H/empty" "$H/dictionaries"
+cp "$WORK/document-templates/new/en-US/"new.* "$H/empty/"
 cat > "$H/DoctRenderer.config" <<'CFG'
 <Settings>
 <file>./sdkjs/common/Native/native.js</file>
