@@ -57,6 +57,10 @@ bool kindFromName(const QString& n, Kind* k)
 
 int main(int argc, char* argv[])
 {
+	// Stained Glass OS's session shows X11 windows on its taskbar (XWayland
+	// under sg-compositor): SG Office's window is one, unless told otherwise
+	if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM") && !qEnvironmentVariableIsEmpty("DISPLAY"))
+		qputenv("QT_QPA_PLATFORM", "xcb");
 	SchemeHandler::registerSchemes();
 	QApplication app(argc, argv);
 	QApplication::setApplicationName(QStringLiteral("SG Office"));

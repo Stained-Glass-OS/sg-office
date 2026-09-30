@@ -97,10 +97,16 @@ def main():
         os.makedirs(w)
         doc = os.path.join(w, "doc." + ext)
         shutil.copy(os.path.join(corpus, "src." + ext), doc)
-        rc, log = run(root, w, doc, click + "type:" + MARK + commit + ";wait:1500;pixel:1000,45;save;wait:3000;quit", {}, a.bridge)
+        # the .docx is opened through a linked folder, as files opened from the
+        # Windows side arrive (the prefix's dosdevices/c: link)
+        arg = doc
+        if ext == "docx":
+            os.symlink(w, os.path.join(work, "linked"))
+            arg = os.path.join(work, "linked", os.path.basename(doc))
+        rc, log = run(root, w, arg, click + "type:" + MARK + commit + ";wait:1500;pixel:1000,45;save;wait:3000;quit", {}, a.bridge)
         print("\n[%s] edit + save (rc=%d)" % (ext, rc))
         check(rc == 0, "%s: the program ran and quit" % ext)
-        check(("saved " + doc) in log, "%s: the program saved the document" % ext)
+        check(("saved " + os.path.realpath(doc)) in log, "%s: the program saved the document (at its real path)" % ext)
         try:
             check(MARK in text_of(doc), "%s: the saved file has the typed text" % ext)
             for name, ok in k["check"](doc):

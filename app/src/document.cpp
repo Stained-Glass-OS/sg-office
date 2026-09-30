@@ -52,7 +52,10 @@ Document::Document(const QString& sourcePath, Kind kind, QObject* parent)
 	QDir().mkpath(m_workDir + QStringLiteral("/changes"));
 	if (!sourcePath.isEmpty())
 	{
-		m_path = QFileInfo(sourcePath).absoluteFilePath();
+		// the real path: a file opened from the Windows side arrives through
+		// the prefix's drive links (.../dosdevices/c:/users/...)
+		const QFileInfo fi(sourcePath);
+		m_path = fi.exists() ? fi.canonicalFilePath() : fi.absoluteFilePath();
 		m_format = Formats::byExt(QFileInfo(sourcePath).suffix());
 	}
 	else
