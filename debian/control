@@ -10,7 +10,7 @@ Rules-Requires-Root: no
 Package: sg-office-editors
 Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, fontconfig
-Recommends: fonts-crosextra-carlito, fonts-crosextra-caladea, fonts-liberation2
+Recommends: fonts-crosextra-carlito, fonts-crosextra-caladea, fonts-liberation2, cups-client
 Description: SG Office editors: documents, spreadsheets and presentations (based on ONLYOFFICE)
  SG Office is Stained Glass OS's office suite: Documents, Spreadsheets and
  Presentations, each document in a window of its own. It reads and writes

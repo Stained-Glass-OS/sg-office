@@ -46,6 +46,12 @@ void TitleBar::setAccent(const QColor& accent)
 	update();
 }
 
+void TitleBar::setDark(bool dark)
+{
+	m_dark = dark;
+	update();
+}
+
 QRect TitleBar::buttonRect(Button b) const
 {
 	const int i = 2 - static_cast<int>(b);      // close at the right edge
@@ -64,7 +70,9 @@ void TitleBar::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	const bool active = window()->isActiveWindow();
-	p.fillRect(rect(), Qt::white);
+	const QColor fg = m_dark ? (active ? QColor(0xF0, 0xF0, 0xF0) : QColor(0x90, 0x90, 0x90))
+	                         : (active ? QColor(0, 0, 0) : QColor(150, 150, 150));
+	p.fillRect(rect(), m_dark ? QColor(0x20, 0x20, 0x20) : QColor(Qt::white));
 	// the program's colour as a thin line along the top, like its icon
 	p.fillRect(QRect(0, 0, width(), 2), m_accent);
 
@@ -72,7 +80,7 @@ void TitleBar::paintEvent(QPaintEvent*)
 	if (!m_icon.isNull())
 		m_icon.paint(&p, QRect(10, (kHeight - iconSize) / 2, iconSize, iconSize));
 
-	p.setPen(active ? QColor(0, 0, 0) : QColor(150, 150, 150));
+	p.setPen(fg);
 	QFont f = font();
 	f.setPointSizeF(9.5);
 	p.setFont(f);
@@ -84,8 +92,8 @@ void TitleBar::paintEvent(QPaintEvent*)
 	{
 		const QRect r = buttonRect(b);
 		if (m_hover == b)
-			p.fillRect(r, b == Close ? QColor(0xE8, 0x11, 0x23) : QColor(0xE5, 0xE5, 0xE5));
-		p.setPen(QPen(m_hover == b && b == Close ? Qt::white : (active ? Qt::black : QColor(150, 150, 150)), 1));
+			p.fillRect(r, b == Close ? QColor(0xE8, 0x11, 0x23) : m_dark ? QColor(0x3A, 0x3A, 0x3A) : QColor(0xE5, 0xE5, 0xE5));
+		p.setPen(QPen(m_hover == b && b == Close ? QColor(Qt::white) : fg, 1));
 		const QPoint c = r.center();
 		switch (b)
 		{

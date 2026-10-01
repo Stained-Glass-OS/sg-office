@@ -32,12 +32,12 @@ export PYTHONDONTWRITEBYTECODE := 1
 # the builds run in the trixie build root (build/mkroot.sh); INROOT= to run on the host
 INROOT ?= $(if $(wildcard /var/tmp/sgoffice/root-build/usr/bin/qmake),SG_CWD=$(CURDIR) sh build/inroot.sh,)
 
-.PHONY: all lint sdkjs core engine webapps sdkjs-desktop app test test-roundtrip test-parity test-app test-mutation deb test-deb test-deb-mutation
+.PHONY: all lint sdkjs core engine webapps sdkjs-desktop app test test-roundtrip test-parity test-app test-mutation test-app-mutation deb test-deb test-deb-mutation
 all: sdkjs core engine webapps sdkjs-desktop app
 
 lint:
 	@for f in build/*.sh; do sh -n $$f || exit 1; done
-	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py test/app/app_check.py test/app/mutate_bridge.py test/deb/deb_check.py test/deb/mutate_deb.py
+	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py test/app/app_check.py test/app/features_check.py test/app/mutate_bridge.py test/deb/deb_check.py test/deb/mutate_deb.py
 	@node --check app/res/bridge.js
 	@for d in patches/*/; do $(PY) tools/trademark-check.py --allow tools/trademark-allow.txt --patches $$d build app test/parity/engine_corpus.py || exit 1; done
 	@for d in patches/*/; do while read -r p; do case "$$p" in ''|'#'*) ;; *) [ -f "$$d$$p" ] || { echo "series names missing $$d$$p"; exit 1; };; esac; done < $$d/series; done
@@ -75,6 +75,7 @@ test-roundtrip: $(OUT)/rt-corpus/src.docx
 
 test-app:
 	@$(PY) test/app/app_check.py --root $(OUT)/app-root --work $(OUT)/app-check
+	@$(PY) test/app/features_check.py --root $(OUT)/app-root --work $(OUT)/features-check
 
 test-parity:
 	@$(PY) test/parity/engine_corpus.py --engine $(OUT)/engine --baseline test/parity/baseline.json --json $(OUT)/parity.json
@@ -102,6 +103,28 @@ test-mutation:
 	         --bridge $(OUT)/mutant/bridge-$$m.js --only docx --no-odf >/dev/null; then \
 	        echo "test-mutation: FAIL -- the program gate passed bridge mutant $$m"; exit 1; \
 	    else echo "test-mutation: OK -- the program gate catches bridge mutant $$m"; fi; done
+	@$(MAKE) -s test-app-mutation
+
+# The features gate against its mutants: bridge.js ones (NAME:CHECK), and the
+# program built with one fix reverted (#ifdef SG_MUTANT_NAME; built into
+# $(OUT)/mutant/app-NAME, run with the app-root's engine and editors).
+BRIDGE_MUTANTS = noprint:print notitle:title
+APP_MUTANTS = FONTS_EVERY_START:fonts CSV_NO_PARAMS:csv EXPORT_SAVES:export NO_ALTF4:altf4 UNITS_CM:units \
+              NO_HANDOFF:handoff NO_DARK:dark NO_RECENTS:recents
+test-app-mutation:
+	@for mc in $(BRIDGE_MUTANTS); do m=$${mc%%:*}; c=$${mc##*:}; \
+	    $(PY) test/app/mutate_bridge.py $$m $(OUT)/mutant/bridge-$$m.js >/dev/null || exit 1; \
+	    if $(PY) test/app/features_check.py --root $(OUT)/app-root --work $(OUT)/mutant/feat-$$m \
+	         --bridge $(OUT)/mutant/bridge-$$m.js --only $$c >/dev/null; then \
+	        echo "test-mutation: FAIL -- the features gate passed bridge mutant $$m"; exit 1; \
+	    else echo "test-mutation: OK -- the features gate ($$c) catches bridge mutant $$m"; fi; done
+	@for mc in $(APP_MUTANTS); do m=$${mc%%:*}; c=$${mc##*:}; r=$(OUT)/mutant/app-$$m; \
+	    $(INROOT) sh -c "cmake -S app -B $$r-build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSG_MUTANTS=$$m >/dev/null && nice -n 10 ninja -C $$r-build -j3 >/dev/null" || exit 1; \
+	    rm -rf $$r; mkdir -p $$r/bin; cp $$r-build/sg-office $$r/bin/; \
+	    ln -s $(OUT)/app-root/lib $$r/lib; ln -s $(OUT)/app-root/share $$r/share; \
+	    if $(PY) test/app/features_check.py --root $$r --work $(OUT)/mutant/feat-$$m --only $$c >/dev/null; then \
+	        echo "test-mutation: FAIL -- the features gate passed program mutant $$m"; exit 1; \
+	    else echo "test-mutation: OK -- the features gate ($$c) catches program mutant $$m"; fi; done
 
 # --- the package -------------------------------------------------------------
 # debian/rules builds everything from source (make sdkjs core engine webapps

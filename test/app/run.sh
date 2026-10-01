@@ -22,7 +22,8 @@ if [ -n "${SG_OFFICE_SYSROOT:-}" ]; then
 else
     export SG_OFFICE_ENGINE="$ROOT/lib/sg-office/engine" SG_OFFICE_SHARE="$ROOT/share/sg-office"; PROG=$ROOT/bin/sg-office
 fi
-export LANG=C.UTF-8 LC_ALL=C.UTF-8
+# SG_TEST_LC_ALL: another locale (the units gate: en_US measures in inches)
+export LANG=C.UTF-8 LC_ALL=${SG_TEST_LC_ALL:-C.UTF-8}
 export QTWEBENGINE_DISABLE_SANDBOX=1 QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu" QT_QPA_PLATFORM=xcb
 unset DISPLAY WAYLAND_DISPLAY
 exec env SG_CWD="$WORK" sh "$HERE/build/inroot.sh" timeout "${SG_TIMEOUT:-180}" \

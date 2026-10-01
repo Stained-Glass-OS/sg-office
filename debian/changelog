@@ -1,3 +1,43 @@
+sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
+
+  * Saving a copy as PDF (File > Download as, Print to PDF) no longer
+    marks the document saved: the window closed without asking and the
+    change was lost (QA: typed text gone from the .docx). The PDF is a
+    copy; the document stays as modified as it was.
+  * File > Print prints: a PDF of the document (x2t) goes to the printer
+    chosen in the print dialog through CUPS (lp), with the editor's pages,
+    copies and sides; Quick Print uses the default printer; Print to File
+    writes the PDF. It did nothing before.
+  * CSV files open (they failed with "An error has occurred while opening
+    the file"): the engine is told the encoding (UTF-8, UTF-16 by mark,
+    else Windows-1252) and the delimiter (comma, semicolon or tab, as the
+    file uses most); a CSV is saved back with its own delimiter. Plain
+    text files get their encoding too.
+  * The font tables (allfontsgen, ~27 s on the QA VM) are made only when
+    the fonts change (fontconfig's list fingerprinted), not at every start;
+    meanwhile a window says SG Office is getting ready.
+  * One SG Office: a later start hands its files to the one running (a
+    socket in the session's runtime directory) and leaves -- a second
+    document opens in a second window at once, and a file already open
+    brings its window forward instead of opening twice.
+  * File > New, Open, Open Recent and Close work (they did nothing); the
+    recent files are kept (~/.local/share/sg-office/recent.json).
+  * After Save As the editor's title is the new file name.
+  * Alt+F4 closes the window, Ctrl+W the document.
+  * The windows have SG Office's icons (drawn by the program), the title
+    bar too.
+  * A US English account measures in inches (Office's default there), and
+    the editors take the account's language and region.
+  * Settings > Colors' dark mode: the editors' dark theme, a dark title bar
+    and dark dialogs, following a change while running.
+  * Gates: test/app/features_check.py (csv, export, print, fonts, altf4,
+    units, title, handoff, dark, recents), each with a mutant
+    (make test-app-mutation: bridge noprint/notitle, program
+    SG_MUTANT_FONTS_EVERY_START/CSV_NO_PARAMS/EXPORT_SAVES/NO_ALTF4/
+    UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS).
+
+ -- Stained Glass OS <ke7oxh@gmail.com>  Thu, 01 Oct 2026 17:45:00 +0000
+
 sg-office-editors (8.2.0.143+sg2) unstable; urgency=medium
 
   * The editors' "new feature" tips (Spreadsheets' "Updated Pivot Tables"

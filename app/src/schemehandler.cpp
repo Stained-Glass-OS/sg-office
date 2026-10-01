@@ -238,7 +238,7 @@ void SchemeHandler::serveNative(QWebEngineUrlRequestJob* job, const QString& cal
 
 	if (call == QLatin1String("state"))
 	{
-		replyJson(job, QJsonObject{
+		QJsonObject st{
 			{QStringLiteral("id"), doc->id()},
 			{QStringLiteral("title"), doc->title()},
 			{QStringLiteral("path"), doc->path()},
@@ -250,7 +250,11 @@ void SchemeHandler::serveNative(QWebEngineUrlRequestJob* job, const QString& cal
 			{QStringLiteral("url"), QStringLiteral("sgoffice://app/doc/") + doc->id()},
 			{QStringLiteral("debug"), qEnvironmentVariableIntValue("SG_OFFICE_LOG") >= 2},
 			{QStringLiteral("user"), userDisplayName()},
-		});
+		};
+		const QJsonObject more = host->hostState();
+		for (auto it = more.begin(); it != more.end(); ++it)
+			st.insert(it.key(), it.value());
+		replyJson(job, st);
 	}
 	else if (call == QLatin1String("open"))
 	{
@@ -313,6 +317,13 @@ void SchemeHandler::serveNative(QWebEngineUrlRequestJob* job, const QString& cal
 	{
 		const QString f = resolveUnder(doc->workDir(), q.queryItemValue(QStringLiteral("name")));
 		replyJson(job, QJsonObject{{QStringLiteral("exists"), !f.isEmpty() && QFileInfo(f).isFile()}});
+	}
+	else if (call == QLatin1String("print"))
+		host->hostPrint(readBody(job), later);
+	else if (call == QLatin1String("recents"))
+	{
+		host->hostCommand(QStringLiteral("sg:recents"), QString());
+		replyJson(job, QJsonObject{{QStringLiteral("ok"), true}});
 	}
 	else if (call == QLatin1String("log"))
 	{

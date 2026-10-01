@@ -69,4 +69,6 @@ private:
 	QByteArrayList m_changes;
 	bool m_modified = false;
 	int m_untitledNumber = 0;
+	int m_textEncoding = 46;                          // a CSV/text file's, as read (UTF-8)
+	int m_csvDelimiter = 4;                           // a CSV's, as read (comma)
 };

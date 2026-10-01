@@ -25,7 +25,7 @@ and Presentations in Start and on Office's file types.
 | `build/assemble-app.sh` | lays the program out as it installs (`bin/`, `lib/sg-office/engine`, `share/sg-office`) |
 | `debian/` | the package `sg-office-editors`: `debian/rules` builds everything from source and packages `app-root`; `debian/copyright` credits ONLYOFFICE |
 | `test/deb/` | the package's gate: contents, licence notices, dependencies, then installed (dpkg) into a scratch root and the program's gate run as installed |
-| `test/app/` | the program's gate: headless (own Xvfb, scratch HOME), clicks, types, saves, Saves As OpenDocument, checks the SG look |
+| `test/app/` | the program's gates: headless (own Xvfb, scratch HOME), clicks, types, saves, Saves As OpenDocument, checks the SG look (`app_check.py`); CSV, PDF export, printing, font cache, Alt+F4, units, title, hand-off to the running program, dark mode, recent files (`features_check.py`) |
 | `test/roundtrip/` | a .docx/.xlsx/.pptx our own code writes from scratch (`ooxmlw.py`), opened in the engine and saved back; their features must survive |
 | `test/parity/` | the Excel formula corpus (775 cases, 530 functions; vendored from sg-shell `office/parity`) run through our engine |
 | `tools/trademark-check.py` | the project's trademark gate, over our patches and scripts |
@@ -37,6 +37,7 @@ and Presentations in Start and on Office's file types.
     make webapps sdkjs-desktop app  # the editors and the program, in $(OUT)/app-root
     make test                       # lint + round-trip, Excel corpus and program gates
     make test-mutation              # every gate must fail when what it guards breaks
+    make test-app-mutation          # the features gate against its bridge and program mutants
     make deb                        # ../sg-office-editors_VERSION_amd64.deb, from source (DEB_OUT trees)
     make test-deb                   # the package's gate; make test-deb-mutation: its broken packages
 

@@ -11,6 +11,7 @@
 <title>SG Office</title>
 <style>
   html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #fff; }
+  html.sg-dark, html.sg-dark body { background: #333; }
   #wrap { position: absolute; inset: 0; }
 </style>
 </head>
@@ -33,6 +34,7 @@
   try {
     (window.sgSeenTips || []).forEach(function (n) { if (!localStorage.getItem(n)) localStorage.setItem(n, "1"); });
   } catch (e) {}
+  if (state.dark) document.documentElement.className = "sg-dark";
   var doctype = p.get("doctype") || "word";
   window.sgEditor = new DocsAPI.DocEditor("placeholder", {
     type: "desktop",
@@ -48,10 +50,16 @@
     },
     editorConfig: {
       mode: "edit",
-      lang: p.get("lang") || "en",
+      // the account's language and region (dates, numbers, currency in
+      // spreadsheets), as the program reads them from the system
+      lang: p.get("lang") || state.lang || "en",
+      region: state.region || "en-US",
       user: { id: "sg-user", name: state.user || "User" },
       customization: {
-        uiTheme: "theme-sg-light",
+        // the session's look: Settings > Colors' light or dark
+        uiTheme: state.dark ? "theme-dark" : "theme-sg-light",
+        // inches where Office measures in inches (the United States), else cm
+        unit: state.unit || "cm",
         goback: false,
         feedback: false,
         help: false,

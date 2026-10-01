@@ -5,7 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 #include "window.h"
+#include "appicon.h"
 #include "document.h"
+#include "office.h"
+#include "printing.h"
 #include "titlebar.h"
 
 #include <QApplication>
@@ -13,9 +16,12 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QFileDialog>
+#include <QDir>
 #include <QFileInfo>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QKeyEvent>
+#include <QLocale>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QStandardPaths>
@@ -81,7 +87,7 @@ protected:
 };
 }
 
-EditorWindow::EditorWindow(Document* doc, QWidget* parent)
+EditorWindow::EditorWindow(Document* doc, bool autopilot, QWidget* parent)
 	: QWidget(parent, Qt::Window | Qt::FramelessWindowHint), m_doc(doc)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
@@ -91,8 +97,9 @@ EditorWindow::EditorWindow(Document* doc, QWidget* parent)
 
 	m_title = new TitleBar(this);
 	m_title->setAccent(accentOf(doc->kind()));
-	m_title->setIcon(QIcon::fromTheme(QStringLiteral("sg-office-") +
-	    QString::fromLatin1(doc->kind() == Kind::Word ? "documents" : doc->kind() == Kind::Cell ? "spreadsheets" : "presentations")));
+	// the program's icon: the window's (the taskbar's button) and the title bar's
+	setWindowIcon(AppIcon::of(doc->kind()));
+	m_title->setIcon(AppIcon::of(doc->kind()));
 	connect(m_title, &TitleBar::minimizeRequested, this, &QWidget::showMinimized);
 	connect(m_title, &TitleBar::maximizeRequested, this, [this] { isMaximized() ? showNormal() : showMaximized(); });
 	connect(m_title, &TitleBar::closeRequested, this, &QWidget::close);
@@ -124,7 +131,17 @@ EditorWindow::EditorWindow(Document* doc, QWidget* parent)
 	connect(doc, &Document::identityChanged, this, &EditorWindow::updateTitle);
 	updateTitle();
 
-	m_autopilot = qEnvironmentVariable("SG_OFFICE_AUTOPILOT").split(QLatin1Char(';'), Qt::SkipEmptyParts);
+	if (autopilot)
+		m_autopilot = qEnvironmentVariable("SG_OFFICE_AUTOPILOT").split(QLatin1Char(';'), Qt::SkipEmptyParts);
+
+	applyLook(Office::instance().dark());
+	connect(&Office::instance(), &Office::darkChanged, this, [this](bool dark) {
+		applyLook(dark);
+		// the editors' own theme, while they run
+		runInEditor(QStringLiteral("window.on_native_message && window.on_native_message('theme:changed', '%1');")
+		            .arg(dark ? QStringLiteral("theme-dark") : QStringLiteral("theme-sg-light")));
+	});
+	connect(&Office::instance(), &Office::recentsChanged, this, &EditorWindow::sendRecents);
 
 	QUrl url(QStringLiteral("sgoffice://app/shell/editor.html"));
 	QUrlQuery q;
@@ -145,6 +162,53 @@ EditorWindow::~EditorWindow()
 	delete m_doc;
 }
 
+void EditorWindow::bringForward()
+{
+	if (isMinimized())
+		showNormal();
+	show();
+	raise();
+	activateWindow();
+}
+
+// What the editor's page needs to know beyond the document: the look, the
+// units and the language of this account (a US English account measures in
+// inches, as Office does there).
+QJsonObject EditorWindow::hostState()
+{
+	QLocale loc = QLocale::system();
+	if (loc.language() == QLocale::C)
+		loc = QLocale(QLocale::English, QLocale::UnitedStates);   // no locale set: Office's default
+	const bool inches = loc.measurementSystem() != QLocale::MetricSystem;
+	return QJsonObject{
+		{QStringLiteral("dark"), Office::instance().dark()},
+#ifndef SG_MUTANT_UNITS_CM
+		{QStringLiteral("unit"), inches ? QStringLiteral("inch") : QStringLiteral("cm")},
+#else
+		{QStringLiteral("unit"), QStringLiteral("cm")},
+#endif
+		{QStringLiteral("region"), loc.name().replace(QLatin1Char('_'), QLatin1Char('-'))},
+		{QStringLiteral("lang"), loc.name().section(QLatin1Char('_'), 0, 0)},
+	};
+}
+
+void EditorWindow::applyLook(bool dark)
+{
+	m_title->setDark(dark);
+	setStyleSheet(dark ? QStringLiteral("EditorWindow { background: #202020; }") : QStringLiteral("EditorWindow { background: #ffffff; }"));
+}
+
+void EditorWindow::sendRecents()
+{
+#ifdef SG_MUTANT_NO_RECENTS
+	return;
+#endif
+	if (!m_ready)
+		return;
+	const QByteArray list = QJsonDocument(Office::instance().recents()).toJson(QJsonDocument::Compact);
+	runInEditor(QStringLiteral("window.onupdaterecents && window.onupdaterecents(%1);").arg(QString::fromUtf8(list)));
+}
+
 void EditorWindow::updateTitle()
 {
 	const QString t = m_doc->title() + QStringLiteral(" - ") + Formats::productName(m_doc->kind());
@@ -152,12 +216,17 @@ void EditorWindow::updateTitle()
 	m_title->setTitle(m_doc->isModified() ? QStringLiteral("• ") + t : t);
 }
 
-void EditorWindow::runInEditor(const QString& js)
+void EditorWindow::runInEditor(const QString& js, const std::function<void(const QVariant&)>& done)
 {
 	// the editor runs in DocsAPI's frame; ours is the page around it
 	std::function<void(QWebEngineFrame)> visit = [&](QWebEngineFrame f) {
 		if (f.url().path().contains(QLatin1String("/main/index.html")))
-			f.runJavaScript(js);
+		{
+			if (done)
+				f.runJavaScript(js, done);
+			else
+				f.runJavaScript(js);
+		}
 		for (const QWebEngineFrame& c : f.children())
 			visit(c);
 	};
@@ -224,9 +293,29 @@ void EditorWindow::hostSave(bool saveAs, int fileType, const QByteArray& jsonPar
 			}
 		}
 		const int code = fmt ? fmt->code : (QFileInfo(target).suffix().toLower() == QLatin1String("pdf") ? 513 : 0);
-		m_doc->save(target, code, jsonParams, [this, reply](bool ok, const QString& err) {
+		// a PDF is a copy of the document, not the document saved: it stays
+		// as modified as it was (its window still asks to save it on close)
+#ifndef SG_MUTANT_EXPORT_SAVES
+		const bool exported = code == 513;
+#else
+		const bool exported = false;
+#endif
+		const bool wasModified = m_doc->isModified();
+		m_doc->save(target, code, jsonParams, [this, reply, exported, wasModified](bool ok, const QString& err) {
+			if (ok && exported)
+			{
+				m_doc->setModified(wasModified);
+				hostLog(QStringLiteral("exported a copy"));
+				reply(QJsonObject{{QStringLiteral("ok"), true}, {QStringLiteral("exported"), true}});
+				m_closeAfterSave = false;
+				autopilotStep();
+				return;
+			}
 			if (ok)
+			{
 				m_doc->setModified(false);
+				Office::instance().addRecent(m_doc->path(), m_doc->format() ? m_doc->format()->code : 0);
+			}
 			else
 			{
 				hostLog(QStringLiteral("save failed: ") + err);
@@ -255,6 +344,83 @@ void EditorWindow::hostModified(bool modified)
 void EditorWindow::hostCommand(const QString& cmd, const QString& param)
 {
 	debugLog(QStringLiteral("command %1 %2").arg(cmd, param.left(120)));
+	// the editor is mid-call: act when it has returned
+	QTimer::singleShot(0, this, [this, cmd, param] {
+		if (cmd == QLatin1String("create:new"))
+		{
+			// File > New (and Create from template): a new document of this kind
+			const QString k = param.section(QLatin1Char(':'), -1);
+			Office::instance().create(k == QLatin1String("cell") ? Kind::Cell : k == QLatin1String("slide") ? Kind::Slide
+			                          : k == QLatin1String("word") ? Kind::Word : m_doc->kind());
+		}
+		else if (cmd == QLatin1String("open:recent"))
+		{
+			const QString path = QJsonDocument::fromJson(param.toUtf8()).object().value(QStringLiteral("path")).toString();
+			if (!path.isEmpty())
+				Office::instance().open(path);
+		}
+		else if (cmd == QLatin1String("editor:event"))
+		{
+			const QString action = QJsonDocument::fromJson(param.toUtf8()).object().value(QStringLiteral("action")).toString();
+			if (action == QLatin1String("file:open"))
+				Office::instance().openDialog(this, m_doc->kind());
+			else if (action == QLatin1String("file:close"))
+				close();
+		}
+		else if (cmd == QLatin1String("sg:recents"))
+			sendRecents();
+	});
+}
+
+void EditorWindow::hostPrint(const QByteArray& json, Reply reply)
+{
+	QTimer::singleShot(0, this, [this, json, reply] {
+		const QJsonObject o = QJsonDocument::fromJson(json).object();
+		const QJsonObject native = o.value(QStringLiteral("nativeOptions")).toObject();
+		Printing::Job job = Printing::fromEditor(native, m_doc->title());
+		// Quick Print: the default printer, no questions; else the dialog
+		if (!native.value(QStringLiteral("quickPrint")).toBool() && !Printing::ask(this, &job))
+		{
+			reply(QJsonObject{{QStringLiteral("ok"), false}, {QStringLiteral("cancelled"), true}});
+			hostLog(QStringLiteral("print: cancelled"));
+			return;
+		}
+		// the PDF the printer gets: the document as it is now, laid out for print
+		QJsonObject params = o;
+		params.remove(QStringLiteral("nativeOptions"));
+		QJsonObject layout = params.value(QStringLiteral("documentLayout")).toObject();
+		layout.insert(QStringLiteral("isPrint"), true);
+		params.insert(QStringLiteral("documentLayout"), layout);
+		if (m_doc->kind() == Kind::Cell && !params.contains(QStringLiteral("spreadsheetLayout")))
+			params.insert(QStringLiteral("spreadsheetLayout"), QJsonObject{{QStringLiteral("fitToWidth"), 0}, {QStringLiteral("fitToHeight"), 0}});
+		const QString dir = m_doc->workDir() + QStringLiteral("/print");
+		QDir(dir).removeRecursively();
+		QDir().mkpath(dir);
+		const QString pdf = dir + QStringLiteral("/") + QFileInfo(m_doc->title()).completeBaseName() + QStringLiteral(".pdf");
+		const bool wasModified = m_doc->isModified();
+		m_doc->save(pdf, 513, QJsonDocument(params).toJson(QJsonDocument::Compact),
+		            [this, job, pdf, reply, wasModified](bool ok, const QString& err) {
+			m_doc->setModified(wasModified);
+			if (!ok)
+			{
+				hostLog(QStringLiteral("print: no PDF: ") + err);
+				QMessageBox::warning(this, Formats::productName(m_doc->kind()),
+				                     QStringLiteral("The document could not be prepared for printing.\n\n%1").arg(err));
+				reply(QJsonObject{{QStringLiteral("ok"), false}, {QStringLiteral("error"), err}});
+				return;
+			}
+			hostLog(QStringLiteral("print: %1 %2").arg(job.toFile.isEmpty() ? QStringLiteral("lp") : QStringLiteral("to ") + job.toFile,
+			                                            Printing::lpArguments(job, pdf).join(QLatin1Char(' '))));
+			Printing::submit(job, pdf, [this, reply](bool ok, const QString& error) {
+				hostLog(ok ? QStringLiteral("print: sent") : QStringLiteral("print: failed: ") + error);
+				if (!ok && qEnvironmentVariableIsEmpty("SG_OFFICE_AUTOPILOT"))
+					QMessageBox::warning(this, Formats::productName(m_doc->kind()),
+					                     QStringLiteral("The document could not be printed.\n\n%1").arg(error));
+				reply(QJsonObject{{QStringLiteral("ok"), ok}, {QStringLiteral("error"), error}});
+				autopilotStep();
+			});
+		});
+	});
 }
 
 void EditorWindow::hostOpenDialog(const QString& filter, bool multi, Reply reply)
@@ -277,6 +443,10 @@ void EditorWindow::hostLog(const QString& message)
 	if (message == QLatin1String("ready") && !m_ready)
 	{
 		m_ready = true;
+		// the file is open: it is a recent file now (the list goes to every window)
+		if (!m_doc->path().isEmpty() && m_doc->format())
+			Office::instance().addRecent(m_doc->path(), m_doc->format()->code);
+		sendRecents();
 		QTimer::singleShot(500, this, &EditorWindow::autopilotStep);
 	}
 }
@@ -302,14 +472,62 @@ void EditorWindow::autopilotStep()
 	}
 	else if (step.startsWith(QLatin1String("key:")))
 	{
-		const QString k = step.mid(4);
+		// key:Return, key:Alt+F4, key:Ctrl+W ...
+		QString k = step.mid(4);
+		Qt::KeyboardModifiers mods;
+		if (k.startsWith(QLatin1String("Alt+"))) { mods |= Qt::AltModifier; k = k.mid(4); }
+		if (k.startsWith(QLatin1String("Ctrl+"))) { mods |= Qt::ControlModifier; k = k.mid(5); }
 		const int key = k == QLatin1String("Return") ? Qt::Key_Return : k == QLatin1String("Tab") ? Qt::Key_Tab
 		              : k == QLatin1String("Down") ? Qt::Key_Down : k == QLatin1String("Home") ? Qt::Key_Home
-		              : k == QLatin1String("End") ? Qt::Key_End : 0;
-		const QString text = key == Qt::Key_Return ? QStringLiteral("\r") : key == Qt::Key_Tab ? QStringLiteral("\t") : QString();
-		QCoreApplication::postEvent(target, new QKeyEvent(QEvent::KeyPress, key, Qt::NoModifier, text));
-		QCoreApplication::postEvent(target, new QKeyEvent(QEvent::KeyRelease, key, Qt::NoModifier, text));
+		              : k == QLatin1String("End") ? Qt::Key_End : k == QLatin1String("F4") ? Qt::Key_F4
+		              : k.size() == 1 ? k.at(0).toUpper().unicode() : 0;
+		const QString text = mods ? QString() : key == Qt::Key_Return ? QStringLiteral("\r") : key == Qt::Key_Tab ? QStringLiteral("\t") : QString();
+		QCoreApplication::postEvent(target, new QKeyEvent(QEvent::KeyPress, key, mods, text));
+		QCoreApplication::postEvent(target, new QKeyEvent(QEvent::KeyRelease, key, mods, text));
 		QTimer::singleShot(800, this, &EditorWindow::autopilotStep);
+	}
+	else if (step.startsWith(QLatin1String("eval:")))
+	{
+		// the editor's answer to a JavaScript expression, in the log
+		runInEditor(step.mid(5), [this](const QVariant& v) {
+			hostLog(QStringLiteral("eval ") + v.toString());
+			QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
+		});
+	}
+	else if (step == QLatin1String("state"))
+	{
+		hostLog(QStringLiteral("state modified=%1 path=%2").arg(m_doc->isModified() ? 1 : 0).arg(m_doc->path()));
+		QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
+	}
+	else if (step == QLatin1String("windows"))
+	{
+		QStringList docs;
+		for (EditorWindow* w : Office::instance().windows())
+			docs << (w->document()->path().isEmpty() ? w->document()->title() : w->document()->path());
+		hostLog(QStringLiteral("windows %1: %2").arg(docs.size()).arg(docs.join(QStringLiteral(" | "))));
+		QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
+	}
+	else if (step.startsWith(QLatin1String("print")))
+	{
+		// print / print:quick -- File > Print's Print button, or Quick Print
+		const QString native = step == QLatin1String("print:quick") ? QStringLiteral("{quickPrint: true}")
+		                     : QStringLiteral("{pages: 'all', copies: 2, sides: 'both-long'}");
+		runInEditor(QStringLiteral("(function(){var a=new Asc.asc_CAdjustPrint();a.asc_setNativeOptions(%1);"
+		                           "var o=new Asc.asc_CDownloadOptions();o.asc_setAdvancedOptions(a);"
+		                           "(window.Asc && Asc.editor || window.editor).asc_Print(o);})();").arg(native));
+	}
+	else if (step == QLatin1String("exportpdf"))
+		// File > Download as > PDF (and Print to PDF): a copy, SG_OFFICE_SAVE_AS names it
+		runInEditor(QStringLiteral("(window.Asc && Asc.editor || window.editor).asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));"));
+	else if (step == QLatin1String("quitall"))
+	{
+		for (EditorWindow* w : Office::instance().windows())
+		{
+			w->m_forceClose = true;
+			if (w != this)
+				w->close();
+		}
+		close();
 	}
 	else if (step.startsWith(QLatin1String("click:")))
 	{
@@ -382,6 +600,23 @@ void EditorWindow::closeEvent(QCloseEvent* e)
 // drag to the compositor.
 bool EditorWindow::eventFilter(QObject* o, QEvent* e)
 {
+	// Alt+F4 closes the window, as every window in the session (the
+	// compositor leaves it to the program), and Ctrl+W the document -- caught
+	// on their way to the editor, which would otherwise take them
+#ifndef SG_MUTANT_NO_ALTF4
+	if (e->type() == QEvent::KeyPress)
+	{
+		auto* ke = static_cast<QKeyEvent*>(e);
+		auto* w = qobject_cast<QWidget*>(o);
+		const auto mods = ke->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier);
+		if (w && w->window() == this && !ke->isAutoRepeat()
+		    && ((ke->key() == Qt::Key_F4 && mods == Qt::AltModifier) || (ke->key() == Qt::Key_W && mods == Qt::ControlModifier)))
+		{
+			QTimer::singleShot(0, this, &QWidget::close);
+			return true;
+		}
+	}
+#endif
 	if (o != this && o != windowHandle())
 		return QWidget::eventFilter(o, e);
 	if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseMove)

@@ -35,6 +35,9 @@ public:
 	virtual void hostCommand(const QString& cmd, const QString& param) = 0;
 	virtual void hostOpenDialog(const QString& filter, bool multi, Reply reply) = 0;
 	virtual void hostLog(const QString& message) = 0;
+	virtual void hostPrint(const QByteArray& json, Reply reply) = 0;
+	// what the window adds to the document's state (the look, units, language)
+	virtual QJsonObject hostState() = 0;
 };
 
 class SchemeHandler : public QWebEngineUrlSchemeHandler

@@ -36,6 +36,67 @@ int nextUntitled(Kind kind)
 	return ++counters[static_cast<int>(kind)];
 }
 
+// A text file's encoding, as the engine numbers them
+// (core/UnicodeConverter/UnicodeConverter_Encodings.h): UTF-8 when it is
+// valid UTF-8 (or says so), UTF-16 by its byte-order mark, else Windows-1252
+// -- what Office assumes for a CSV without a mark on a Western system.
+int textEncoding(const QByteArray& head)
+{
+	if (head.startsWith("\xEF\xBB\xBF"))
+		return 46;
+	if (head.startsWith("\xFF\xFE"))
+		return 48;
+	if (head.startsWith("\xFE\xFF"))
+		return 49;
+	// valid UTF-8 (a sequence cut at the end of the sample does not count)
+	int i = 0;
+	const int n = head.size();
+	while (i < n)
+	{
+		const unsigned char c = static_cast<unsigned char>(head[i]);
+		int more = c < 0x80 ? 0 : (c & 0xE0) == 0xC0 ? 1 : (c & 0xF0) == 0xE0 ? 2 : (c & 0xF8) == 0xF0 ? 3 : -1;
+		if (more < 0)
+			return 44;
+		if (i + more >= n)
+			break;
+		for (int k = 1; k <= more; ++k)
+			if ((static_cast<unsigned char>(head[i + k]) & 0xC0) != 0x80)
+				return 44;
+		i += more + 1;
+	}
+	return 46;
+}
+
+// A CSV's delimiter, as the engine numbers them (1 tab, 2 semicolon, 4
+// comma): the one its first lines use most, outside quotes -- semicolons
+// are what a CSV from a comma-decimal locale has.
+int csvDelimiter(const QByteArray& head)
+{
+	int counts[3] = {0, 0, 0};          // tab, semicolon, comma
+	bool quoted = false;
+	int lines = 0;
+	for (char c : head)
+	{
+		if (c == '"')
+			quoted = !quoted;
+		else if (quoted)
+			continue;
+		else if (c == '\n' && ++lines >= 20)
+			break;
+		else if (c == '\t')
+			++counts[0];
+		else if (c == ';')
+			++counts[1];
+		else if (c == ',')
+			++counts[2];
+	}
+	if (counts[0] > counts[2] && counts[0] >= counts[1])
+		return 1;
+	if (counts[1] > counts[2])
+		return 2;
+	return 4;
+}
+
 QString templateFor(Kind kind)
 {
 	// the new-document templates, from ONLYOFFICE's document-templates (Apache-2.0)
@@ -96,15 +157,35 @@ void Document::open(std::function<void(bool, const QString&)> done)
 	// document of its kind, saved back to that file
 	const bool blank = m_path.isEmpty() || QFileInfo(m_path).size() == 0;
 	const QString from = blank ? templateFor(m_kind) : m_path;
+	// a CSV or plain text file: the engine needs its encoding (and a CSV's
+	// delimiter) said, or it refuses to open it
+	QString text;
+	const QString ext = QFileInfo(from).suffix().toLower();
+#ifndef SG_MUTANT_CSV_NO_PARAMS
+	if (ext == QLatin1String("csv") || ext == QLatin1String("txt"))
+	{
+		QFile f(from);
+		QByteArray head;
+		if (f.open(QIODevice::ReadOnly))
+			head = f.read(64 * 1024);
+		m_textEncoding = textEncoding(head);
+		text = QStringLiteral("<m_nCsvTxtEncoding>%1</m_nCsvTxtEncoding>").arg(m_textEncoding);
+		if (ext == QLatin1String("csv"))
+		{
+			m_csvDelimiter = csvDelimiter(head);
+			text += QStringLiteral("<m_nCsvDelimiter>%1</m_nCsvDelimiter>").arg(m_csvDelimiter);
+		}
+	}
+#endif
 	const QString params = QStringLiteral(
 		"<?xml version=\"1.0\" encoding=\"utf-8\"?><TaskQueueDataConvert>"
 		"<m_sFileFrom>%1</m_sFileFrom><m_sFileTo>%2/Editor.bin</m_sFileTo>"
 		"<m_nFormatTo>8192</m_nFormatTo><m_sThemeDir>%3</m_sThemeDir>"
-		"<m_bDontSaveAdditional>true</m_bDontSaveAdditional>"
+		"<m_bDontSaveAdditional>true</m_bDontSaveAdditional>%5"
 		"<m_sFontDir>%4</m_sFontDir><m_sTempDir>%2/tmp-open</m_sTempDir>"
 		"</TaskQueueDataConvert>")
 		.arg(xml(from), xml(m_workDir), xml(Paths::shareDir() + QStringLiteral("/sdkjs/slide/themes")),
-		     xml(FontCache::instance().dir()));
+		     xml(FontCache::instance().dir()), text);
 	QDir().mkpath(m_workDir + QStringLiteral("/tmp-open"));
 	runX2t(params, [this, done](int code, const QString& log) {
 		QDir(m_workDir + QStringLiteral("/tmp-open")).removeRecursively();
@@ -171,14 +252,16 @@ void Document::save(const QString& target, int formatCode, const QByteArray& jso
 		"<m_nFormatTo>%3</m_nFormatTo><m_sThemeDir>%4</m_sThemeDir>"
 		"<m_bFromChanges>%5</m_bFromChanges><m_bDontSaveAdditional>true</m_bDontSaveAdditional>"
 		"<m_sAllFontsPath>%6/AllFonts.js</m_sAllFontsPath>"
-		"<m_nCsvTxtEncoding>46</m_nCsvTxtEncoding><m_nCsvDelimiter>4</m_nCsvDelimiter>"
+		"<m_nCsvTxtEncoding>%9</m_nCsvTxtEncoding><m_nCsvDelimiter>%10</m_nCsvDelimiter>"
 		"<m_sFontDir>%6</m_sFontDir><m_sJsonParams>%7</m_sJsonParams>"
 		"<m_nDoctParams>1</m_nDoctParams><m_sTempDir>%8</m_sTempDir>"
 		"</TaskQueueDataConvert>")
 		.arg(xml(m_workDir), xml(partial), QString::number(fmt->code),
 		     xml(Paths::shareDir() + QStringLiteral("/sdkjs/slide/themes")),
 		     fromChanges ? QStringLiteral("true") : QStringLiteral("false"),
-		     xml(FontCache::instance().dir()), xml(QString::fromUtf8(json)), xml(tmp));
+		     xml(FontCache::instance().dir()), xml(QString::fromUtf8(json)), xml(tmp),
+		     // a CSV or text file saved back as it was read: its encoding and delimiter
+		     QString::number(fmt == m_format ? m_textEncoding : 46), QString::number(fmt == m_format ? m_csvDelimiter : 4));
 	QPointer<Document> self(this);
 	runX2t(params, [self, absTarget, partial, fmt, done, tmp](int code, const QString& log) {
 		QDir(tmp).removeRecursively();

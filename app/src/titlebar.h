@@ -20,6 +20,7 @@ public:
 	void setTitle(const QString& title);
 	void setIcon(const QIcon& icon);
 	void setAccent(const QColor& accent);
+	void setDark(bool dark);           // the session's dark look
 	QSize sizeHint() const override;
 
 signals:
@@ -43,6 +44,7 @@ private:
 	QString m_title;
 	QIcon m_icon;
 	QColor m_accent = QColor(0x70, 0x30, 0xC0);
+	bool m_dark = false;
 	Button m_hover = None;
 	Button m_pressed = None;
 };

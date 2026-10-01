@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Widgets WebEngineCore WebEngineWidgets)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Widgets Network PrintSupport WebEngineCore WebEngineWidgets)
 
 add_executable(sg-office
     src/main.cpp
@@ -21,7 +21,18 @@ add_executable(sg-office
     src/schemehandler.cpp
     src/titlebar.cpp
     src/window.cpp
+    src/appicon.cpp
+    src/office.cpp
+    src/printing.cpp
     res/sg-office.qrc)
 target_compile_options(sg-office PRIVATE -Wall -Wextra)
-target_link_libraries(sg-office PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::WebEngineCore Qt6::WebEngineWidgets)
+target_link_libraries(sg-office PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network Qt6::PrintSupport
+                      Qt6::WebEngineCore Qt6::WebEngineWidgets)
+# SG_MUTANTS="A;B": a build with those fixes reverted (#ifdef SG_MUTANT_A ...), for
+# make test-mutation
+if(SG_MUTANTS)
+    foreach(m ${SG_MUTANTS})
+        target_compile_definitions(sg-office PRIVATE SG_MUTANT_${m})
+    endforeach()
+endif()
 install(TARGETS sg-office RUNTIME DESTINATION bin)

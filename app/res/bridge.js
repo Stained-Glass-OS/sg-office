@@ -106,11 +106,23 @@
 
 		LocalFileSave: function (param, password, docinfo, fileType, jsonOptions) {
 			var saveAs = /saveas=true/.test(param || "");
+			var wasSaved = saved;
 			callAsync("save", null, JSON.stringify({ saveAs: saveAs, fileType: fileType || 0, json: jsonOptions || "" }))
 				.then(function (r) {
+					if (r.ok && r.exported) {
+						// a copy in another format (PDF): the document itself is
+						// no more saved than it was -- 1 has the editor put its
+						// saved state back as before, as for a cancelled save
+						saved = wasSaved;
+						callAsync("modified", { value: wasSaved ? "0" : "1" }, "").catch(nothing);
+						window.DesktopOfflineAppDocumentEndSave(1);
+						return;
+					}
 					if (r.ok) {
 						saved = true;
-						if (r.state) state = r.state;
+						// the document's path and name now (Save As): the editors
+						// read them back for the title (DesktopOfflineUpdateLocalName)
+						state = callSync("state") || state;
 					}
 					// 0 = saved, 2 = the file could not be written; 1 = cancelled
 					window.DesktopOfflineAppDocumentEndSave(r.ok ? 0 : (r.cancelled ? 1 : 2));
@@ -128,7 +140,9 @@
 		SetDocumentName: nothing,
 		SetLocalRestrictions: nothing,
 		onDocumentContentReady: function () { log("ready"); },
-		LocalFileRecents: nothing,
+		// the recent files (File > Open Recent): the program sends them with
+		// window.onupdaterecents when the editor is ready
+		LocalFileRecents: function () { callAsync("recents", null, "").catch(nothing); },
 
 		// ---- pictures ------------------------------------------------------------------
 		// a local picture the user inserts is copied into the document's folder
@@ -184,7 +198,21 @@
 		GetDefaultCertificate: function () { return ""; },
 		GetFontThumbnailHeight: function () { return 28; },
 		Print_Start: nothing, Print_Page: nothing, Print_End: nothing,
-		Print: function () { log("print is not implemented yet"); }
+		// File > Print: the program makes a PDF of the document and sends it
+		// to the printer the person picks (or the default one, for Quick Print)
+		Print: function (json) {
+			var o = {};
+			try { o = JSON.parse(json || "{}"); } catch (e) {}
+			var api = window.sgEditorApi || (window.Asc && Asc.editor) || window.editor;
+			try {
+				if (o.nativeOptions && api && api.getCurrentPage)
+					o.nativeOptions.currentPage = api.getCurrentPage() + 1;
+			} catch (e) {}
+			callAsync("print", null, JSON.stringify(o)).then(function (r) {
+				if (!r.ok && !r.cancelled)
+					log("print: " + (r.error || "failed"));
+			}).catch(function (e) { log("print: " + e); });
+		}
 	};
 
 	// SG Office's look: Stained Glass OS's white surfaces and purple accent,
@@ -213,8 +241,11 @@
 	};
 
 	window.AscDesktopEditor = A;
+	// the session's look (Settings > Colors): our light theme, or the editors'
+	// dark one; the program sends theme:changed when it changes
 	window.RendererProcessVariable = window.RendererProcessVariable || {
-		theme: { id: "theme-sg-light", type: "light", system: "light" },
+		theme: state.dark ? { id: "theme-dark", type: "dark", system: "dark" }
+		                  : { id: "theme-sg-light", type: "light", system: "light" },
 		// the interface reads this as a list (Themes.js) and by id (desktopinit.js)
 		localthemes: (function () { var a = [sgLight]; a[sgLight.id] = sgLight; return a; })(),
 		rtl: false,

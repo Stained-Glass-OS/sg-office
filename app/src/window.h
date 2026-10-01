@@ -10,7 +10,9 @@
 #include "schemehandler.h"
 
 #include <QStringList>
+#include <QVariant>
 #include <QWidget>
+#include <functional>
 
 class Document;
 class TitleBar;
@@ -20,8 +22,14 @@ class EditorWindow : public QWidget, public DocumentHost
 {
 	Q_OBJECT
 public:
-	EditorWindow(Document* doc, QWidget* parent = nullptr);
+	// autopilot: SG_OFFICE_AUTOPILOT drives this window (the gates; only the
+	// windows of the program's own start)
+	EditorWindow(Document* doc, bool autopilot = false, QWidget* parent = nullptr);
 	~EditorWindow() override;
+
+	Document* document() const { return m_doc; }
+	// in front, focused, not minimized (its file was opened again)
+	void bringForward();
 
 	// DocumentHost
 	void hostSave(bool saveAs, int fileType, const QByteArray& jsonParams, Reply reply) override;
@@ -29,6 +37,8 @@ public:
 	void hostCommand(const QString& cmd, const QString& param) override;
 	void hostOpenDialog(const QString& filter, bool multi, Reply reply) override;
 	void hostLog(const QString& message) override;
+	void hostPrint(const QByteArray& json, Reply reply) override;
+	QJsonObject hostState() override;
 
 protected:
 	void closeEvent(QCloseEvent*) override;
@@ -36,9 +46,11 @@ protected:
 
 private:
 	void updateTitle();
-	void runInEditor(const QString& js);
+	void runInEditor(const QString& js, const std::function<void(const QVariant&)>& done = {});
 	QString askSaveAsPath(int preferredCode, const Format** chosen);
 	void autopilotStep();
+	void sendRecents();
+	void applyLook(bool dark);
 
 	Document* m_doc;
 	TitleBar* m_title;
