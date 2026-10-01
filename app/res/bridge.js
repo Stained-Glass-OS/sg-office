@@ -55,7 +55,14 @@
 		features: {},
 
 		// ---- the document -------------------------------------------------------------
-		CreateEditorApi: function (api) { window.sgEditorApi = api; },
+		CreateEditorApi: function (api) {
+			window.sgEditorApi = api;
+			// a local file, as the desktop editors' are: the editors call it
+			// offline only for pages from file:// (asc_isOffline), and ours
+			// come from sgoffice:// -- online, they offered chat, mail merge
+			// and version history, and said "All changes saved" after a save
+			if (api) api.asc_isOffline = api["asc_isOffline"] = function () { return true; };
+		},
 		IsLocalFile: function () { return true; },
 		IsFilePrinting: no,
 		CheckUserId: function () { return "sg-" + (state.id || "user").substring(0, 8); },

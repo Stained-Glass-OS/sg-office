@@ -108,7 +108,7 @@ test-mutation:
 # The features gate against its mutants: bridge.js ones (NAME:CHECK), and the
 # program built with one fix reverted (#ifdef SG_MUTANT_NAME; built into
 # $(OUT)/mutant/app-NAME, run with the app-root's engine and editors).
-BRIDGE_MUTANTS = noprint:print notitle:title
+BRIDGE_MUTANTS = noprint:print notitle:title online:offline
 APP_MUTANTS = FONTS_EVERY_START:fonts CSV_NO_PARAMS:csv EXPORT_SAVES:export NO_ALTF4:altf4 UNITS_CM:units \
               NO_HANDOFF:handoff NO_DARK:dark NO_RECENTS:recents \
               NO_TASKBAR_ICON:taskbar FAINT_CLOSE:closeglyph

@@ -32,13 +32,19 @@ sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
     "Linux app icons" folder the taskbar reads (wine-sg 0612).
   * The title bar's close cross is drawn pixel by pixel like its
     neighbours: antialiased, it was a faint grey two pixels wide.
+  * The editors take a document as a local file (offline), as the
+    ONLYOFFICE desktop editors do: they decided by file:// and ours come
+    from sgoffice://, so they offered chat, mail merge and version history
+    and showed "All changes saved" in the status bar while the document
+    was still unsaved.
+  * Closing a changed document asks Save, Don't Save or Cancel.
   * A US English account measures in inches (Office's default there), and
     the editors take the account's language and region.
   * Settings > Colors' dark mode: the editors' dark theme, a dark title bar
     and dark dialogs, following a change while running.
   * Gates: test/app/features_check.py (csv, export, print, fonts, altf4,
     units, title, handoff, dark, recents), each with a mutant
-    (make test-app-mutation: bridge noprint/notitle, program
+    (make test-app-mutation: bridge noprint/notitle/online, program
     SG_MUTANT_FONTS_EVERY_START/CSV_NO_PARAMS/EXPORT_SAVES/NO_ALTF4/
     UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS/NO_TASKBAR_ICON/FAINT_CLOSE).
 

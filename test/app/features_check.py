@@ -26,6 +26,8 @@ and saving, each driven headlessly as app_check.py drives the editor
             (sg-office-documents), and the icons the taskbar shows for
             those classes are in the Wine profile's Linux app icons folder
   closeglyph the title bar's close cross is as dark as its neighbours
+  offline   the editors take the document as a local file (offline): no
+            chat, no "All changes saved" after a save
 
 Exit 0 when all hold.
 
@@ -49,7 +51,8 @@ import ooxmlw      # noqa: E402
 MARK = "SGEDIT42"
 DOC_CLICK = "click:0.5,0.45;key:End;"
 CELL_CLICK = "click:0.15,0.45;"
-ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph"]
+ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph",
+       "offline"]
 OPT = {}
 
 
@@ -279,6 +282,14 @@ def main():
         print("\n[closeglyph] (rc=%d) %s" % (rc, px))
         check(lum(px.get("1253,22")) <= lum(px.get("1159,20")) + 10,
               "closeglyph: the close cross is as dark as the minimize bar (#%s, #%s)" % (px.get("1253,22"), px.get("1159,20")))
+
+    if "offline" in only:
+        d = fresh(work, "offline")
+        doc = docx_in(d)
+        rc, log, _ = run(d, [doc], "wait:1500;eval:String(DE.getController('Main').appOptions.isOffline)"
+                                   " + ',' + String(DE.getController('Main').appOptions.canChat);quit")
+        print("\n[offline] (rc=%d) %s" % (rc, evals(log)))
+        check(evals(log)[-1:] == ["true,false"], "offline: a local document, no chat (%s)" % evals(log))
 
     print("\n=== SG Office features gate: %s ===" % ("PASS" if not fails else "FAIL (%d)" % len(fails)))
     return 1 if fails else 0

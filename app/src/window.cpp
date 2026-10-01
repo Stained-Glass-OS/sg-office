@@ -23,6 +23,7 @@
 #include <QKeyEvent>
 #include <QLocale>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QMouseEvent>
 #include <QStandardPaths>
 #include <QTimer>
@@ -635,10 +636,14 @@ void EditorWindow::closeEvent(QCloseEvent* e)
 		e->accept();
 		return;
 	}
-	const auto answer = QMessageBox::question(
-		this, Formats::productName(m_doc->kind()),
-		QStringLiteral("Do you want to save changes to %1?").arg(m_doc->title()),
-		QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save);
+	// Office's question, Office's answers: Save, Don't Save, Cancel
+	QMessageBox box(QMessageBox::Question, Formats::productName(m_doc->kind()),
+	                QStringLiteral("Do you want to save changes to %1?").arg(m_doc->title()),
+	                QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, this);
+	box.setDefaultButton(QMessageBox::Save);
+	box.button(QMessageBox::Discard)->setText(QStringLiteral("Don't Save"));
+	box.setWindowIcon(windowIcon());
+	const auto answer = static_cast<QMessageBox::StandardButton>(box.exec());
 	if (answer == QMessageBox::Discard)
 	{
 		e->accept();

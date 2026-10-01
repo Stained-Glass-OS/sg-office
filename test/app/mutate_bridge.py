@@ -7,6 +7,7 @@ test -- each must make test/app/app_check.py fail:
   notheme     SG Office's theme is not offered (the stock look shows)
   noprint     File > Print does nothing (as before printing was there)
   notitle     after Save As the editor is not told the document's new name
+  online      the editors take a local document as an online one
 
     mutate_bridge.py NAME OUT.js
 
@@ -31,6 +32,8 @@ elif name == "noprint":
     s2 = re.sub(r'(Print: function \(json\) \{)', r'\1 log("print is not implemented yet"); return;', s, count=1)
 elif name == "notitle":
     s2 = s.replace('state = callSync("state") || state;', 'void 0;')
+elif name == "online":
+    s2 = s.replace('if (api) api.asc_isOffline = api["asc_isOffline"] = function () { return true; };', '')
 else:
     sys.exit("unknown mutant " + name)
 assert s2 != s, "mutant %s changed nothing" % name
