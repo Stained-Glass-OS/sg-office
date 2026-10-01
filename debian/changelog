@@ -6,6 +6,10 @@ sg-office-editors (8.2.0.143+sg2) unstable; urgency=medium
     them in the editors' storage before an editor loads. Test: make test-deb
     (the list is in the package; mutant "tips": test-deb-mutation). VM: the
     tip on every start with +sg1, never with this build.
+  * The build writes no Python bytecode into the tree: the package gate's
+    tests ran in a user namespace and left __pycache__ owned by its uids,
+    which dh_clean could not remove -- the next release's package build
+    stopped.
 
  -- Stained Glass OS <ke7oxh@gmail.com>  Thu, 01 Oct 2026 05:40:00 +0000
 

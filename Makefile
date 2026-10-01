@@ -25,6 +25,10 @@ WORK ?= /var/tmp/sgoffice/src
 OUT  ?= /var/tmp/sgoffice/out
 HOST ?= $(if $(wildcard $(OUT)/host/docbuilder),$(OUT)/host,$(SG_DEV_HOST))
 PY   ?= python3
+# no __pycache__ in the tree: the package gate runs the tests in a user
+# namespace, whose files dh_clean (as the user) then could not remove, and the
+# next release's package build stopped
+export PYTHONDONTWRITEBYTECODE := 1
 # the builds run in the trixie build root (build/mkroot.sh); INROOT= to run on the host
 INROOT ?= $(if $(wildcard /var/tmp/sgoffice/root-build/usr/bin/qmake),SG_CWD=$(CURDIR) sh build/inroot.sh,)
 
