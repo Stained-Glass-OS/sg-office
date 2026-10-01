@@ -8,6 +8,7 @@
 #include "office.h"
 #include "appicon.h"
 #include "document.h"
+#include "filedialogs.h"
 #include "window.h"
 
 #include <QApplication>
@@ -342,9 +343,8 @@ void Office::openDialog(QWidget* parent, Kind preferred)
 	                                   "*.pptx *.pptm *.ppsx *.ppsm *.potx *.potm *.ppt *.pps *.pot *.odp *.otp)");
 	QString selected = filters[static_cast<int>(preferred)];
 	const QStringList list = {all, filters[0], filters[1], filters[2]};
-	const QStringList files = QFileDialog::getOpenFileNames(
-		parent, QStringLiteral("Open"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
-		list.join(QStringLiteral(";;")), &selected);
+	const QStringList files = Dialogs::open(parent, QStringLiteral("Open"),
+		QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), list.join(QStringLiteral(";;")), &selected, true);
 	for (const QString& f : files)
 		open(f);
 }

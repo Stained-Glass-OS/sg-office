@@ -28,6 +28,8 @@ and saving, each driven headlessly as app_check.py drives the editor
   closeglyph the title bar's close cross is as dark as its neighbours
   offline   the editors take the document as a local file (offline): no
             chat, no "All changes saved" after a save
+  places    Save As offers the account's folders (Desktop, Documents,
+            Downloads) beside its home, as Quick access does
 
 Exit 0 when all hold.
 
@@ -52,7 +54,7 @@ MARK = "SGEDIT42"
 DOC_CLICK = "click:0.5,0.45;key:End;"
 CELL_CLICK = "click:0.15,0.45;"
 ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph",
-       "offline"]
+       "offline", "places"]
 OPT = {}
 
 
@@ -290,6 +292,26 @@ def main():
                                    " + ',' + String(DE.getController('Main').appOptions.canChat);quit")
         print("\n[offline] (rc=%d) %s" % (rc, evals(log)))
         check(evals(log)[-1:] == ["true,false"], "offline: a local document, no chat (%s)" % evals(log))
+
+    if "places" in only:
+        d = fresh(work, "places")
+        doc = docx_in(d)
+        # the account's folders, as xdg-user-dirs names them (the build
+        # root's HOME is its own; XDG_CONFIG_HOME is the run's)
+        dirs = {}
+        for sub in ("Desktop", "Documents", "Downloads"):
+            dirs[sub] = os.path.join(d, "home", sub)
+            os.makedirs(dirs[sub], exist_ok=True)
+        os.makedirs(os.path.join(d, "home", ".config"), exist_ok=True)
+        with open(os.path.join(d, "home", ".config", "user-dirs.dirs"), "w") as f:
+            f.write('XDG_DESKTOP_DIR="%s"\nXDG_DOCUMENTS_DIR="%s"\nXDG_DOWNLOAD_DIR="%s"\n'
+                    % (dirs["Desktop"], dirs["Documents"], dirs["Downloads"]))
+        rc, log, _ = run(d, [doc], "wait:1000;savedialog;quit")
+        m = re.search(r"dialog places (.*)", log)
+        print("\n[places] (rc=%d) %s" % (rc, m.group(0) if m else "no dialog"))
+        places = m.group(1).split("|") if m else []
+        check(all(p in places for p in ("Desktop", "Documents", "Downloads")),
+              "places: Save As lists Desktop, Documents and Downloads (%s)" % places)
 
     print("\n=== SG Office features gate: %s ===" % ("PASS" if not fails else "FAIL (%d)" % len(fails)))
     return 1 if fails else 0

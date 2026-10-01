@@ -38,6 +38,9 @@ sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
     and showed "All changes saved" in the status bar while the document
     was still unsaved.
   * Closing a changed document asks Save, Don't Save or Cancel.
+  * Open and Save As list the account's folders (Desktop, Documents,
+    Downloads, Pictures, Music, Videos) under its home, as File Explorer's
+    Quick access does; the dialogs open in the details view.
   * A US English account measures in inches (Office's default there), and
     the editors take the account's language and region.
   * Settings > Colors' dark mode: the editors' dark theme, a dark title bar
@@ -46,7 +49,8 @@ sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
     units, title, handoff, dark, recents), each with a mutant
     (make test-app-mutation: bridge noprint/notitle/online, program
     SG_MUTANT_FONTS_EVERY_START/CSV_NO_PARAMS/EXPORT_SAVES/NO_ALTF4/
-    UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS/NO_TASKBAR_ICON/FAINT_CLOSE).
+    UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS/NO_TASKBAR_ICON/FAINT_CLOSE/
+    NO_PLACES).
 
  -- Stained Glass OS <ke7oxh@gmail.com>  Thu, 01 Oct 2026 17:45:00 +0000
 

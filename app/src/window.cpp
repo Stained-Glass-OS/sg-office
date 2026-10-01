@@ -7,6 +7,7 @@
 #include "window.h"
 #include "appicon.h"
 #include "document.h"
+#include "filedialogs.h"
 #include "office.h"
 #include "printing.h"
 #include "titlebar.h"
@@ -16,6 +17,7 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QFileDialog>
+#include <QDialog>
 #include <QDir>
 #include <QFileInfo>
 #include <QJsonArray>
@@ -305,8 +307,8 @@ QString EditorWindow::askSaveAsPath(int preferredCode, const Format** chosen)
 		: QFileInfo(m_doc->path()).absolutePath();
 	const QString base = QFileInfo(m_doc->title()).completeBaseName();
 	QString sel = selected;
-	QString path = QFileDialog::getSaveFileName(this, QStringLiteral("Save As"), dir + QLatin1Char('/') + base,
-	                                            filters.join(QStringLiteral(";;")), &sel);
+	QString path = Dialogs::save(this, QStringLiteral("Save As"), dir + QLatin1Char('/') + base,
+	                             filters.join(QStringLiteral(";;")), &sel);
 	if (path.isEmpty())
 		return {};
 	const int idx = filters.indexOf(sel);
@@ -482,8 +484,7 @@ void EditorWindow::hostOpenDialog(const QString& filter, bool multi, Reply reply
 		if (filter.contains(QLatin1String("image"), Qt::CaseInsensitive))
 			f = QStringLiteral("Pictures (*.png *.jpg *.jpeg *.gif *.bmp *.svg *.tif *.tiff *.webp)");
 		const QString dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-		QStringList files = multi ? QFileDialog::getOpenFileNames(this, QStringLiteral("Open"), dir, f)
-		                          : QStringList{QFileDialog::getOpenFileName(this, QStringLiteral("Open"), dir, f)};
+		QStringList files = Dialogs::open(this, QStringLiteral("Open"), dir, f, nullptr, multi);
 		files.removeAll(QString());
 		reply(QJsonObject{{QStringLiteral("files"), QJsonArray::fromStringList(files)}});
 	});
@@ -550,6 +551,18 @@ void EditorWindow::autopilotStep()
 	{
 		hostLog(QStringLiteral("state modified=%1 path=%2").arg(m_doc->isModified() ? 1 : 0).arg(m_doc->path()));
 		QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
+	}
+	else if (step == QLatin1String("savedialog"))
+	{
+		// the Save As dialog, shown, then cancelled a moment later
+		QTimer::singleShot(1500, this, [this] {
+			if (auto* dlg = qobject_cast<QDialog*>(QApplication::activeModalWidget()))
+				dlg->reject();
+			QTimer::singleShot(300, this, &EditorWindow::autopilotStep);
+		});
+		QString sel;
+		Dialogs::save(this, QStringLiteral("Save As"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+		              + QStringLiteral("/x.docx"), QStringLiteral("Word Document (*.docx)"), &sel);
 	}
 	else if (step == QLatin1String("wmclass"))
 	{

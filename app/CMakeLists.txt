@@ -24,6 +24,7 @@ add_executable(sg-office
     src/appicon.cpp
     src/office.cpp
     src/printing.cpp
+    src/filedialogs.cpp
     res/sg-office.qrc)
 target_compile_options(sg-office PRIVATE -Wall -Wextra)
 target_link_libraries(sg-office PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network Qt6::PrintSupport
