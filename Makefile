@@ -13,6 +13,11 @@
 #   make app            build the program, lay it out         -> $(OUT)/app-root
 #   make test           lint + round-trip, Excel corpus and program gates
 #   make test-mutation  prove each gate fails when what it guards breaks
+#   make deb            the package sg-office-editors, built from source by
+#                       debian/rules (its own build trees: DEB_OUT)  -> ../sg-office-editors_*.deb
+#   make test-deb       the package's gate: contents, dependencies, and the
+#                       program's gate run with the package installed
+#   make test-deb-mutation  broken packages test-deb must refuse
 #
 # HOST: the native host to assemble with. Ours ($(OUT)/host) once `make core`
 # has run; SG_DEV_HOST may name a dev/QA host meanwhile (never shipped).
@@ -23,12 +28,12 @@ PY   ?= python3
 # the builds run in the trixie build root (build/mkroot.sh); INROOT= to run on the host
 INROOT ?= $(if $(wildcard /var/tmp/sgoffice/root-build/usr/bin/qmake),SG_CWD=$(CURDIR) sh build/inroot.sh,)
 
-.PHONY: all lint sdkjs core engine webapps sdkjs-desktop app test test-roundtrip test-parity test-app test-mutation
+.PHONY: all lint sdkjs core engine webapps sdkjs-desktop app test test-roundtrip test-parity test-app test-mutation deb test-deb test-deb-mutation
 all: sdkjs core engine webapps sdkjs-desktop app
 
 lint:
 	@for f in build/*.sh; do sh -n $$f || exit 1; done
-	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py test/app/app_check.py test/app/mutate_bridge.py
+	@$(PY) -m py_compile test/parity/engine_corpus.py test/roundtrip/roundtrip.py test/roundtrip/ooxmlw.py test/roundtrip/mutate.py test/app/app_check.py test/app/mutate_bridge.py test/deb/deb_check.py test/deb/mutate_deb.py
 	@node --check app/res/bridge.js
 	@for d in patches/*/; do $(PY) tools/trademark-check.py --allow tools/trademark-allow.txt --patches $$d build app test/parity/engine_corpus.py || exit 1; done
 	@for d in patches/*/; do while read -r p; do case "$$p" in ''|'#'*) ;; *) [ -f "$$d$$p" ] || { echo "series names missing $$d$$p"; exit 1; };; esac; done < $$d/series; done
@@ -93,3 +98,26 @@ test-mutation:
 	         --bridge $(OUT)/mutant/bridge-$$m.js --only docx --no-odf >/dev/null; then \
 	        echo "test-mutation: FAIL -- the program gate passed bridge mutant $$m"; exit 1; \
 	    else echo "test-mutation: OK -- the program gate catches bridge mutant $$m"; fi; done
+
+# --- the package -------------------------------------------------------------
+# debian/rules builds everything from source (make sdkjs core engine webapps
+# sdkjs-desktop app) into DEB_OUT -- its own trees, apart from development's
+# OUT -- sharing WORK's upstream checkouts and object files, so a rebuild is
+# incremental. The newest ../sg-office-editors_*_amd64.deb is the one tested.
+DEB_OUT ?= /var/tmp/sgoffice/out-deb
+DEB = $(shell ls ../sg-office-editors_*_amd64.deb 2>/dev/null | sort -V | tail -1)
+deb:
+	OUT=$(DEB_OUT) WORK=$(WORK) nice -n 10 dpkg-buildpackage -us -uc -b -d
+
+test-deb:
+	@[ -n "$(DEB)" ] || { echo "no ../sg-office-editors_*_amd64.deb: make deb"; exit 1; }
+	@$(PY) test/deb/deb_check.py --deb $(DEB) --work $(DEB_OUT)/deb-check
+
+test-deb-mutation:
+	@[ -n "$(DEB)" ] || { echo "no ../sg-office-editors_*_amd64.deb: make deb"; exit 1; }
+	@mkdir -p $(DEB_OUT)/mutant
+	@for m in nocredit nodep moved x2tnoexec; do \
+	    $(PY) test/deb/mutate_deb.py $$m $(DEB) $(DEB_OUT)/mutant/$$m.deb || exit 1; \
+	    if $(PY) test/deb/deb_check.py --deb $(DEB_OUT)/mutant/$$m.deb --work $(DEB_OUT)/mutant/check-$$m >$(DEB_OUT)/mutant/check-$$m.log 2>&1; then \
+	        echo "test-deb-mutation: FAIL -- the package gate passed mutant $$m"; exit 1; \
+	    else echo "test-deb-mutation: OK -- the package gate catches $$m ($$(grep -c '   FAIL' $(DEB_OUT)/mutant/check-$$m.log) failed checks)"; fi; done

@@ -33,6 +33,13 @@ pinned "$WORK/document-templates" "$TEMPLATES_URL" "$TEMPLATES_TAG" "$TEMPLATES_
 # upstream's tracked tree, then our series (build output and the fetched
 # third-party sources are git-ignored and kept, so rebuilds are incremental)
 git -C "$CORE" checkout -q -f --detach "$CORE_COMMIT"
+# files our patches add are untracked upstream: a checkout leaves them, and
+# the patch would not apply again over them
+while read -r p; do
+    case "$p" in ''|'#'*) continue;; esac
+    awk '/^diff --git /{f=$4; sub(/^b\//, "", f)} /^new file mode/{print f}' "$HERE/patches/core/$p" |
+        while read -r f; do rm -f "$CORE/$f"; done
+done < "$HERE/patches/core/series"
 while read -r p; do
     case "$p" in ''|'#'*) continue;; esac
     git -C "$CORE" apply --whitespace=nowarn "$HERE/patches/core/$p"

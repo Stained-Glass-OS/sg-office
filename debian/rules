@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+# SG Office editors: the whole suite is built from source by the repository's
+# Makefile (the engines in the rootless trixie build root build/mkroot.sh
+# makes, niced, -j3), laid out as it installs in $(OUT)/app-root, and packaged
+# from there. Build trees live outside the source tree (WORK, OUT), so
+# rebuilds are incremental.
+export DEB_BUILD_OPTIONS ?= nocheck
+WORK ?= /var/tmp/sgoffice/src
+OUT  ?= /var/tmp/sgoffice/out-deb
+BUILDROOT ?= /var/tmp/sgoffice/root-build
+PKG = debian/sg-office-editors
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	[ -x $(BUILDROOT)/usr/bin/qmake ] || sh build/mkroot.sh $(BUILDROOT)
+	# the program's build tree records its source directory: a fresh one
+	# for each checkout this builds from (release worktrees move)
+	rm -rf $(OUT)/app-build
+	$(MAKE) WORK=$(WORK) OUT=$(OUT) sdkjs core engine webapps sdkjs-desktop app
+
+override_dh_auto_test:
+
+override_dh_auto_install:
+	install -d $(PKG)/usr
+	cp -a $(OUT)/app-root/. $(PKG)/usr/
+	# logs the engine's build left beside it
+	find $(PKG)/usr/lib/sg-office -name '*.log' -delete
+	install -d $(PKG)/usr/share/doc/sg-office-editors
+	install -m0644 NOTICE $(PKG)/usr/share/doc/sg-office-editors/NOTICE
+	install -m0644 $(WORK)/core/3DPARTY.md $(PKG)/usr/share/doc/sg-office-editors/3DPARTY-core.md
+	install -m0644 $(WORK)/sdkjs/3DPARTY.md $(PKG)/usr/share/doc/sg-office-editors/3DPARTY-sdkjs.md
+	install -m0644 $(WORK)/web-apps/3DPARTY.md $(PKG)/usr/share/doc/sg-office-editors/3DPARTY-web-apps.md
+	install -m0644 upstream.conf $(PKG)/usr/share/doc/sg-office-editors/upstream.conf
+	install -D -m0644 debian/sg-office.desktop $(PKG)/usr/share/applications/sg-office.desktop
+
+# The libraries come from where the program was built: the build root (Qt
+# WebEngine and the rest need not be on this machine), so dpkg-shlibdeps runs
+# there. The engine's own libraries are private (x2t finds them by its RPATH).
+override_dh_shlibdeps:
+	elfs=$$(find $(PKG) -type f \( -name '*.so' -o -perm -u+x \) -exec sh -c 'head -c4 "$$1" | grep -q ELF && echo "$$1"' _ {} \;); \
+	SG_CWD=$(CURDIR) sh build/inroot.sh dpkg-shlibdeps -T$(PKG).substvars -l$(PKG)/usr/lib/sg-office/engine $$elfs
+
+# no debug-symbol package; dwz on the 70 MB converter takes long for nothing
+override_dh_dwz:
+
+override_dh_strip:
+	dh_strip --no-automatic-dbgsym
+
+# the editors' scripts and pages are data; dh_compress would gzip their docs
+override_dh_compress:
+	dh_compress -X.md -Xupstream.conf -XNOTICE

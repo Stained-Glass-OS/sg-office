@@ -1,2 +1,8 @@
 __pycache__/
 *.pyc
+debian/sg-office-editors/
+debian/.debhelper/
+debian/files
+debian/*.substvars
+debian/debhelper-build-stamp
+debian/*.debhelper.log

@@ -2,6 +2,7 @@
 """SG Office -- the program's gate: open, edit, save, Save As, the look.
 
     app_check.py --root ROOT --work DIR [--bridge FILE] [--only KIND] [--no-odf]
+    app_check.py --sysroot DIR --work DIR ...    the program as installed in DIR
 
 For each of a .docx, .xlsx and .pptx (test/roundtrip/ooxmlw.py's), SG Office
 runs headlessly (test/app/run.sh: the build root, its own Xvfb, a scratch
@@ -13,6 +14,9 @@ End, typing, Save -- by SG_OFFICE_AUTOPILOT. Then:
   * the program's header is its SG Office colour (the theme is ours)
   * Save As to OpenDocument (.odt/.ods/.odp) writes a valid package with
     the typed text in it
+
+  * an empty .docx (File Explorer's New > Document) opens as a new document
+    and saves back to that file
 
 Exit 0 when all hold. --bridge runs with another bridge.js (the mutants).
 
@@ -52,8 +56,12 @@ def text_of(path):
                        for n in z.namelist() if n.endswith(".xml"))
 
 
+SYSROOT = {}
+
+
 def run(root, work, doc, autopilot, env_extra, bridge):
-    env = dict(os.environ, SG_OFFICE_AUTOPILOT=autopilot, SG_OFFICE_LOG="1", SG_TIMEOUT="150", **env_extra)
+    env = dict(os.environ, **SYSROOT)
+    env.update(SG_OFFICE_AUTOPILOT=autopilot, SG_OFFICE_LOG="1", SG_TIMEOUT="150", **env_extra)
     if bridge:
         env["SG_OFFICE_BRIDGE"] = bridge
     p = subprocess.run(["sh", os.path.join(HERE, "run.sh"), root, work, doc], env=env,
@@ -66,13 +74,18 @@ def run(root, work, doc, autopilot, env_extra, bridge):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--root", required=True)
+    ap.add_argument("--root")
+    ap.add_argument("--sysroot")
     ap.add_argument("--work", required=True)
     ap.add_argument("--bridge")
     ap.add_argument("--only")
     ap.add_argument("--no-odf", action="store_true")
     a = ap.parse_args()
-    root, work = os.path.abspath(a.root), os.path.abspath(a.work)
+    if not a.root and not a.sysroot:
+        ap.error("--root or --sysroot")
+    if a.sysroot:
+        SYSROOT["SG_OFFICE_SYSROOT"] = os.path.abspath(a.sysroot)
+    root, work = os.path.abspath(a.root or a.sysroot), os.path.abspath(a.work)
     shutil.rmtree(work, ignore_errors=True)
     corpus = os.path.join(work, "corpus")
     os.makedirs(corpus)
@@ -135,6 +148,22 @@ def main():
         with zipfile.ZipFile(os.path.join(corpus, "src." + ext)) as a0, zipfile.ZipFile(doc2) as a1:
             check(sorted(a0.namelist()) == sorted(a1.namelist()) and all(a0.read(n) == a1.read(n) for n in a0.namelist()),
                   "%s: Save As left the original untouched" % ext)
+
+    # -- an empty file opens as a new document --------------------------------------------
+    if not a.only or a.only == "docx":
+        k = KINDS["docx"]
+        w = os.path.join(work, "empty")
+        os.makedirs(w)
+        doc = os.path.join(w, "New Document.docx")
+        open(doc, "wb").close()
+        rc, log = run(root, w, doc, "click:%s;%s;type:%s;wait:1500;save;wait:3000;quit" % (k["click"], k["keys"], MARK),
+                      {}, a.bridge)
+        print("\n[empty .docx] new document + save (rc=%d)" % rc)
+        check(rc == 0, "empty .docx: the program ran and quit")
+        try:
+            check(MARK in text_of(doc), "empty .docx: saved back as a document with the typed text")
+        except Exception as e:
+            check(False, "empty .docx: saved file readable (%s)" % e)
 
     print("\n=== SG Office program gate: %s ===" % ("PASS" if not fails else "FAIL (%d)" % len(fails)))
     return 1 if fails else 0

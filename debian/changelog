@@ -1,0 +1,17 @@
+sg-office-editors (8.2.0.143+sg1) unstable; urgency=medium
+
+  * First package: SG Office, Stained Glass OS's office suite based on
+    ONLYOFFICE 8.2.0.143 (sdkjs, core, web-apps), built from source by
+    `make deb` -- the program /usr/bin/sg-office, the engine in
+    /usr/lib/sg-office/engine, the editors in /usr/share/sg-office. Replaces
+    the LibreOffice-based interim suite (sg-shell's sg-office now depends on
+    this package). Test: make test-deb (the built package installed into a
+    scratch system root, its contents and dependencies checked, the program
+    gate run as installed; mutants: no ONLYOFFICE credit, a missing
+    dependency, a moved engine, a converter that cannot run).
+  * The program opens the rest of the types the shell registers for it
+    (.dotm, .dot, .xltm, .xlsb, .xlt, .ppsm, .pps, .potm, .pot; saved under
+    another name, like .doc), and an empty file -- File Explorer's New >
+    Document -- as a new document saved back to that file.
+
+ -- Stained Glass OS <dev@stained-glass.example>  Wed, 30 Sep 2026 19:14:51 -0700

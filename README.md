@@ -5,8 +5,9 @@ Presentations -- **based on ONLYOFFICE** (see NOTICE), built from source with an
 open toolchain, so its engine is ours to fix and extend
 ([ADR 0016](https://github.com/Stained-Glass-OS/stained-glass/blob/main/docs/decisions/0016-our-own-office-suite.md)).
 
-Until SG Office passes its gates, the shipping suite stays the interim
-LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
+It ships as the Debian package `sg-office-editors` (`make deb`); sg-shell's
+`sg-office` package depends on it and puts SG Office Documents, Spreadsheets
+and Presentations in Start and on Office's file types.
 
 ## What is here
 
@@ -22,6 +23,8 @@ LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
 | `app/` | the program: a window per document (Qt 6, QtWebEngine from Debian), SG-drawn title bar, `bridge.js` answering the editors' calls, x2t for open/save |
 | `build/webapps.sh` | the editors' interface (web-apps) with node and grunt; no downloaded binaries (`patches/web-apps`) |
 | `build/assemble-app.sh` | lays the program out as it installs (`bin/`, `lib/sg-office/engine`, `share/sg-office`) |
+| `debian/` | the package `sg-office-editors`: `debian/rules` builds everything from source and packages `app-root`; `debian/copyright` credits ONLYOFFICE |
+| `test/deb/` | the package's gate: contents, licence notices, dependencies, then installed (dpkg) into a scratch root and the program's gate run as installed |
 | `test/app/` | the program's gate: headless (own Xvfb, scratch HOME), clicks, types, saves, Saves As OpenDocument, checks the SG look |
 | `test/roundtrip/` | a .docx/.xlsx/.pptx our own code writes from scratch (`ooxmlw.py`), opened in the engine and saved back; their features must survive |
 | `test/parity/` | the Excel formula corpus (775 cases, 530 functions; vendored from sg-shell `office/parity`) run through our engine |
@@ -34,6 +37,8 @@ LibreOffice-based `sg-office` (sg-shell `office/`, ADR 0015).
     make webapps sdkjs-desktop app  # the editors and the program, in $(OUT)/app-root
     make test                       # lint + round-trip, Excel corpus and program gates
     make test-mutation              # every gate must fail when what it guards breaks
+    make deb                        # ../sg-office-editors_VERSION_amd64.deb, from source (DEB_OUT trees)
+    make test-deb                   # the package's gate; make test-deb-mutation: its broken packages
 
 Builds keep their trees under `/var/tmp/sgoffice` and run niced with `-j3`.
 

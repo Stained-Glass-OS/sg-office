@@ -92,7 +92,10 @@ void Document::setModified(bool modified)
 
 void Document::open(std::function<void(bool, const QString&)> done)
 {
-	const QString from = m_path.isEmpty() ? templateFor(m_kind) : m_path;
+	// an empty file (File Explorer's New > Document makes one) opens as a new
+	// document of its kind, saved back to that file
+	const bool blank = m_path.isEmpty() || QFileInfo(m_path).size() == 0;
+	const QString from = blank ? templateFor(m_kind) : m_path;
 	const QString params = QStringLiteral(
 		"<?xml version=\"1.0\" encoding=\"utf-8\"?><TaskQueueDataConvert>"
 		"<m_sFileFrom>%1</m_sFileFrom><m_sFileTo>%2/Editor.bin</m_sFileTo>"
