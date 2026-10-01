@@ -30,6 +30,8 @@ and saving, each driven headlessly as app_check.py drives the editor
             chat, no "All changes saved" after a save
   places    Save As offers the account's folders (Desktop, Documents,
             Downloads) beside its home, as Quick access does
+  filekeys  Ctrl+N opens a new document of the kind, Ctrl+O the Open
+            dialog, F12 Save As
 
 Exit 0 when all hold.
 
@@ -54,7 +56,7 @@ MARK = "SGEDIT42"
 DOC_CLICK = "click:0.5,0.45;key:End;"
 CELL_CLICK = "click:0.15,0.45;"
 ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph",
-       "offline", "places"]
+       "offline", "places", "filekeys"]
 OPT = {}
 
 
@@ -312,6 +314,19 @@ def main():
         places = m.group(1).split("|") if m else []
         check(all(p in places for p in ("Desktop", "Documents", "Downloads")),
               "places: Save As lists Desktop, Documents and Downloads (%s)" % places)
+
+    if "filekeys" in only:
+        d = fresh(work, "filekeys")
+        doc = docx_in(d)
+        rc, log, _ = run(d, [doc], DOC_CLICK + "key:Ctrl+N;wait:4000;windows;key:Ctrl+O;wait:1500;modal;"
+                                   "key:F12;wait:2500;modal;quitall")
+        m = re.search(r"windows (\d+): (.*)", log)
+        modals = re.findall(r"sg-office: modal (.*)", log)
+        print("\n[filekeys] (rc=%d) %s %s" % (rc, m.group(0) if m else "no list", modals))
+        check(bool(m) and m.group(1) == "2" and "Document1" in m.group(2), "filekeys: Ctrl+N opened a new document (%s)"
+              % (m.group(0) if m else None))
+        check(modals[:1] == ["Open"], "filekeys: Ctrl+O shows Open (%s)" % modals)
+        check(modals[1:2] == ["Save As"], "filekeys: F12 shows Save As (%s)" % modals)
 
     print("\n=== SG Office features gate: %s ===" % ("PASS" if not fails else "FAIL (%d)" % len(fails)))
     return 1 if fails else 0

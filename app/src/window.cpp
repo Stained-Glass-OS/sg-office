@@ -533,6 +533,7 @@ void EditorWindow::autopilotStep()
 		const int key = k == QLatin1String("Return") ? Qt::Key_Return : k == QLatin1String("Tab") ? Qt::Key_Tab
 		              : k == QLatin1String("Down") ? Qt::Key_Down : k == QLatin1String("Home") ? Qt::Key_Home
 		              : k == QLatin1String("End") ? Qt::Key_End : k == QLatin1String("F4") ? Qt::Key_F4
+		              : k == QLatin1String("F12") ? Qt::Key_F12
 		              : k.size() == 1 ? k.at(0).toUpper().unicode() : 0;
 		const QString text = mods ? QString() : key == Qt::Key_Return ? QStringLiteral("\r") : key == Qt::Key_Tab ? QStringLiteral("\t") : QString();
 		QCoreApplication::postEvent(target, new QKeyEvent(QEvent::KeyPress, key, mods, text));
@@ -563,6 +564,15 @@ void EditorWindow::autopilotStep()
 		QString sel;
 		Dialogs::save(this, QStringLiteral("Save As"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
 		              + QStringLiteral("/x.docx"), QStringLiteral("Word Document (*.docx)"), &sel);
+	}
+	else if (step == QLatin1String("modal"))
+	{
+		// the dialog in front, by its title, then cancelled
+		QWidget* m = QApplication::activeModalWidget();
+		hostLog(QStringLiteral("modal ") + (m ? m->windowTitle() : QStringLiteral("none")));
+		if (auto* dlg = qobject_cast<QDialog*>(m))
+			dlg->reject();
+		QTimer::singleShot(500, this, &EditorWindow::autopilotStep);
 	}
 	else if (step == QLatin1String("wmclass"))
 	{
@@ -684,10 +694,39 @@ bool EditorWindow::eventFilter(QObject* o, QEvent* e)
 		auto* w = qobject_cast<QWidget*>(o);
 		const auto mods = ke->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier);
 		if (w && w->window() == this && !ke->isAutoRepeat()
-		    && ((ke->key() == Qt::Key_F4 && mods == Qt::AltModifier) || (ke->key() == Qt::Key_W && mods == Qt::ControlModifier)))
+		    && ((ke->key() == Qt::Key_F4 && mods == Qt::AltModifier) || (ke->key() == Qt::Key_W && mods == Qt::ControlModifier)
+		        || (ke->key() == Qt::Key_F4 && mods == Qt::ControlModifier)))
 		{
 			QTimer::singleShot(0, this, &QWidget::close);
 			return true;
+		}
+	}
+#endif
+	// Office's own keys for the file: Ctrl+N a new document of this kind,
+	// Ctrl+O Open, F12 Save As (the editors leave them to the program)
+#ifndef SG_MUTANT_NO_FILE_KEYS
+	if (e->type() == QEvent::KeyPress)
+	{
+		auto* ke = static_cast<QKeyEvent*>(e);
+		auto* w = qobject_cast<QWidget*>(o);
+		const auto mods = ke->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier);
+		if (w && w->window() == this && !ke->isAutoRepeat() && !QApplication::activeModalWidget())
+		{
+			if (ke->key() == Qt::Key_N && mods == Qt::ControlModifier)
+			{
+				QTimer::singleShot(0, this, [this] { Office::instance().create(m_doc->kind()); });
+				return true;
+			}
+			if (ke->key() == Qt::Key_O && mods == Qt::ControlModifier)
+			{
+				QTimer::singleShot(0, this, [this] { Office::instance().openDialog(this, m_doc->kind()); });
+				return true;
+			}
+			if (ke->key() == Qt::Key_F12 && !mods)
+			{
+				runInEditor(QStringLiteral("(window.Asc && Asc.editor || window.editor).asc_Save(false, true);"));
+				return true;
+			}
 		}
 	}
 #endif
