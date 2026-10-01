@@ -40,6 +40,8 @@ def main(mode, src, dst):
             os.rename(os.path.join(e, "engine"), os.path.join(e, "engine-moved"))
         elif mode == "x2tnoexec":
             os.chmod(os.path.join(t, "usr/lib/sg-office/engine/x2t"), 0o644)
+        elif mode == "tips":
+            os.remove(os.path.join(t, "usr/share/sg-office/web-apps/sg-seen-tips.js"))
         else:
             sys.exit("mutate_deb.py: unknown mode " + mode)
         # md5sums would give the mutant away to dpkg --verify only; keep it consistent

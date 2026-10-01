@@ -116,7 +116,7 @@ test-deb:
 test-deb-mutation:
 	@[ -n "$(DEB)" ] || { echo "no ../sg-office-editors_*_amd64.deb: make deb"; exit 1; }
 	@mkdir -p $(DEB_OUT)/mutant
-	@for m in nocredit nodep moved x2tnoexec; do \
+	@for m in nocredit nodep moved x2tnoexec tips; do \
 	    $(PY) test/deb/mutate_deb.py $$m $(DEB) $(DEB_OUT)/mutant/$$m.deb || exit 1; \
 	    if $(PY) test/deb/deb_check.py --deb $(DEB_OUT)/mutant/$$m.deb --work $(DEB_OUT)/mutant/check-$$m >$(DEB_OUT)/mutant/check-$$m.log 2>&1; then \
 	        echo "test-deb-mutation: FAIL -- the package gate passed mutant $$m"; exit 1; \

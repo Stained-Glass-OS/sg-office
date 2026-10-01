@@ -34,4 +34,11 @@ find "$ROOT/share/sg-office/web-apps" -name '*.map' -delete
 cp -a "$SDKJS" "$ROOT/share/sg-office/sdkjs"
 mv "$ROOT/share/sg-office/sdkjs-vendor" "$ROOT/share/sg-office/sdkjs/vendor"
 find "$ROOT/share/sg-office/sdkjs" \( -name 'sdk-all.bin' -o -name 'sdk-all.cache' \) -delete
+# the editors' "new feature" tips (Updated Pivot Tables, ...): each shows
+# until its name is in the editors' storage; SG Office marks them all seen
+# (editor.html) -- the names as this build of the editors has them
+TIPS=$(grep -rhoE "[\"']([a-z]+-)?help-tip-[a-z0-9-]+[\"']" "$ROOT/share/sg-office/web-apps/apps" | tr -d "\"'" | sort -u)
+[ -n "$TIPS" ] || { echo "assemble-app: no help tips found in the editors (has upstream renamed them?)"; exit 1; }
+{ printf 'window.sgSeenTips = ['; printf '"%s",' $TIPS | sed 's/,$//'; printf '];\n'; } \
+    > "$ROOT/share/sg-office/web-apps/sg-seen-tips.js"
 echo "app assembled: $ROOT"

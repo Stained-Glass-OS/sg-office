@@ -102,6 +102,14 @@ def main():
     check(field(deb, "Package") == "sg-office-editors", "the package is sg-office-editors")
     for f in NEED_FILES:
         check(os.path.exists(os.path.join(x, f)), "has /" + f)
+    # the editors' "new feature" tips are marked seen (editor.html): the list
+    # assemble-app.sh takes from the editors
+    try:
+        tips = open(os.path.join(x, "usr/share/sg-office/web-apps/sg-seen-tips.js"), encoding="utf-8").read()
+    except OSError:
+        tips = ""
+    check("sse-help-tip-ins-pivot" in tips and "window.sgSeenTips" in tips,
+          "the editors' new-feature tips are listed to be marked seen (Updated Pivot Tables)")
     sdk = os.path.join(x, "usr/lib/sg-office/engine/sdkjs")
     check(os.path.islink(sdk) and os.path.realpath(sdk) == os.path.realpath(os.path.join(x, "usr/share/sg-office/sdkjs")),
           "the engine's sdkjs is the editors' (/usr/share/sg-office/sdkjs)")

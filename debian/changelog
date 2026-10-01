@@ -1,3 +1,14 @@
+sg-office-editors (8.2.0.143+sg2) unstable; urgency=medium
+
+  * The editors' "new feature" tips (Spreadsheets' "Updated Pivot Tables"
+    on every start) are marked seen: build/assemble-app.sh lists the tips
+    this build of the editors has (sg-seen-tips.js), and editor.html marks
+    them in the editors' storage before an editor loads. Test: make test-deb
+    (the list is in the package; mutant "tips": test-deb-mutation). VM: the
+    tip on every start with +sg1, never with this build.
+
+ -- Stained Glass OS <ke7oxh@gmail.com>  Thu, 01 Oct 2026 05:40:00 +0000
+
 sg-office-editors (8.2.0.143+sg1) unstable; urgency=medium
 
   * First package: SG Office, Stained Glass OS's office suite based on

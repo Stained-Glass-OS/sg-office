@@ -17,6 +17,7 @@
 <body>
 <div id="wrap"><div id="placeholder"></div></div>
 <script src="sgoffice://app/web-apps/apps/api/documents/api.js"></script>
+<script src="sgoffice://app/web-apps/sg-seen-tips.js"></script>
 <script>
 (function () {
   var p = new URLSearchParams(location.search);
@@ -27,6 +28,10 @@
     x.open("GET", "sgoffice://app/native/state?doc=" + encodeURIComponent(p.get("doc")), false);
     x.send(null);
     state = JSON.parse(x.responseText);
+  } catch (e) {}
+  /* the editors' "new feature" tips, marked seen (build/assemble-app.sh lists them) */
+  try {
+    (window.sgSeenTips || []).forEach(function (n) { if (!localStorage.getItem(n)) localStorage.setItem(n, "1"); });
   } catch (e) {}
   var doctype = p.get("doctype") || "word";
   window.sgEditor = new DocsAPI.DocEditor("placeholder", {
