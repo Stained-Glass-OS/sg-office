@@ -41,6 +41,7 @@ public:
 	QJsonObject hostState() override;
 
 protected:
+	bool event(QEvent* e) override;
 	void closeEvent(QCloseEvent*) override;
 	bool eventFilter(QObject* o, QEvent* e) override;
 
@@ -50,6 +51,8 @@ private:
 	QString askSaveAsPath(int preferredCode, const Format** chosen);
 	void autopilotStep();
 	void sendRecents();
+	void setWindowClass();
+	QString windowClass();
 	void applyLook(bool dark);
 
 	Document* m_doc;

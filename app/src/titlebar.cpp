@@ -111,7 +111,12 @@ void TitleBar::paintEvent(QPaintEvent*)
 				p.drawRect(c.x() - 5, c.y() - 5, 10, 10);
 			break;
 		case Close:
+			// pixel by pixel, as the minimize and maximize glyphs: an
+			// antialiased 1 px diagonal is two half-strength pixels wide, a
+			// faint grey cross beside crisp neighbours
+#ifdef SG_MUTANT_FAINT_CLOSE
 			p.setRenderHint(QPainter::Antialiasing);
+#endif
 			p.drawLine(c.x() - 5, c.y() - 5, c.x() + 5, c.y() + 5);
 			p.drawLine(c.x() - 5, c.y() + 5, c.x() + 5, c.y() - 5);
 			p.setRenderHint(QPainter::Antialiasing, false);

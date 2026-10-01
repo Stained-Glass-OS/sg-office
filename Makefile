@@ -110,7 +110,8 @@ test-mutation:
 # $(OUT)/mutant/app-NAME, run with the app-root's engine and editors).
 BRIDGE_MUTANTS = noprint:print notitle:title
 APP_MUTANTS = FONTS_EVERY_START:fonts CSV_NO_PARAMS:csv EXPORT_SAVES:export NO_ALTF4:altf4 UNITS_CM:units \
-              NO_HANDOFF:handoff NO_DARK:dark NO_RECENTS:recents
+              NO_HANDOFF:handoff NO_DARK:dark NO_RECENTS:recents \
+              NO_TASKBAR_ICON:taskbar FAINT_CLOSE:closeglyph
 test-app-mutation:
 	@for mc in $(BRIDGE_MUTANTS); do m=$${mc%%:*}; c=$${mc##*:}; \
 	    $(PY) test/app/mutate_bridge.py $$m $(OUT)/mutant/bridge-$$m.js >/dev/null || exit 1; \

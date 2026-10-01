@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 #include "office.h"
+#include "appicon.h"
 #include "document.h"
 #include "window.h"
 
@@ -236,6 +237,41 @@ void Office::accept()
 					create(k);
 			});
 		});
+	}
+}
+
+// ---- the taskbar's icons ----------------------------------------------------------------
+
+void Office::installTaskbarIcons()
+{
+#ifdef SG_MUTANT_NO_TASKBAR_ICON
+	return;
+#endif
+	// started from Wine (Start, File Explorer): its prefix, and the user's
+	// profile in it, as Wine names it (the login)
+	const QString prefix = qEnvironmentVariable("WINEPREFIX");
+	const QString user = qEnvironmentVariable("USER");
+	if (prefix.isEmpty() || user.isEmpty() || user.contains(QLatin1Char('/')))
+		return;
+	const QString profile = prefix + QStringLiteral("/drive_c/users/") + user;
+	if (!QFileInfo(profile).isDir())
+		return;
+	const QString dir = profile + QStringLiteral("/AppData/Local/Stained Glass/Linux app icons");
+	QDir().mkpath(dir);
+	for (Kind k : {Kind::Word, Kind::Cell, Kind::Slide})
+	{
+		const QString file = dir + QLatin1Char('/') + Formats::programId(k) + QStringLiteral(".ico");
+		const QByteArray ico = AppIcon::ico(k);
+		QFile old(file);
+		if (old.open(QIODevice::ReadOnly) && old.readAll() == ico)
+			continue;
+		old.close();
+		QSaveFile f(file);
+		if (f.open(QIODevice::WriteOnly))
+		{
+			f.write(ico);
+			f.commit();
+		}
 	}
 }
 

@@ -22,6 +22,10 @@ and saving, each driven headlessly as app_check.py drives the editor
             twice
   dark      in the session's dark look the title bar and the editor are dark
   recents   an opened file is in the editor's File > Open Recent
+  taskbar   each program's window has its own X class
+            (sg-office-documents), and the icons the taskbar shows for
+            those classes are in the Wine profile's Linux app icons folder
+  closeglyph the title bar's close cross is as dark as its neighbours
 
 Exit 0 when all hold.
 
@@ -45,7 +49,7 @@ import ooxmlw      # noqa: E402
 MARK = "SGEDIT42"
 DOC_CLICK = "click:0.5,0.45;key:End;"
 CELL_CLICK = "click:0.15,0.45;"
-ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents"]
+ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph"]
 OPT = {}
 
 
@@ -246,6 +250,35 @@ def main():
         rc, log, _ = run(d, [doc], "wait:2500;eval:Common.Controllers.Desktop.recentFiles().map(function(f){return f.title}).join('|');quit")
         print("\n[recents] (rc=%d) %s" % (rc, evals(log)))
         check(any("Budget notes.docx" in e for e in evals(log)), "recents: the opened file is in File > Open Recent")
+
+    if "taskbar" in only:
+        d = fresh(work, "taskbar")
+        doc = docx_in(d)
+        profile = os.path.join(d, "prefix", "drive_c", "users", "tester")
+        os.makedirs(profile)
+        rc, log, _ = run(d, [doc], "wait:1000;wmclass;quit", {"WINEPREFIX": os.path.join(d, "prefix"), "USER": "tester"})
+        m = re.search(r"wmclass (.*)", log)
+        print("\n[taskbar] (rc=%d) %s" % (rc, m.group(0) if m else "no class"))
+        check(bool(m) and m.group(1).startswith("sg-office|sg-office-documents|"),
+              "taskbar: the window's class is sg-office-documents (%s)" % (m.group(1) if m else None))
+        icons = os.path.join(profile, "AppData", "Local", "Stained Glass", "Linux app icons")
+        for name in ("sg-office-documents", "sg-office-spreadsheets", "sg-office-presentations"):
+            f = os.path.join(icons, name + ".ico")
+            head = open(f, "rb").read(6) if os.path.isfile(f) else b""
+            check(head[:4] == b"\0\0\1\0" and head[4] >= 4, "taskbar: %s.ico is an icon file (%r)" % (name, head))
+
+    if "closeglyph" in only:
+        d = fresh(work, "closeglyph")
+        doc = docx_in(d)
+        # the window is 1280 wide (5 px resize margin): the close button's
+        # cross is centred at (1251, 20); a pixel on its diagonal, and the
+        # middle of the minimize bar beside it, drawn in the same colour
+        rc, log, _ = run(d, [doc], "wait:1000;pixel:1253,22;pixel:1159,20;quit")
+        px = dict(re.findall(r"pixel (\d+,\d+) #([0-9a-f]{6})", log))
+        lum = lambda h: (int(h[0:2], 16) * 299 + int(h[2:4], 16) * 587 + int(h[4:6], 16) * 114) / 1000 if h else 255
+        print("\n[closeglyph] (rc=%d) %s" % (rc, px))
+        check(lum(px.get("1253,22")) <= lum(px.get("1159,20")) + 10,
+              "closeglyph: the close cross is as dark as the minimize bar (#%s, #%s)" % (px.get("1253,22"), px.get("1159,20")))
 
     print("\n=== SG Office features gate: %s ===" % ("PASS" if not fails else "FAIL (%d)" % len(fails)))
     return 1 if fails else 0

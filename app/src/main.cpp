@@ -165,6 +165,7 @@ int main(int argc, char* argv[])
 	profile->installUrlSchemeHandler("ascdesktop", handler);
 	injectBridge(profile);
 	office.listen();
+	office.installTaskbarIcons();
 
 	int opened = 0;
 	for (const QString& file : files)

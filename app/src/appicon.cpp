@@ -10,7 +10,9 @@
  */
 #include "appicon.h"
 
+#include <QBuffer>
 #include <QImage>
+#include <QtEndian>
 #include <QLinearGradient>
 #include <QPainter>
 #include <QPainterPath>
@@ -134,4 +136,88 @@ QIcon AppIcon::of(Kind kind)
 			icon.addPixmap(QPixmap::fromImage(big.scaled(s, s, Qt::IgnoreAspectRatio, Qt::SmoothTransformation)));
 	}
 	return icon;
+}
+
+namespace
+{
+void put16(QByteArray& b, quint16 v)
+{
+	char d[2];
+	qToLittleEndian(v, d);
+	b.append(d, 2);
+}
+
+void put32(QByteArray& b, quint32 v)
+{
+	char d[4];
+	qToLittleEndian(v, d);
+	b.append(d, 4);
+}
+
+// one image of an .ico: a 32-bit bottom-up bitmap (its alpha is the mask)
+// and an empty AND mask, as Windows' icon files have them
+QByteArray dib(const QImage& src)
+{
+	const QImage im = src.convertToFormat(QImage::Format_ARGB32);
+	const int w = im.width(), h = im.height();
+	const int maskStride = ((w + 31) / 32) * 4;
+	QByteArray b;
+	put32(b, 40);
+	put32(b, w);
+	put32(b, h * 2);              // the colour bitmap and the mask
+	put16(b, 1);
+	put16(b, 32);
+	put32(b, 0);
+	put32(b, w * h * 4 + maskStride * h);
+	put32(b, 0);
+	put32(b, 0);
+	put32(b, 0);
+	put32(b, 0);
+	for (int y = h - 1; y >= 0; --y)
+		b.append(reinterpret_cast<const char*>(im.constScanLine(y)), w * 4);   // BGRA in memory
+	b.append(QByteArray(maskStride * h, '\0'));
+	return b;
+}
+}
+
+QByteArray AppIcon::ico(Kind kind)
+{
+	const QImage big = tile(kind);
+	QList<QByteArray> images;
+	const int sizes[] = {16, 20, 24, 32, 48, 256};
+	for (int s : sizes)
+	{
+		const QImage im = big.scaled(s, s, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		if (s < 256)
+			images << dib(im);
+		else
+		{
+			QByteArray png;
+			QBuffer buf(&png);
+			buf.open(QIODevice::WriteOnly);
+			im.save(&buf, "PNG");
+			images << png;
+		}
+	}
+	QByteArray out;
+	put16(out, 0);
+	put16(out, 1);                // an icon
+	put16(out, images.size());
+	quint32 offset = 6 + 16 * images.size();
+	for (int i = 0; i < images.size(); ++i)
+	{
+		const int s = sizes[i];
+		out.append(char(s >= 256 ? 0 : s));
+		out.append(char(s >= 256 ? 0 : s));
+		out.append(char(0));
+		out.append(char(0));
+		put16(out, 1);
+		put16(out, 32);
+		put32(out, images[i].size());
+		put32(out, offset);
+		offset += images[i].size();
+	}
+	for (const QByteArray& im : std::as_const(images))
+		out.append(im);
+	return out;
 }

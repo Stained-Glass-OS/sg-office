@@ -38,5 +38,6 @@ int canvasCode(Kind kind);
 QString kindName(Kind kind);          // "word" / "cell" / "slide" -- the editors' documentType
 QString editorApp(Kind kind);         // "documenteditor" ...
 QString productName(Kind kind);       // "SG Office Documents" ...
+QString programId(Kind kind);         // "sg-office-documents" ... (X class, icon names)
 Kind kindOfExt(const QString& ext, bool* ok = nullptr);
 }

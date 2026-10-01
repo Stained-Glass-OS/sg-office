@@ -25,7 +25,13 @@ sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
   * After Save As the editor's title is the new file name.
   * Alt+F4 closes the window, Ctrl+W the document.
   * The windows have SG Office's icons (drawn by the program), the title
-    bar too.
+    bar too, and so do their taskbar buttons: each program's window has
+    its own X class (sg-office-documents, -spreadsheets, -presentations;
+    no spaces -- the compositor's list ends a class at one), and the
+    program writes the matching .ico files into the Wine profile's
+    "Linux app icons" folder the taskbar reads (wine-sg 0612).
+  * The title bar's close cross is drawn pixel by pixel like its
+    neighbours: antialiased, it was a faint grey two pixels wide.
   * A US English account measures in inches (Office's default there), and
     the editors take the account's language and region.
   * Settings > Colors' dark mode: the editors' dark theme, a dark title bar
@@ -34,7 +40,7 @@ sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
     units, title, handoff, dark, recents), each with a mutant
     (make test-app-mutation: bridge noprint/notitle, program
     SG_MUTANT_FONTS_EVERY_START/CSV_NO_PARAMS/EXPORT_SAVES/NO_ALTF4/
-    UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS).
+    UNITS_CM/NO_HANDOFF/NO_DARK/NO_RECENTS/NO_TASKBAR_ICON/FAINT_CLOSE).
 
  -- Stained Glass OS <ke7oxh@gmail.com>  Thu, 01 Oct 2026 17:45:00 +0000
 

@@ -39,6 +39,10 @@ public:
 	static QString socketPath();
 	// Listen for later starts' files.
 	void listen();
+	// The taskbar's icons for SG Office's windows: under Wine's profile
+	// (%LOCALAPPDATA%\Stained Glass\Linux app icons\<window class>.ico, the
+	// folder the taskbar reads a Linux program's icon from)
+	void installTaskbarIcons();
 
 	// A window for this file (the one it is open in already, brought
 	// forward); nullptr and a message when SG Office cannot open it.

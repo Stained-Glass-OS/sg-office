@@ -36,8 +36,11 @@
 #include <QWebEngineScriptCollection>
 #include <QWebEngineSettings>
 #include <QWebEngineView>
+#include <QGuiApplication>
+#include <QPlatformSurfaceEvent>
 #include <QWindow>
 #include <cstdio>
+#include <xcb/xcb.h>
 
 namespace
 {
@@ -160,6 +163,54 @@ EditorWindow::~EditorWindow()
 	qApp->removeEventFilter(this);
 	SchemeHandler::setHost(m_doc->id(), nullptr);
 	delete m_doc;
+}
+
+// The window's X class: sg-office-documents (-spreadsheets,
+// -presentations). The taskbar shows a Linux program's window with the icon
+// filed under its class (wine-sg 0612; Office::installTaskbarIcons writes
+// SG Office's), so each program gets its own icon, not one for all three.
+// No spaces: the compositor's window list (XWINDOWS) ends a class at one.
+void EditorWindow::setWindowClass()
+{
+#ifndef SG_MUTANT_NO_TASKBAR_ICON
+	auto* x11 = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+	if (!x11 || !windowHandle())
+		return;
+	QByteArray cls = "sg-office";
+	cls.append('\0');
+	cls.append(Formats::programId(m_doc->kind()).toUtf8());
+	cls.append('\0');
+	xcb_change_property(x11->connection(), XCB_PROP_MODE_REPLACE, static_cast<xcb_window_t>(winId()), XCB_ATOM_WM_CLASS,
+	                    XCB_ATOM_STRING, 8, static_cast<uint32_t>(cls.size()), cls.constData());
+	xcb_flush(x11->connection());
+#endif
+}
+
+QString EditorWindow::windowClass()
+{
+	auto* x11 = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+	if (!x11)
+		return {};
+	xcb_get_property_reply_t* r = xcb_get_property_reply(x11->connection(),
+		xcb_get_property(x11->connection(), 0, static_cast<xcb_window_t>(winId()), XCB_ATOM_WM_CLASS, XCB_ATOM_STRING, 0, 64), nullptr);
+	if (!r)
+		return {};
+	const QByteArray v(static_cast<const char*>(xcb_get_property_value(r)), xcb_get_property_value_length(r));
+	free(r);
+	return QString::fromUtf8(v).replace(QLatin1Char('\0'), QLatin1Char('|'));
+}
+
+bool EditorWindow::event(QEvent* e)
+{
+	// Qt names the X window afresh whenever it makes one
+	if (e->type() == QEvent::PlatformSurface
+	    && static_cast<QPlatformSurfaceEvent*>(e)->surfaceEventType() == QPlatformSurfaceEvent::SurfaceCreated)
+	{
+		const bool r = QWidget::event(e);
+		setWindowClass();
+		return r;
+	}
+	return QWidget::event(e);
 }
 
 void EditorWindow::bringForward()
@@ -497,6 +548,11 @@ void EditorWindow::autopilotStep()
 	else if (step == QLatin1String("state"))
 	{
 		hostLog(QStringLiteral("state modified=%1 path=%2").arg(m_doc->isModified() ? 1 : 0).arg(m_doc->path()));
+		QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
+	}
+	else if (step == QLatin1String("wmclass"))
+	{
+		hostLog(QStringLiteral("wmclass ") + windowClass());
 		QTimer::singleShot(200, this, &EditorWindow::autopilotStep);
 	}
 	else if (step == QLatin1String("windows"))

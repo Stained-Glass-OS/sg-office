@@ -27,7 +27,7 @@ add_executable(sg-office
     res/sg-office.qrc)
 target_compile_options(sg-office PRIVATE -Wall -Wextra)
 target_link_libraries(sg-office PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network Qt6::PrintSupport
-                      Qt6::WebEngineCore Qt6::WebEngineWidgets)
+                      Qt6::WebEngineCore Qt6::WebEngineWidgets xcb)
 # SG_MUTANTS="A;B": a build with those fixes reverted (#ifdef SG_MUTANT_A ...), for
 # make test-mutation
 if(SG_MUTANTS)

@@ -122,6 +122,17 @@ QString productName(Kind kind)
 	return QStringLiteral("SG Office");
 }
 
+QString programId(Kind kind)
+{
+	switch (kind)
+	{
+	case Kind::Word: return QStringLiteral("sg-office-documents");
+	case Kind::Cell: return QStringLiteral("sg-office-spreadsheets");
+	case Kind::Slide: return QStringLiteral("sg-office-presentations");
+	}
+	return QStringLiteral("sg-office");
+}
+
 Kind kindOfExt(const QString& ext, bool* ok)
 {
 	const Format* f = byExt(ext);

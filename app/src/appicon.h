@@ -13,4 +13,6 @@
 namespace AppIcon
 {
 QIcon of(Kind kind);
+// The icon as a Windows .ico file (16-48 px as 32-bit bitmaps, 256 px as PNG)
+QByteArray ico(Kind kind);
 }
