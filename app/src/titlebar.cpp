@@ -12,8 +12,12 @@
 
 namespace
 {
-constexpr int kHeight = 32;
-constexpr int kButtonWidth = 46;
+// as every other window's caption (Wine's, the theme's WindowMetrics): 30 px
+// high, square buttons, the title in the 12 px caption font
+constexpr int kHeight = 30;
+constexpr int kButtonWidth = 30;
+constexpr int kIconX = 2;     // inside the window's 5 px margin: 7 and 25 from its edge, as Wine's
+constexpr int kTextX = 20;
 }
 
 TitleBar::TitleBar(QWidget* parent) : QWidget(parent)
@@ -73,18 +77,20 @@ void TitleBar::paintEvent(QPaintEvent*)
 	const QColor fg = m_dark ? (active ? QColor(0xF0, 0xF0, 0xF0) : QColor(0x90, 0x90, 0x90))
 	                         : (active ? QColor(0, 0, 0) : QColor(150, 150, 150));
 	p.fillRect(rect(), m_dark ? QColor(0x20, 0x20, 0x20) : QColor(Qt::white));
-	// the program's colour as a thin line along the top, like its icon
+#ifdef SG_MUTANT_ACCENT_LINE
 	p.fillRect(QRect(0, 0, width(), 2), m_accent);
+#endif
 
 	const int iconSize = 16;
 	if (!m_icon.isNull())
-		m_icon.paint(&p, QRect(10, (kHeight - iconSize) / 2, iconSize, iconSize));
+		m_icon.paint(&p, QRect(kIconX, (kHeight - iconSize) / 2, iconSize, iconSize));
 
 	p.setPen(fg);
 	QFont f = font();
-	f.setPointSizeF(9.5);
+	f.setFamily(QStringLiteral("Inter"));
+	f.setPixelSize(12);
 	p.setFont(f);
-	const QRect textRect(36, 0, width() - 36 - 3 * kButtonWidth - 8, kHeight);
+	const QRect textRect(kTextX, 0, width() - kTextX - 3 * kButtonWidth - 8, kHeight);
 	p.drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft,
 	           p.fontMetrics().elidedText(m_title, Qt::ElideMiddle, textRect.width()));
 

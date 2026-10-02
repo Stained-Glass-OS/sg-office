@@ -1,3 +1,15 @@
+sg-office-editors (8.2.0.143+sg4) unstable; urgency=medium
+
+  * SG Office's windows look like every other window's (David 2026-10-01:
+    its title bar looked different): the frame and title bar as Wine's --
+    a one-pixel #e3e3e3 edge, a 30 px title bar with square 30 px buttons,
+    the icon and title where Wine puts them, the title in Inter at the
+    caption font's 12 px, and no coloured line along the top. Maximized,
+    no margin. Test: test/app/features_check.py frame and closeglyph
+    (program mutant ACCENT_LINE fails it).
+
+ -- Stained Glass OS <ke7oxh@gmail.com>  Fri, 02 Oct 2026 05:30:00 +0000
+
 sg-office-editors (8.2.0.143+sg3) unstable; urgency=medium
 
   * Saving a copy as PDF (File > Download as, Print to PDF) no longer

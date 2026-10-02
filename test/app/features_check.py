@@ -26,6 +26,8 @@ and saving, each driven headlessly as app_check.py drives the editor
             (sg-office-documents), and the icons the taskbar shows for
             those classes are in the Wine profile's Linux app icons folder
   closeglyph the title bar's close cross is as dark as its neighbours
+  frame     the window's edge and title bar as Wine's: a #e3e3e3 edge, no
+            coloured line along the top
   offline   the editors take the document as a local file (offline): no
             chat, no "All changes saved" after a save
   places    Save As offers the account's folders (Desktop, Documents,
@@ -55,7 +57,7 @@ import ooxmlw      # noqa: E402
 MARK = "SGEDIT42"
 DOC_CLICK = "click:0.5,0.45;key:End;"
 CELL_CLICK = "click:0.15,0.45;"
-ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph",
+ALL = ["csv", "export", "print", "fonts", "altf4", "units", "title", "handoff", "dark", "recents", "taskbar", "closeglyph", "frame",
        "offline", "places", "filekeys"]
 OPT = {}
 
@@ -277,15 +279,30 @@ def main():
     if "closeglyph" in only:
         d = fresh(work, "closeglyph")
         doc = docx_in(d)
-        # the window is 1280 wide (5 px resize margin): the close button's
-        # cross is centred at (1251, 20); a pixel on its diagonal, and the
-        # middle of the minimize bar beside it, drawn in the same colour
-        rc, log, _ = run(d, [doc], "wait:1000;pixel:1253,22;pixel:1159,20;quit")
+        # the window is 1280 wide (5 px resize margin), its buttons 30 px as
+        # Wine's: the close button's cross is centred at (1259, 19), the
+        # minimize bar at (1200, 19); a pixel on the cross's diagonal and the
+        # bar's middle, drawn in the same colour
+        rc, log, _ = run(d, [doc], "wait:1000;pixel:1261,21;pixel:1200,19;quit")
         px = dict(re.findall(r"pixel (\d+,\d+) #([0-9a-f]{6})", log))
         lum = lambda h: (int(h[0:2], 16) * 299 + int(h[2:4], 16) * 587 + int(h[4:6], 16) * 114) / 1000 if h else 255
         print("\n[closeglyph] (rc=%d) %s" % (rc, px))
-        check(lum(px.get("1253,22")) <= lum(px.get("1159,20")) + 10,
-              "closeglyph: the close cross is as dark as the minimize bar (#%s, #%s)" % (px.get("1253,22"), px.get("1159,20")))
+        check(lum(px.get("1261,21")) <= lum(px.get("1200,19")) + 10 and lum(px.get("1200,19")) < 200,
+              "closeglyph: the close cross is as dark as the minimize bar (#%s, #%s)" % (px.get("1261,21"), px.get("1200,19")))
+
+    if "frame" in only:
+        d = fresh(work, "frame")
+        doc = docx_in(d)
+        # the frame as every other window's (David 2026-10-01: SG Office's
+        # title bar looked different): Wine's one-pixel #e3e3e3 edge, no
+        # coloured line along the top of the title bar, white below it
+        rc, log, _ = run(d, [doc], "wait:1000;pixel:0,300;pixel:640,0;pixel:640,5;pixel:640,6;quit")
+        px = dict(re.findall(r"pixel (\d+,\d+) #([0-9a-f]{6})", log))
+        print("\n[frame] (rc=%d) %s" % (rc, px))
+        check(px.get("0,300") == "e3e3e3" and px.get("640,0") == "e3e3e3",
+              "frame: a one-pixel #e3e3e3 edge, as Wine's windows (#%s, #%s)" % (px.get("0,300"), px.get("640,0")))
+        check(px.get("640,5") == "ffffff" and px.get("640,6") == "ffffff",
+              "frame: the title bar is white to its top, no coloured line (#%s, #%s)" % (px.get("640,5"), px.get("640,6")))
 
     if "offline" in only:
         d = fresh(work, "offline")

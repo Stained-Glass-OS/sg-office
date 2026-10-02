@@ -111,7 +111,7 @@ test-mutation:
 BRIDGE_MUTANTS = noprint:print notitle:title online:offline
 APP_MUTANTS = FONTS_EVERY_START:fonts CSV_NO_PARAMS:csv EXPORT_SAVES:export NO_ALTF4:altf4 UNITS_CM:units \
               NO_HANDOFF:handoff NO_DARK:dark NO_RECENTS:recents \
-              NO_TASKBAR_ICON:taskbar FAINT_CLOSE:closeglyph NO_PLACES:places \
+              NO_TASKBAR_ICON:taskbar FAINT_CLOSE:closeglyph ACCENT_LINE:frame NO_PLACES:places \
               NO_FILE_KEYS:filekeys
 test-app-mutation:
 	@for mc in $(BRIDGE_MUTANTS); do m=$${mc%%:*}; c=$${mc##*:}; \

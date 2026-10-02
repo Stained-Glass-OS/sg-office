@@ -43,6 +43,8 @@ public:
 protected:
 	bool event(QEvent* e) override;
 	void closeEvent(QCloseEvent*) override;
+	void paintEvent(QPaintEvent*) override;
+	void changeEvent(QEvent* e) override;
 	bool eventFilter(QObject* o, QEvent* e) override;
 
 private:
@@ -57,6 +59,7 @@ private:
 
 	Document* m_doc;
 	TitleBar* m_title;
+	bool m_dark = false;
 	QWebEngineView* m_view;
 	bool m_ready = false;
 	bool m_closeAfterSave = false;

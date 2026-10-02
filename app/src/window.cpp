@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QMouseEvent>
+#include <QPainter>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QUrlQuery>
@@ -248,8 +249,32 @@ QJsonObject EditorWindow::hostState()
 
 void EditorWindow::applyLook(bool dark)
 {
+	m_dark = dark;
 	m_title->setDark(dark);
 	setStyleSheet(dark ? QStringLiteral("EditorWindow { background: #202020; }") : QStringLiteral("EditorWindow { background: #ffffff; }"));
+	update();
+}
+
+// the frame as every other window's (Wine's): a one-pixel edge around the
+// resize margin, the margin in the window's colour; maximized, none
+void EditorWindow::paintEvent(QPaintEvent*)
+{
+	QPainter p(this);
+	p.fillRect(rect(), m_dark ? QColor(0x20, 0x20, 0x20) : QColor(Qt::white));
+	if (isMaximized())
+		return;
+	p.setPen(m_dark ? QColor(0x3A, 0x3A, 0x3A) : QColor(0xE3, 0xE3, 0xE3));
+	p.drawRect(rect().adjusted(0, 0, -1, -1));
+}
+
+void EditorWindow::changeEvent(QEvent* e)
+{
+	if (e->type() == QEvent::WindowStateChange && layout())
+	{
+		const int m = isMaximized() ? 0 : kResizeMargin;
+		layout()->setContentsMargins(m, m, m, m);
+	}
+	QWidget::changeEvent(e);
 }
 
 void EditorWindow::sendRecents()
